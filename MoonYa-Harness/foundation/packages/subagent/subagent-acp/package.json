@@ -1,0 +1,60 @@
+{
+  "name": "@moonya/harness-subagent-acp",
+  "description": "Out-of-process ACP subagent backend: drives a child agent in a spawned subprocess over the Agent Client Protocol",
+  "version": "0.1.5-rc.2",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deepseek-ai/moonya-agent-runtime.git",
+    "directory": "packages/subagent/subagent-acp"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/types/**/*.d.ts"
+  ],
+  "license": "MIT",
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "workspace:^",
+    "@moonya/harness-agent": "workspace:^",
+    "@moonya/harness-llm": "workspace:^",
+    "@moonya/harness-session": "workspace:^",
+    "@moonya/harness-subagent": "workspace:^",
+    "@moonya/harness-subprocess": "workspace:^",
+    "@moonya/harness-timeout": "workspace:^"
+  },
+  "dependencies": {
+    "@agentclientprotocol/sdk": "1.4.0",
+    "@moonya/harness-brand": "workspace:^",
+    "@deepseek-ai/schemastery": "workspace:^"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "workspace:^",
+    "@deepseek-ai/cordis-plugin-loader": "workspace:^",
+    "@moonya/harness-agent": "workspace:^",
+    "@moonya/harness-app-boot": "workspace:^",
+    "@moonya/harness-llm": "workspace:^",
+    "@moonya/harness-loader-smoke": "workspace:^",
+    "@moonya/harness-session": "workspace:^",
+    "@moonya/harness-session-checkpoint-policy": "workspace:^",
+    "@moonya/harness-session-persistence-jsonl": "workspace:^",
+    "@moonya/harness-session-projection": "workspace:^",
+    "@moonya/harness-subagent": "workspace:^",
+    "@moonya/harness-subprocess": "workspace:^",
+    "@moonya/harness-subprocess-local": "workspace:^",
+    "@moonya/harness-timeout": "workspace:^",
+    "@moonya/harness-tool-subagent": "workspace:^"
+  }
+}

@@ -1,0 +1,37 @@
+# Add PTC mode and Cordis tools to the base spawn/workflow stack, exercising
+# all four boundaries in one ACP snapshot.
+- id: agent-default-model
+  name: '@moonya/harness-agent-default-model'
+  config:
+    provider: deepseek-official
+    model: deepseek-v4-pro
+
+- id: session-persistence-jsonl
+  name: '@moonya/harness-session-persistence-jsonl'
+  config:
+    root: !!js dshHomePath('sessions')
+    compression: !!js 'process.env.DSH_SNAPSHOT === undefined ? ''zstd'' : ''none'''
+
+- id: agent-instructions
+  name: '@moonya/harness-agent-instructions'
+  config:
+    maxBytes: 65536
+
+- id: tools
+  name: '@moonya/harness-tools'
+  config:
+    mode: both
+
+- id: system-prompt
+  name: '@moonya/harness-system-prompt'
+  config:
+    personaPrefix: |
+      You are a coding assistant powered by the {{model}} model. Your working directory is {{cwd}}.
+
+      Verify your work by running the code or tests. Keep answers brief and factual.
+
+- insert:
+    - id: cordis-host-runner
+      name: '@moonya/harness-cordis-host-runner'
+    - id: tool-cordis
+      name: '@moonya/harness-tool-cordis'

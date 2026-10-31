@@ -1,0 +1,623 @@
+<!-- 豆包式应用内设置与个人中心弹窗 -->
+<div id="settingsOverlay" class="settings-overlay" aria-hidden="true">
+    <div class="settings-modal" id="settingsModalBox" role="dialog" aria-modal="true" aria-label="设置与账号">
+        <!-- 顶栏关闭按钮 -->
+        <button class="settings-close-btn" id="settingsCloseBtn" type="button" aria-label="关闭设置"><span class="ui-icon" data-ui-icon="close" aria-hidden="true"></span></button>
+
+        <!-- 子页面顶部导航（子页面激活时展示） -->
+        <div class="settings-sub-header" id="settingsSubHeader" style="display: none;">
+            <button class="settings-back-btn" id="settingsBackBtn" type="button" aria-label="返回设置列表">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+                <span id="settingsSubTitle">设置</span>
+            </button>
+        </div>
+
+        <!-- 滚动内容区 -->
+        <div class="settings-scroll-body" id="settingsScrollBody">
+            <!-- ══ 主设置视图 ══ -->
+            <div class="settings-view settings-main-view active" id="settingsMainView">
+                <!-- 顶部头像与个人信息区 -->
+                <div class="settings-profile-section">
+                    <div class="settings-avatar-wrap" id="settingsAvatarWrap" data-tooltip="点击查看或修改资料">
+                        <img id="settingsAvatarImg" src="/icon.png" alt="头像" class="settings-avatar-img">
+                    </div>
+                    <div class="settings-profile-name-row" id="settingsProfileNameRow" data-tooltip="点击查看账号资料">
+                        <span id="settingsProfileName">月雅泫</span>
+                        <svg class="settings-chevron-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
+                    </div>
+                    <div class="settings-profile-id" id="settingsProfileId">用户9971249161211</div>
+                    <button class="settings-manage-btn" id="settingsManageBtn" type="button">MoonYa账号管理</button>
+                </div>
+
+                <!-- 分组 1：套餐与额度 -->
+                <div class="settings-card">
+                    <button class="settings-item" id="itemPlan" type="button" aria-haspopup="dialog">
+                        <div class="settings-icon plan">
+                            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polygon points="6 2 18 2 22 8 12 22 2 8 6 2"></polygon>
+                            </svg>
+                        </div>
+                        <div class="settings-item-title" id="settingsPlanName">免费版</div>
+                        <div class="settings-item-extra" id="settingsPlanStatus">未加载</div>
+                        <div class="settings-arrow">›</div>
+                    </button>
+                    <button class="settings-item" id="itemQuota" type="button" aria-haspopup="dialog">
+                        <div class="settings-icon quota">
+                            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="5" width="20" height="14" rx="2"></rect>
+                                <line x1="2" y1="10" x2="22" y2="10"></line>
+                            </svg>
+                        </div>
+                        <div class="settings-item-title">订阅与额度管理</div>
+                        <div class="settings-arrow">›</div>
+                    </button>
+                </div>
+
+                <!-- 分组 2：声音、外观、记忆与通知 -->
+                <div class="settings-card">
+                    <div class="settings-item" id="itemVoice">
+                        <div class="settings-icon voice">
+                            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                                <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                            </svg>
+                        </div>
+                        <div class="settings-item-title">声音选择</div>
+                        <div class="settings-item-extra" id="settingsVoiceValue">温柔桃子</div>
+                        <div class="settings-arrow">›</div>
+                    </div>
+                    <div class="settings-item" id="itemAppearance">
+                        <div class="settings-icon appearance">
+                            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="5"></circle>
+                                <line x1="12" y1="1" x2="12" y2="3"></line>
+                                <line x1="12" y1="21" x2="12" y2="23"></line>
+                                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                                <line x1="1" y1="12" x2="3" y2="12"></line>
+                                <line x1="21" y1="12" x2="23" y2="12"></line>
+                                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                            </svg>
+                        </div>
+                        <div class="settings-item-title">外观</div>
+                        <div class="settings-item-extra" id="settingsAppearanceValue">区域显示</div>
+                        <div class="settings-arrow">›</div>
+                    </div>
+                    <div class="settings-item" id="itemMemory">
+                        <div class="settings-icon memory">
+                            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 2a9 9 0 0 0-9 9c0 3.6 2.1 6.7 5.2 8.1l.8 2.9h6l.8-2.9c3.1-1.4 5.2-4.5 5.2-8.1a9 9 0 0 0-9-9z"></path>
+                            </svg>
+                        </div>
+                        <div class="settings-item-title">记忆</div>
+                        <div class="settings-item-extra" id="settingsMemoryValue">已启用</div>
+                        <div class="settings-arrow">›</div>
+                    </div>
+                    <div class="settings-item" id="itemNotification">
+                        <div class="settings-icon notify">
+                            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                                <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                            </svg>
+                        </div>
+                        <div class="settings-item-title">消息通知</div>
+                        <div class="settings-arrow">›</div>
+                    </div>
+                </div>
+
+                <!-- 分组 3：模型、工作流、快捷键与自动化 -->
+                <div class="settings-card">
+                    <div class="settings-item" id="itemDefaultModel">
+                        <div class="settings-icon model">
+                            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"></path>
+                            </svg>
+                        </div>
+                        <div class="settings-item-title">新对话默认模型</div>
+                        <div class="settings-item-extra" id="settingsModelValue">DeepSeek</div>
+                        <div class="settings-arrow">›</div>
+                    </div>
+                    <div class="settings-item" id="itemWorkMode">
+                        <div class="settings-icon workmode">
+                            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                            </svg>
+                        </div>
+                        <div class="settings-item-title">工作模式设置</div>
+                        <div class="settings-item-extra" id="settingsWorkModeValue">FarSide</div>
+                        <div class="settings-arrow">›</div>
+                    </div>
+                    <button type="button" class="settings-item" id="itemDefaultPermission">
+                        <div class="settings-icon"><span class="ui-icon" data-ui-icon="shield" aria-hidden="true"></span></div>
+                        <div class="settings-item-title">默认权限</div>
+                        <div class="settings-item-extra" id="settingsDefaultPermissionValue">请求批准</div>
+                        <div class="settings-arrow">›</div>
+                    </button>
+                    <div class="settings-item" id="itemDataSync">
+                        <div class="settings-icon datasync">
+                            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="1 4 1 10 7 10"></polyline>
+                                <polyline points="23 20 23 14 17 14"></polyline>
+                                <path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"></path>
+                            </svg>
+                        </div>
+                        <div class="settings-item-title">数据导入与同步</div>
+                        <div class="settings-arrow">›</div>
+                    </div>
+                    <div class="settings-item" id="itemArchive">
+                        <div class="settings-icon archive">
+                            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="3" width="20" height="5" rx="1"></rect>
+                                <path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8"></path>
+                                <line x1="10" y1="12" x2="14" y2="12"></line>
+                            </svg>
+                        </div>
+                        <div class="settings-item-title">归档会话</div>
+                        <div class="settings-item-extra" id="settingsArchiveValue">查看与恢复</div>
+                        <div class="settings-arrow">›</div>
+                    </div>
+                    <div class="settings-item" id="itemGeneration">
+                        <div class="settings-icon gen">
+                            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="12" y1="8" x2="12" y2="16"></line>
+                                <line x1="8" y1="12" x2="16" y2="12"></line>
+                            </svg>
+                        </div>
+                        <div class="settings-item-title">内容生成与产物设置</div>
+                        <div class="settings-arrow">›</div>
+                    </div>
+                    <div class="settings-item" id="itemVideoToggleRow">
+                        <div class="settings-icon video">
+                            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect>
+                                <line x1="7" y1="2" x2="7" y2="22"></line>
+                                <line x1="17" y1="2" x2="17" y2="22"></line>
+                                <line x1="2" y1="12" x2="22" y2="12"></line>
+                                <line x1="2" y1="7" x2="7" y2="7"></line>
+                                <line x1="2" y1="17" x2="7" y2="17"></line>
+                                <line x1="17" y1="17" x2="22" y2="17"></line>
+                                <line x1="17" y1="7" x2="22" y2="7"></line>
+                            </svg>
+                        </div>
+                        <div class="settings-item-title">回答附带相关视频</div>
+                        <div class="settings-toggle-switch active" id="settingsVideoToggle" aria-label="回答附带相关视频开关"></div>
+                    </div>
+                    <div class="settings-item" id="itemSendKey">
+                        <div class="settings-icon sendkey">
+                            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                            </svg>
+                        </div>
+                        <div class="settings-item-title">发送快捷键设置</div>
+                        <div class="settings-item-extra" id="settingsSendKeyValue">Enter 发送</div>
+                        <div class="settings-arrow">›</div>
+                    </div>
+                    <div class="settings-item" id="itemPaging">
+                        <div class="settings-icon paging">
+                            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                            </svg>
+                        </div>
+                        <div class="settings-item-title">多条消息翻页行为</div>
+                        <div class="settings-item-extra">默认</div>
+                        <div class="settings-arrow">›</div>
+                    </div>
+                    <div class="settings-item" id="itemShortcuts">
+                        <div class="settings-icon shortcuts">
+                            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+                                <line x1="6" y1="8" x2="6.01" y2="8"></line>
+                                <line x1="10" y1="8" x2="10.01" y2="8"></line>
+                                <line x1="14" y1="8" x2="14.01" y2="8"></line>
+                                <line x1="18" y1="8" x2="18.01" y2="8"></line>
+                                <line x1="8" y1="12" x2="16" y2="12"></line>
+                                <line x1="6" y1="16" x2="18" y2="16"></line>
+                            </svg>
+                        </div>
+                        <div class="settings-item-title">快捷键设置</div>
+                        <div class="settings-arrow">›</div>
+                    </div>
+                    <div class="settings-item" id="itemAutostartRow">
+                        <div class="settings-icon autostart">
+                            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path>
+                                <line x1="12" y1="2" x2="12" y2="12"></line>
+                            </svg>
+                        </div>
+                        <div class="settings-item-title">开机自动启动</div>
+                        <div class="settings-toggle-switch active" id="settingsAutostartToggle" aria-label="开机自动启动开关"></div>
+                    </div>
+                </div>
+
+                <!-- 分组 4：账号登出 -->
+                <div class="settings-card" id="settingsAccountCard">
+                    <div class="settings-item danger" id="itemLogout">
+                        <div class="settings-icon logout">
+                            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                                <polyline points="16 17 21 12 16 7"></polyline>
+                                <line x1="21" y1="12" x2="9" y2="12"></line>
+                            </svg>
+                        </div>
+                        <div class="settings-item-title" style="color: var(--theme-danger, #e53e3e); font-weight: 500;">退出登录</div>
+                        <div class="settings-arrow">›</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ══ 子视图 1：账号管理 ══ -->
+            <div class="settings-view settings-sub-view" id="settingsAccountView" style="display: none;">
+                <div class="settings-sub-card">
+                    <div class="settings-account-avatar-row">
+                        <div class="settings-avatar-wrap">
+                            <img id="settingsAccountAvatarImg" src="/icon.png" alt="头像" class="settings-avatar-img">
+                        </div>
+                        <div class="settings-account-avatar-actions">
+                            <button class="settings-btn-secondary" id="settingsChangeAvatarBtn" type="button" hidden disabled style="display:none">更换头像</button>
+                            <input type="file" id="settingsAvatarFileInput" disabled accept="image/png,image/jpeg,image/webp" style="display: none;">
+                            <span class="settings-tip">头像自动使用 QQ 头像</span>
+                        </div>
+                    </div>
+
+                    <div class="settings-form-group">
+                        <label class="settings-form-label">用户名</label>
+                        <input type="text" id="settingsAccountUsername" class="settings-input" readonly disabled>
+                    </div>
+
+                    <div class="settings-form-group">
+                        <label class="settings-form-label">昵称 / 姓名</label>
+                        <input type="text" id="settingsAccountRealname" class="settings-input" placeholder="请输入昵称" maxlength="32">
+                    </div>
+
+                    <div class="settings-form-group">
+                        <label class="settings-form-label">邮箱</label>
+                        <input type="email" id="settingsAccountEmail" class="settings-input" placeholder="选填，用于账号通知" maxlength="100">
+                    </div>
+
+                    <button class="settings-btn-primary" id="settingsSaveProfileBtn" type="button">保存资料</button>
+                </div>
+
+                <div class="settings-sub-card">
+                    <div class="settings-sub-card-title">安全与密码</div>
+                    <div class="settings-form-group" hidden style="display:none">
+                        <label class="settings-form-label">当前密码</label>
+                        <input type="password" id="settingsCurrentPassword" class="settings-input" placeholder="输入当前密码">
+                    </div>
+                    <div class="settings-form-group">
+                        <label class="settings-form-label">新密码</label>
+                        <input type="password" id="settingsNewPassword" class="settings-input" maxlength="72" placeholder="至少 8 位新密码">
+                    </div>
+                    <div class="settings-form-group">
+                        <label class="settings-form-label">确认新密码</label>
+                        <input type="password" id="settingsConfirmPassword" class="settings-input" maxlength="72" placeholder="再次输入新密码">
+                    </div>
+                    <button class="settings-btn-secondary" id="settingsSavePasswordBtn" type="button">设置 / 修改密码</button>
+                </div>
+            </div>
+
+            <!-- ══ 子视图 2：外观设置 ══ -->
+            <div class="settings-view settings-sub-view" id="settingsAppearanceView" style="display: none;">
+                <!-- 横屏栅格只作用在这层：settings-modal.js 会给 #settingsAppearanceView 写内联 display:block，
+                     直接把它做成 grid 会被内联样式盖掉。窄屏下这层是 display:block（即旧版单列）。 -->
+                <div class="appearance-layout">
+                <p class="appearance-tagline" data-span="2"><strong>一切皆风格自定义</strong> —— 背景、模糊、通透与每一处颜色都由你决定，背景文件只记录路径、不会复制。</p>
+                <div class="settings-sub-card" role="group" aria-label="外观主题">
+                    <div class="settings-sub-card-title">外观</div>
+                    <div class="settings-theme-options">
+                        <button type="button" class="settings-theme-option" data-theme-choice="light" aria-pressed="false"><span class="ui-icon" data-ui-icon="sun" aria-hidden="true"></span><span>浅色</span></button>
+                        <button type="button" class="settings-theme-option" data-theme-choice="dark" aria-pressed="false"><span class="ui-icon" data-ui-icon="moon" aria-hidden="true"></span><span>深色</span></button>
+                        <button type="button" class="settings-theme-option" data-theme-choice="system" aria-pressed="true"><span class="ui-icon" data-ui-icon="computer" aria-hidden="true"></span><span>跟随系统</span></button>
+                    </div>
+                </div>
+                <div class="settings-sub-card">
+                    <div class="settings-sub-card-title">对话显示模式</div>
+                    <div class="settings-choice-item" data-mode="centered" id="choiceCentered">
+                        <div class="settings-choice-icon">
+                            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="4" width="14" height="16" rx="2"></rect><line x1="8" y1="9" x2="16" y2="9"></line><line x1="8" y1="13" x2="14" y2="13"></line></svg>
+                        </div>
+                        <div class="settings-choice-info">
+                            <div class="settings-choice-title">区域显示</div>
+                            <div class="settings-choice-desc">对话内容居中，最大宽度 800px，阅读与编辑体验更佳</div>
+                        </div>
+                        <div class="settings-choice-check"><span class="ui-icon" data-ui-icon="check" aria-hidden="true"></span></div>
+                    </div>
+
+                    <div class="settings-choice-item" data-mode="fullscreen" id="choiceFullscreen">
+                        <div class="settings-choice-icon">
+                            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="18" rx="2"></rect><polyline points="8 9 12 13 16 9"></polyline></svg>
+                        </div>
+                        <div class="settings-choice-info">
+                            <div class="settings-choice-title">全屏显示</div>
+                            <div class="settings-choice-desc">对话内容自适应铺满整屏，适合多栏、表格与大量代码</div>
+                        </div>
+                        <div class="settings-choice-check"><span class="ui-icon" data-ui-icon="check" aria-hidden="true"></span></div>
+                    </div>
+                </div>
+                <div class="settings-sub-card" role="group" aria-label="过程动画">
+                    <div class="settings-sub-card-title">过程动画</div>
+                    <button type="button" class="settings-choice-item settings-process-animation active" data-process-animation-choice="soft" aria-pressed="true">
+                        <div class="settings-choice-icon"><span class="ui-icon" data-ui-icon="drop" aria-hidden="true"></span></div>
+                        <div class="settings-choice-info">
+                            <div class="settings-choice-title">轻柔玻璃感</div>
+                            <div class="settings-choice-desc">柔和淡入淡出，执行时白色扫光</div>
+                        </div>
+                        <div class="settings-choice-check"><span class="ui-icon" data-ui-icon="check" aria-hidden="true"></span></div>
+                    </button>
+                    <button type="button" class="settings-choice-item settings-process-animation" data-process-animation-choice="glass" aria-pressed="false">
+                        <div class="settings-choice-icon"><span class="ui-icon" data-ui-icon="palette" aria-hidden="true"></span></div>
+                        <div class="settings-choice-info">
+                            <div class="settings-choice-title">液态玻璃</div>
+                            <div class="settings-choice-desc">轻盈弹性过渡，执行时白色扫光</div>
+                        </div>
+                        <div class="settings-choice-check"><span class="ui-icon" data-ui-icon="check" aria-hidden="true"></span></div>
+                    </button>
+                    <div class="settings-card-desc">过程状态无背景，执行结束后停止扫光；开启系统“减少动态效果”后关闭动画。</div>
+                </div>
+                <div class="settings-sub-card" role="group" aria-label="背景">
+                    <div class="settings-sub-card-title">背景</div>
+                    <div class="appearance-bg-preview" id="moonyaBgPreview" data-empty="true"></div>
+                    <div class="appearance-btn-row">
+                        <button type="button" class="appearance-btn" id="moonyaBgPickImage" data-bg-pick="image">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2.5"></rect><circle cx="8.5" cy="9.5" r="1.6"></circle><path d="m4 17 4.5-4.5 3.5 3.5L15 13l5 5"></path></svg>
+                            <span>选择图片</span>
+                        </button>
+                        <button type="button" class="appearance-btn" id="moonyaBgPickVideo" data-bg-pick="video">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="14" height="14" rx="2.5"></rect><path d="m17 10 4-2.5v9L17 14z"></path></svg>
+                            <span>选择视频</span>
+                        </button>
+                        <button type="button" class="appearance-btn is-danger" id="moonyaBgClear">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg>
+                            <span>移除背景</span>
+                        </button>
+                    </div>
+                    <div class="appearance-btn-row">
+                        <button type="button" class="appearance-btn" data-bg-fill="cover" aria-pressed="true">填充</button>
+                        <button type="button" class="appearance-btn" data-bg-fill="contain" aria-pressed="false">适应</button>
+                        <button type="button" class="appearance-btn" data-bg-fill="fill" aria-pressed="false">拉伸</button>
+                    </div>
+                    <div class="appearance-bg-status" id="moonyaBgStatus">未设置背景</div>
+                    <div class="appearance-note" id="moonyaBgUnavailable" hidden>背景需要桌面客户端；当前环境无法按路径读取本地文件。</div>
+                    <p class="settings-card-desc">支持 <strong>MP4</strong> 视频背景，由桌面端原生播放；也支持 M4V、MOV 和 WebM。视频自动静音并循环播放。</p>
+                </div>
+                <div class="settings-sub-card" role="group" aria-label="模糊与通透">
+                    <div class="settings-sub-card-title">模糊与通透</div>
+                    <div class="appearance-slider-row">
+                        <button type="button" class="appearance-step" data-step-target="blur" data-step-delta="-1" aria-label="降低模糊度"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14"></path></svg></button>
+                        <input type="range" class="appearance-range" id="moonyaBlurRange" min="0" max="60" step="1" value="0" aria-label="模糊度">
+                        <button type="button" class="appearance-step" data-step-target="blur" data-step-delta="1" aria-label="提高模糊度"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M12 5v14"></path></svg></button>
+                        <span class="appearance-range-value" id="moonyaBlurValue">0</span>
+                    </div>
+                    <p class="settings-card-desc">模糊度 0–60，数值越大背景越柔和。</p>
+                    <div class="appearance-slider-row" style="margin-top: 12px;">
+                        <button type="button" class="appearance-step" data-step-target="opacity" data-step-delta="-5" aria-label="降低界面不透明度"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14"></path></svg></button>
+                        <input type="range" class="appearance-range" id="moonyaOpacityRange" min="20" max="100" step="1" value="85" aria-label="界面不透明度">
+                        <button type="button" class="appearance-step" data-step-target="opacity" data-step-delta="5" aria-label="提高界面不透明度"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M12 5v14"></path></svg></button>
+                        <span class="appearance-range-value" id="moonyaOpacityValue">85%</span>
+                    </div>
+                    <p class="settings-card-desc">界面不透明度：侧边栏与主区域的透出程度，越低背景越明显。</p>
+                </div>
+                <div class="settings-sub-card" role="group" aria-label="启动画面背景">
+                    <div class="settings-sub-card-title">启动画面背景</div>
+                    <div class="appearance-bg-preview" id="moonyaSplashPreview" data-empty="true"></div>
+                    <div class="appearance-btn-row">
+                        <button type="button" class="appearance-btn" id="moonyaSplashPick" data-splash-pick="image">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2.5"></rect><circle cx="8.5" cy="9.5" r="1.6"></circle><path d="m4 17 4.5-4.5 3.5 3.5L15 13l5 5"></path></svg>
+                            <span>选择图片</span>
+                        </button>
+                        <button type="button" class="appearance-btn" id="moonyaSplashPickVideo" data-splash-pick="video">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="14" height="14" rx="2.5"></rect><path d="m17 10 4-2.5v9L17 14z"></path></svg>
+                            <span>选择视频</span>
+                        </button>
+                        <button type="button" class="appearance-btn is-danger" id="moonyaSplashClear">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg>
+                            <span>移除</span>
+                        </button>
+                    </div>
+                    <div class="appearance-btn-row">
+                        <button type="button" class="appearance-btn" data-splash-fill="cover" aria-pressed="true">填充</button>
+                        <button type="button" class="appearance-btn" data-splash-fill="contain" aria-pressed="false">适应</button>
+                        <button type="button" class="appearance-btn" data-splash-fill="fill" aria-pressed="false">拉伸</button>
+                    </div>
+                    <div class="appearance-bg-status" id="moonyaSplashStatus">未设置</div>
+                    <div class="appearance-note" id="moonyaSplashUnavailable" hidden>启动画面背景需要桌面客户端；当前环境无法按路径读取本地文件。</div>
+                    <p class="settings-card-desc">图片或视频，与主界面背景相互独立；文件只记录路径、不复制。视频由桌面端用系统解码器播放（MP4 / MOV / WebM，不含 MKV），修改后下次启动生效。</p>
+                </div>
+                <div class="settings-sub-card" role="group" aria-label="自定义配色" data-span="2">
+                    <div class="settings-sub-card-title">自定义颜色</div>
+                    <p class="settings-card-desc">只覆盖你改过的项，其余继续跟随上面的 浅色 / 深色 / 跟随系统；点“恢复”还原为基底颜色。</p>
+                    <div class="appearance-color-list" id="moonyaColorList"></div>
+                </div>
+                <div class="settings-sub-card" role="group" aria-label="全部主题" data-span="2">
+                    <div class="settings-sub-card-title">全部主题</div>
+                    <div class="appearance-theme-toolbar">
+                        <input type="text" class="appearance-theme-name-input" id="moonyaThemeName" maxlength="40" placeholder="主题名称">
+                        <button type="button" class="settings-btn-primary" id="moonyaThemeSave">保存当前为主题</button>
+                    </div>
+                    <div class="appearance-theme-grid" id="moonyaThemeGrid"></div>
+                    <div class="appearance-note" id="moonyaBuiltinNote" hidden>内置主题暂不可用；已保存的主题不受影响。</div>
+                </div>
+                </div>
+            </div>
+
+            <!-- ══ 子视图 3：声音选择 ══ -->
+            <div class="settings-view settings-sub-view" id="settingsVoiceView" style="display: none;">
+                <div class="settings-sub-card">
+                    <div class="settings-sub-card-title">语音角色音色</div>
+                    <div class="settings-choice-item" data-voice="温柔桃子" id="voicePeach">
+                        <div class="settings-choice-icon voice-peach"><span class="ui-icon" data-ui-icon="volume" aria-hidden="true"></span></div>
+                        <div class="settings-choice-info">
+                            <div class="settings-choice-title">温柔桃子</div>
+                            <div class="settings-choice-desc">温婉柔和，声线清甜悦耳，适合日常交流</div>
+                        </div>
+                        <div class="settings-choice-check"><span class="ui-icon" data-ui-icon="check" aria-hidden="true"></span></div>
+                    </div>
+
+                    <div class="settings-choice-item" data-voice="芙宁娜" id="voiceFurina">
+                        <div class="settings-choice-icon voice-furina"><span class="ui-icon" data-ui-icon="drop" aria-hidden="true"></span></div>
+                        <div class="settings-choice-info">
+                            <div class="settings-choice-title">芙宁娜</div>
+                            <div class="settings-choice-desc">经典灵动音色，傲娇活泼，充满沉浸戏剧感</div>
+                        </div>
+                        <div class="settings-choice-check"><span class="ui-icon" data-ui-icon="check" aria-hidden="true"></span></div>
+                    </div>
+
+                    <div class="settings-choice-item" data-voice="系统原生语音" id="voiceSystem">
+                        <div class="settings-choice-icon voice-sys"><span class="ui-icon" data-ui-icon="volume" aria-hidden="true"></span></div>
+                        <div class="settings-choice-info">
+                            <div class="settings-choice-title">系统原生语音</div>
+                            <div class="settings-choice-desc">调用操作系统内建高质量语音引擎</div>
+                        </div>
+                        <div class="settings-choice-check"><span class="ui-icon" data-ui-icon="check" aria-hidden="true"></span></div>
+                    </div>
+                </div>
+
+                <div class="settings-sub-card">
+                    <div class="settings-item" style="border: none; padding: 4px 0;">
+                        <div class="settings-item-title" style="font-size: 15px;">AI 回复自动语音朗读</div>
+                        <div class="settings-toggle-switch active" id="settingsTtsAutoToggle" aria-label="AI回复自动语音朗读"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ══ 子视图 4：默认模型 ══ -->
+            <div class="settings-view settings-sub-view" id="settingsModelView" style="display: none;">
+                <div class="settings-sub-card">
+                    <div class="settings-sub-card-title">默认对话模型</div>
+                    <div id="settingsModelList" role="group" aria-label="默认对话模型"></div>
+                    <div id="settingsModelStatus" class="settings-card-desc" role="status" aria-live="polite"></div>
+                    <button type="button" id="settingsModelRetry" hidden>重新加载模型</button>
+                </div>
+            </div>
+
+            <!-- ══ 子视图 5：工作模式设置 ══ -->
+            <div class="settings-view settings-sub-view" id="settingsPermissionView" style="display: none;">
+                <div class="settings-sub-card">
+                    <div class="settings-sub-card-title">新聊天默认权限</div>
+                    <p class="settings-choice-desc">仅用于新聊天；已有聊天保留各自的权限。</p>
+                    <button type="button" class="settings-choice-item" data-default-permission="confirm_writes" aria-pressed="true">
+                        <div class="settings-choice-info"><div class="settings-choice-title">请求批准</div><div class="settings-choice-desc">项目外修改、联网及高风险操作请求批准</div></div>
+                        <div class="settings-choice-check"><span class="ui-icon" data-ui-icon="check" aria-hidden="true"></span></div>
+                    </button>
+                    <button type="button" class="settings-choice-item" data-default-permission="high_risk" aria-pressed="false">
+                        <div class="settings-choice-info"><div class="settings-choice-title">帮我批准</div><div class="settings-choice-desc">使用当前聊天模型独立审核需要批准的操作</div></div>
+                        <div class="settings-choice-check"><span class="ui-icon" data-ui-icon="check" aria-hidden="true"></span></div>
+                    </button>
+                    <button type="button" class="settings-choice-item" data-default-permission="full_access" aria-pressed="false">
+                        <div class="settings-choice-info"><div class="settings-choice-title">完全访问权限</div><div class="settings-choice-desc">允许文件和网络访问，不请求权限批准</div></div>
+                        <div class="settings-choice-check"><span class="ui-icon" data-ui-icon="check" aria-hidden="true"></span></div>
+                    </button>
+                </div>
+            </div>
+            <div class="settings-view settings-sub-view" id="settingsWorkModeView" style="display: none;">
+                <div class="settings-sub-card">
+                    <div class="settings-sub-card-title">默认主工作模式</div>
+                    <div class="settings-choice-item" data-workmode="work" id="choiceModeWork">
+                        <div class="settings-choice-icon"><span class="ui-icon" data-ui-icon="computer" aria-hidden="true"></span></div>
+                        <div class="settings-choice-info">
+                            <div class="settings-choice-title">FarSide 研发运维模式</div>
+                            <div class="settings-choice-desc">支持代码生成、终端命令、文件读写与自动化工具</div>
+                        </div>
+                        <div class="settings-choice-check"><span class="ui-icon" data-ui-icon="check" aria-hidden="true"></span></div>
+                    </div>
+
+                    <div class="settings-choice-item" data-workmode="chat" id="choiceModeChat">
+                        <div class="settings-choice-icon"><span class="ui-icon" data-ui-icon="chat" aria-hidden="true"></span></div>
+                        <div class="settings-choice-info">
+                            <div class="settings-choice-title">MoonYa 闲聊模式</div>
+                            <div class="settings-choice-desc">日常高效交流、灵感碰撞与流畅自然语言对话</div>
+                        </div>
+                        <div class="settings-choice-check"><span class="ui-icon" data-ui-icon="check" aria-hidden="true"></span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ══ 子视图 6：发送快捷键 ══ -->
+            <div class="settings-view settings-sub-view" id="settingsSendKeyView" style="display: none;">
+                <div class="settings-sub-card">
+                    <div class="settings-sub-card-title">输入框发送快捷键</div>
+                    <div class="settings-choice-item" data-sendkey="Enter 发送" id="choiceSendEnter">
+                        <div class="settings-choice-icon">↵</div>
+                        <div class="settings-choice-info">
+                            <div class="settings-choice-title">Enter 发送</div>
+                            <div class="settings-choice-desc">按 Enter 键发送消息，按 Shift + Enter 换行</div>
+                        </div>
+                        <div class="settings-choice-check"><span class="ui-icon" data-ui-icon="check" aria-hidden="true"></span></div>
+                    </div>
+
+                    <div class="settings-choice-item" data-sendkey="Ctrl + Enter 发送" id="choiceSendCtrlEnter">
+                        <div class="settings-choice-icon">⌃↵</div>
+                        <div class="settings-choice-info">
+                            <div class="settings-choice-title">Ctrl + Enter 发送</div>
+                            <div class="settings-choice-desc">按 Ctrl + Enter 发送消息，按 Enter 换行</div>
+                        </div>
+                        <div class="settings-choice-check"><span class="ui-icon" data-ui-icon="check" aria-hidden="true"></span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ══ 子视图 7：快捷键一览 ══ -->
+            <div class="settings-view settings-sub-view" id="settingsShortcutsView" style="display: none;">
+                <div class="settings-sub-card">
+                    <div class="settings-sub-card-title">系统全局与界面快捷键</div>
+                    <div class="settings-shortcut-row">
+                        <span class="settings-shortcut-label">新建会话</span>
+                        <kbd class="settings-kbd">Ctrl</kbd> + <kbd class="settings-kbd">K</kbd>
+                    </div>
+                    <div class="settings-shortcut-row">
+                        <span class="settings-shortcut-label">发送消息</span>
+                        <kbd class="settings-kbd" id="kbdSendKey">Enter</kbd>
+                    </div>
+                    <div class="settings-shortcut-row">
+                        <span class="settings-shortcut-label">文本换行</span>
+                        <kbd class="settings-kbd">Shift</kbd> + <kbd class="settings-kbd">Enter</kbd>
+                    </div>
+                    <div class="settings-shortcut-row">
+                        <span class="settings-shortcut-label">聚焦输入框</span>
+                        <kbd class="settings-kbd">Ctrl</kbd> + <kbd class="settings-kbd">L</kbd>
+                    </div>
+                    <div class="settings-shortcut-row">
+                        <span class="settings-shortcut-label">收起/展开侧边栏</span>
+                        <kbd class="settings-kbd">Ctrl</kbd> + <kbd class="settings-kbd">B</kbd>
+                    </div>
+                    <div class="settings-shortcut-row">
+                        <span class="settings-shortcut-label">关闭当前弹窗</span>
+                        <kbd class="settings-kbd">Esc</kbd>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ══ 子视图 8：数据导入与同步 ══ -->
+            <div class="settings-view settings-sub-view" id="settingsDataSyncView" style="display: none;">
+                <div class="settings-sub-card">
+                    <div class="settings-sub-card-title">默认工作目录</div>
+                    <p class="settings-card-desc">未选择项目的 FarSide 聊天各自使用独立文件夹。仅更改路径影响新聊天；迁移会移动已有默认工作区文件并更新关联，其他应用数据保留原位。</p>
+                    <label for="settingsWorkspaceRoot">默认根目录</label>
+                    <input class="workspace-settings-path" id="settingsWorkspaceRoot" type="text" autocomplete="off" spellcheck="false" placeholder="正在读取默认目录…">
+                    <div class="settings-actions-group" style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <button class="settings-btn-secondary" id="settingsWorkspacePick" type="button">选择目录</button>
+                        <button class="settings-btn-secondary" id="settingsWorkspaceSave" type="button">仅更改默认路径</button>
+                        <button class="settings-btn-primary" id="settingsWorkspaceMigrate" type="button">迁移现有工作区文件</button>
+                    </div>
+                    <div class="workspace-settings-status" id="settingsWorkspaceStatus" role="status"></div>
+                </div>
+                <div class="settings-sub-card">
+                    <div class="settings-sub-card-title">本地会话与配置备份</div>
+                    <p class="settings-card-desc">您可以随时导出全部本地会话草稿、聊天记录和模型配置，或在更换设备时导入恢复。</p>
+                    <div class="settings-actions-group" style="margin-top: 14px; display: flex; gap: 10px;">
+                        <button class="settings-btn-primary" id="settingsExportDataBtn" type="button">导出数据备份</button>
+                        <button class="settings-btn-secondary" id="settingsImportDataBtn" type="button">导入数据文件</button>
+                        <input type="file" id="settingsDataFileInput" accept=".json" style="display: none;">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

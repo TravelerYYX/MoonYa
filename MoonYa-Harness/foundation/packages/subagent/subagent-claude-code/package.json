@@ -1,0 +1,70 @@
+{
+  "name": "@moonya/harness-subagent-claude-code",
+  "description": "One-shot Claude Code subagent provider over the official Agent SDK",
+  "version": "0.1.5-rc.2",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deepseek-ai/moonya-agent-runtime.git",
+    "directory": "packages/subagent/subagent-claude-code"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/index.js",
+    "cordis.patch.yml",
+    "lib/types/**/*.d.ts"
+  ],
+  "license": "MIT",
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "workspace:^",
+    "@moonya/harness-llm": "workspace:^",
+    "@moonya/harness-session": "workspace:^",
+    "@moonya/harness-subagent": "workspace:^",
+    "@moonya/harness-subprocess": "workspace:^",
+    "@moonya/harness-timeout": "workspace:^"
+  },
+  "dependencies": {
+    "@anthropic-ai/claude-agent-sdk": "0.3.263",
+    "@anthropic-ai/sdk": "0.93.0",
+    "@moonya/harness-brand": "workspace:^",
+    "@deepseek-ai/schemastery": "workspace:^",
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "workspace:^",
+    "@moonya/harness-agent": "workspace:^",
+    "@moonya/harness-app-boot": "workspace:^",
+    "@moonya/harness-llm": "workspace:^",
+    "@moonya/harness-loader-smoke": "workspace:^",
+    "@moonya/harness-session": "workspace:^",
+    "@moonya/harness-session-checkpoint-policy": "workspace:^",
+    "@moonya/harness-session-persistence-jsonl": "workspace:^",
+    "@moonya/harness-session-projection": "workspace:^",
+    "@moonya/harness-subagent": "workspace:^",
+    "@moonya/harness-subagent-codex": "workspace:^",
+    "@moonya/harness-subprocess": "workspace:^",
+    "@moonya/harness-subprocess-local": "workspace:^",
+    "@moonya/harness-timeout": "workspace:^",
+    "@moonya/harness-tool-jobs": "workspace:^",
+    "@moonya/harness-tool-subagent": "workspace:^",
+    "@moonya/harness-tools": "workspace:^"
+  }
+}

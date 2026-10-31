@@ -1,0 +1,17 @@
+.payment-page{width:100%;margin:0;padding:0;color:var(--text-primary,#222)}
+.payment-heading,.payment-material-title,.payment-material-actions,.payment-actions{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.payment-heading h1{font-size:28px;margin:12px 0}.payment-page p{line-height:1.7}.payment-card{padding:24px;margin:20px 0}
+.payment-card h2{font-size:19px;margin:0 0 16px}.payment-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.payment-page label{display:block;font-weight:500}.payment-page .form-input{display:block;width:100%;box-sizing:border-box;margin:8px 0 16px}
+.payment-page textarea{font-family:monospace;resize:vertical}.payment-material{padding:18px 0;border-bottom:1px solid var(--border-color,#ddd)}
+.payment-material-actions label{font-size:13px}.payment-material-actions input[type=checkbox]{vertical-align:middle}.payment-material-title span{font-size:13px;color:var(--text-secondary,#666)}
+.payment-addresses dd{margin:4px 0 16px;overflow-wrap:anywhere;font-family:monospace}.payment-actions{margin:16px 0}.payment-actions button{white-space:normal}
+.payment-page pre{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.6}.payment-page summary{cursor:pointer}.payment-page details{margin-top:16px}
+#notice,#verifyError{color:#b42318}#notice[data-success=true]{color:#067647}
+#emailCodeStep[hidden],#passwordStep[hidden]{display:none}#verificationHint{overflow-wrap:anywhere}
+#verification{border:1px solid #ddd;border-radius:16px;padding:28px;max-width:560px;width:calc(100% - 64px);color:inherit}#verification::backdrop{background:#0007}
+#operationSummary{max-height:220px;overflow:auto;padding:12px;background:#f5f6f8;border-radius:8px}
+@media(max-width:640px){.payment-page{padding:0}.payment-grid{grid-template-columns:1fr}.payment-card{padding:18px}.payment-heading h1{font-size:24px}}
+
+.payment-grid>*{min-width:0}.payment-page input[type=file]{max-width:100%}.sidebar-toggle{display:none}
+@media(max-width:1024px){.sidebar-toggle{display:inline-flex}}

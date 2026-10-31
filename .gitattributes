@@ -1,0 +1,31 @@
+# 换行与二进制处理
+# 仓库内统一存 LF，工作区保持原样；避免 Windows/Linux 双端协作时出现"整文件被改写"的假 diff。
+* text=auto
+
+# 后端跑在 Linux 服务器上，这几类强制 LF
+*.sh  text eol=lf
+*.php text eol=lf
+*.py  text eol=lf
+
+# 资源文件不做任何换行转换
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.gif   binary
+*.ico   binary
+*.otf   binary
+*.ttf   binary
+*.woff  binary
+*.woff2 binary
+*.zip   binary
+*.7z    binary
+*.dll   binary
+*.exe   binary
+*.so    binary
+*.pdf   binary
+*.docx  binary
+*.xlsx  binary
+*.pptx  binary
+
+# Preserve the supplied operation skill byte-for-byte, including its original newlines.
+MoonYa-Backend/skills/computer-use-automation/SKILL.md -text

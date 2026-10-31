@@ -1,0 +1,96 @@
+{
+  "name": "@moonya/harness-client-test-runtime",
+  "description": "Browser test runtimes: a jsdom slot bench with test-owned Session and Workspace doubles, and a whole-client tier that boots the web roster through the production bootClient over an endpoint-named Remote mock",
+  "version": "0.1.5-rc.2",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deepseek-ai/moonya-agent-runtime.git",
+    "directory": "packages/test-support/client-runtime"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/react": "^16.3.2",
+    "js-yaml": "^4.2.0",
+    "vitest": "^4.1.8"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "workspace:^",
+    "@deepseek-ai/cordis-plugin-include": "workspace:^",
+    "@deepseek-ai/cordis-plugin-loader": "workspace:^",
+    "@moonya/harness-api-gateway": "workspace:^",
+    "@moonya/harness-api-session-controller": "workspace:^",
+    "@moonya/harness-api-workspace-controller": "workspace:^",
+    "@moonya/harness-attachment": "workspace:^",
+    "@moonya/harness-client-connection": "workspace:^",
+    "@moonya/harness-client-hmr": "workspace:^",
+    "@moonya/harness-client-modules": "workspace:^",
+    "@moonya/harness-client-store": "workspace:^",
+    "@moonya/harness-client-ui-chat": "workspace:^",
+    "@moonya/harness-client-ui-conversation": "workspace:^",
+    "@moonya/harness-client-ui-renderer": "workspace:^",
+    "@moonya/harness-client-ui-session": "workspace:^",
+    "@moonya/harness-client-ui-settings": "workspace:^",
+    "@moonya/harness-client-ui-slots": "workspace:^",
+    "@moonya/harness-client-web": "workspace:^",
+    "@moonya/harness-remote-mock": "workspace:^",
+    "@moonya/harness-session": "workspace:^",
+    "@moonya/harness-subagent": "workspace:^",
+    "@moonya/harness-typert-protocol": "workspace:^",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "workspace:^",
+    "@deepseek-ai/cordis-plugin-include": "workspace:^",
+    "@deepseek-ai/cordis-plugin-loader": "workspace:^",
+    "@moonya/harness-api-gateway": "workspace:^",
+    "@moonya/harness-api-remotes": "workspace:^",
+    "@moonya/harness-api-session-controller": "workspace:^",
+    "@moonya/harness-api-workspace-controller": "workspace:^",
+    "@moonya/harness-attachment": "workspace:^",
+    "@moonya/harness-base": "workspace:^",
+    "@moonya/harness-client-connection": "workspace:^",
+    "@moonya/harness-client-hmr": "workspace:^",
+    "@moonya/harness-client-locale": "workspace:^",
+    "@moonya/harness-client-modules": "workspace:^",
+    "@moonya/harness-client-store": "workspace:^",
+    "@moonya/harness-client-ui-chat": "workspace:^",
+    "@moonya/harness-client-ui-conversation": "workspace:^",
+    "@moonya/harness-client-ui-layout": "workspace:^",
+    "@moonya/harness-client-ui-renderer": "workspace:^",
+    "@moonya/harness-client-ui-session": "workspace:^",
+    "@moonya/harness-client-ui-settings": "workspace:^",
+    "@moonya/harness-client-ui-slots": "workspace:^",
+    "@moonya/harness-client-web": "workspace:^",
+    "@moonya/harness-remote-mock": "workspace:^",
+    "@moonya/harness-session": "workspace:^",
+    "@moonya/harness-settings": "workspace:^",
+    "@moonya/harness-subagent": "workspace:^",
+    "@moonya/harness-typert-protocol": "workspace:^",
+    "@moonya/harness-web-app": "workspace:^",
+    "@types/js-yaml": "^4.0.9",
+    "@types/react": "~18.3.1",
+    "@types/react-dom": "~18.3.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/types/**/*.d.ts"
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "name": "@moonya/harness-tool-present",
+  "description": "Explicit workspace file delivery declarations for the MoonYa Agent Runtime",
+  "version": "0.1.5-rc.2",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deepseek-ai/moonya-agent-runtime.git",
+    "directory": "packages/fs/tool-present"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./types": {
+      "types": "./lib/types/types.d.ts",
+      "default": "./lib/types/types.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "license": "MIT",
+  "files": [
+    "lib/index.js",
+    "lib/types/**/*.js",
+    "lib/types/**/*.d.ts"
+  ],
+  "dependencies": {
+    "@deepseek-ai/schemastery": "workspace:^"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "workspace:^",
+    "@moonya/harness-agent": "workspace:^",
+    "@moonya/harness-fs": "workspace:^",
+    "@moonya/harness-llm": "workspace:^",
+    "@moonya/harness-session": "workspace:^",
+    "@moonya/harness-session-projection": "workspace:^",
+    "@moonya/harness-tools": "workspace:^"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "workspace:^",
+    "@moonya/harness-agent": "workspace:^",
+    "@moonya/harness-fs": "workspace:^",
+    "@moonya/harness-llm": "workspace:^",
+    "@moonya/harness-session": "workspace:^",
+    "@moonya/harness-session-projection": "workspace:^",
+    "@moonya/harness-tools": "workspace:^",
+    "@moonya/harness-agent-loop": "workspace:^",
+    "@moonya/harness-agent-loop-testkit": "workspace:^",
+    "@moonya/harness-fs-local": "workspace:^",
+    "@moonya/harness-system-prompt": "workspace:^",
+    "@moonya/harness-scope": "workspace:^"
+  }
+}

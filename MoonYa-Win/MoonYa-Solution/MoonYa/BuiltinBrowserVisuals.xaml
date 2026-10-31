@@ -1,0 +1,29 @@
+<UserControl x:Class="MoonYa.BuiltinBrowserVisuals"
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ IsHitTestVisible="False" Focusable="False" ClipToBounds="True">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="SharedGlowResources.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Border Style="{StaticResource GlowEdgeStyle}" Height="{StaticResource GlowThicknessValue}"
+                VerticalAlignment="Top" Background="{StaticResource TopGlowBrush}" OpacityMask="{StaticResource TopFadeMask}" />
+        <Border Style="{StaticResource GlowEdgeStyle}" Height="{StaticResource GlowThicknessValue}"
+                VerticalAlignment="Bottom" Background="{StaticResource BottomGlowBrush}" OpacityMask="{StaticResource BottomFadeMask}" />
+        <Border Style="{StaticResource GlowEdgeStyle}" Width="{StaticResource GlowThicknessValue}"
+                HorizontalAlignment="Left" Background="{StaticResource LeftGlowBrush}" OpacityMask="{StaticResource LeftFadeMask}" />
+        <Border Style="{StaticResource GlowEdgeStyle}" Width="{StaticResource GlowThicknessValue}"
+                HorizontalAlignment="Right" Background="{StaticResource RightGlowBrush}" OpacityMask="{StaticResource RightFadeMask}" />
+        <Canvas>
+            <Canvas x:Name="Pointer" Width="22" Height="23">
+                <Border Style="{StaticResource GlowEdgeStyle}" Canvas.Left="-25" Canvas.Top="-24"
+                        Width="64" Height="64" CornerRadius="32" Background="{StaticResource TopGlowBrush}" />
+                <Image x:Name="Arrow" Source="Assets/browser-pointer.png" Width="22" Height="23" Stretch="Fill" SnapsToDevicePixels="True" />
+            </Canvas>
+        </Canvas>
+    </Grid>
+</UserControl>

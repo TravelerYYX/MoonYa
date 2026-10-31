@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType><TargetFramework>net48</TargetFramework><LangVersion>latest</LangVersion><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable>
+    <InstallerSourceRoot Condition="'$(InstallerSourceRoot)' == ''">D:\Project\Project\安装程序\MoonYa\FarSide-安装程序\FarSide-安装程序</InstallerSourceRoot>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(InstallerSourceRoot)\Services\UpdateInstaller.cs" Link="UpdateInstaller.cs" />
+    <Compile Include="$(InstallerSourceRoot)\Services\PayloadExtractor.cs" Link="PayloadExtractor.cs" />
+    <Compile Include="$(InstallerSourceRoot)\Models\InstallProgress.cs" Link="InstallProgress.cs" />
+    <Compile Include="$(InstallerSourceRoot)\Compatibility\MathCompat.cs" Link="MathCompat.cs" />
+    <Compile Include="$(InstallerSourceRoot)\Compatibility\IsExternalInit.cs" Link="IsExternalInit.cs" />
+    <Reference Include="System.IO.Compression"/><Reference Include="System.IO.Compression.FileSystem"/><Reference Include="System.Web"/><Reference Include="System.Web.Extensions"/>
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="all" />
+  </ItemGroup>
+</Project>

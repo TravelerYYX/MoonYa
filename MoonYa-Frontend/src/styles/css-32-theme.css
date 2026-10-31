@@ -1,0 +1,91 @@
+:root {
+    --theme-shell: #f1eff4;
+    --theme-sidebar: #fbfafd;
+    --theme-surface: #ffffff;
+    --theme-soft: #f4f4f6;
+    --theme-hover: #e9e9ed;
+    --theme-border: #e5e4e8;
+    --theme-text: #26272b;
+    --theme-secondary: #62646d;
+    --theme-muted: #767983;
+    --theme-surface-rgb: 255, 255, 255;
+    --theme-accent-soft: #e8f2ff;
+    --theme-accent-text: #2168bd;
+    --theme-danger-soft: #fff0f0;
+    --theme-danger: #bd303f;
+    --theme-success-soft: #eaf6ed;
+    --theme-success: #287444;
+    --theme-warning-soft: #fff5e4;
+    --theme-warning: #986210;
+    --theme-code-keyword: #a626a4;
+    --theme-code-string: #a31515;
+    --theme-code-number: #0451a5;
+    --theme-code-comment: #6a737d;
+}
+:root[data-theme="dark"] {
+    --theme-shell: #18191d;
+    --theme-sidebar: #1b1c20;
+    --ui-bg: #1e1f23;
+    --ui-shell: #18191d;
+    --ui-sidebar: #1b1c20;
+    --ui-hover: #32343b;
+    --ui-border: #383a43;
+    --ui-text: #eeeef2;
+    --ui-muted: #a4a6b1;
+    --ui-accent: #80b4ff;
+    --ui-shadow: 0 4px 24px #0005;
+    --theme-surface: #1e1f23;
+    --theme-soft: #27282e;
+    --theme-hover: #32343b;
+    --theme-border: #383a43;
+    --theme-text: #eeeef2;
+    --theme-secondary: #bec0cb;
+    --theme-muted: #a4a6b1;
+    --theme-surface-rgb: 30, 31, 35;
+    --theme-accent-soft: #24354d;
+    --theme-accent-text: #92bdff;
+    --theme-danger-soft: #41282e;
+    --theme-danger: #ff9baa;
+    --theme-success-soft: #243b2e;
+    --theme-success: #91d5a6;
+    --theme-warning-soft: #403522;
+    --theme-warning: #edc47a;
+    --theme-code-keyword: #d9a2f0;
+    --theme-code-string: #e9a899;
+    --theme-code-number: #9bcaff;
+    --theme-code-comment: #a4a6b1;
+    --dsw-static-deepseek-50: #24354d;
+    --dsw-static-neutral-bluish-00: #1e1f23;
+    --dsw-static-neutral-bluish-1000: #eeeef2;
+    --dsw-static-neutral-bluish-400: #a4a6b1;
+    --dsw-static-neutral-bluish-600: #a4a6b1;
+    --dsw-static-neutral-bluish-700: #bec0cb;
+    --dsw-alias-border-l2: #383a43;
+    --dsw-alias-interactive-bg-hover: #32343b;
+}
+html, body { background-color: var(--ui-shell); color: var(--theme-text); }
+.settings-theme-options { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.settings-theme-option { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; min-width: 0; min-height: 84px; padding: 12px 4px; border: 1px solid var(--theme-border); border-radius: 16px; background: var(--theme-surface); color: var(--theme-text); font: inherit; cursor: pointer; }
+.settings-theme-option .ui-icon { width: 18px; height: 18px; }
+.settings-theme-option:hover { background: var(--theme-soft); }
+.settings-theme-option[aria-pressed="true"] { border-color: var(--theme-muted); background: var(--theme-soft); }
+.settings-theme-option:focus-visible { outline: 2px solid var(--ui-accent); outline-offset: 3px; }
+/* Vendor highlighting keeps its light palette; override only application code. */
+[data-theme="dark"] .hljs { color: var(--theme-text); background: var(--theme-soft); }
+[data-theme="dark"] .hljs-comment, [data-theme="dark"] .hljs-quote { color: var(--theme-code-comment); }
+[data-theme="dark"] :is(.hljs-keyword, .hljs-selector-tag, .hljs-literal, .hljs-type) { color: var(--theme-code-keyword); }
+[data-theme="dark"] :is(.hljs-string, .hljs-regexp, .hljs-doctag, .hljs-template-tag, .hljs-template-variable) { color: var(--theme-code-string); }
+[data-theme="dark"] :is(.hljs-number, .hljs-title, .hljs-built_in, .hljs-attr, .hljs-symbol, .hljs-variable, .hljs-meta) { color: var(--theme-code-number); }
+[data-theme="dark"] .hljs-addition { color: var(--theme-success); background: var(--theme-success-soft); }
+[data-theme="dark"] .hljs-deletion { color: var(--theme-danger); background: var(--theme-danger-soft); }
+/* Decorative pastel surfaces and status fills also need dark counterparts. */
+[data-theme="dark"] :is(.browser-security-modal, .team-event, .team-artifact-card, .detail-panel, .team-event-media-tile) { background: var(--theme-surface); border-color: var(--theme-border); }
+[data-theme="dark"] .team-approval-card { background: var(--theme-warning-soft); }
+[data-theme="dark"] .team-approval-card :is(strong, p) { color: var(--theme-warning); }
+[data-theme="dark"] .settings-plan-badge { background: var(--theme-accent-soft); }
+[data-theme="dark"] .changes-line-add { background: var(--theme-success-soft); }
+[data-theme="dark"] .changes-line-delete { background: var(--theme-danger-soft); }
+[data-theme="dark"] .workstation[data-state="running"] .ws-screen { background: var(--theme-success-soft); }
+[data-theme="dark"] .settings-modal { border-color: var(--theme-border); }
+[data-theme="dark"] .context-length-select { background: var(--theme-surface); }
+[data-theme="dark"] :is(input, textarea)::placeholder { color: var(--theme-muted); }

@@ -1,0 +1,67 @@
+        <!-- 办公室 2.5D 视图（主界面内切换 / 独立窗口共用） -->
+        
+        <div class="office-view" id="officeView">
+            <div class="office-header">
+                <div class="office-title">MoonYa 办公室</div>
+                <div class="office-header-actions">
+                    <label class="office-concurrency">子代理并发 <input id="officeConcurrency" type="number" min="1" step="1" value="8" aria-label="子代理并发数"></label>
+                    <button type="button" class="office-popout-btn" id="officePopoutBtn">单独弹出</button>
+                </div>
+            </div>
+            <div class="office-stage" id="officeStage">
+                <div class="office-floor"></div>
+                
+                <div class="workstation" data-character="moonya"
+                    data-row="0" data-col="0"
+                    aria-label="MoonYa 工位">
+                    <div class="ws-shadow"></div>
+                    <div class="ws-mover">
+                        <div class="ws-name">MoonYa</div>
+                        <div class="ws-status" aria-live="polite"></div>
+                        <div class="ws-character-trigger" aria-hidden="true">
+                            <img class="ws-character" src="/assets/office/seated-back/moonya.png"
+                                 alt="" draggable="false">
+                        </div>
+                        <img class="ws-empty-chair" src="/assets/office/seated-back/empty-chair.png"
+                             alt="" aria-hidden="true" draggable="false">
+                    </div>
+                    <div class="ws-desk">
+                        <div class="ws-desk-front"></div>
+                    </div>
+                    <div class="ws-desk-top"></div>
+                    <div class="ws-monitor">
+                        <div class="ws-monitor-frame">
+                            <div class="ws-screen"></div>
+                        </div>
+                        <div class="ws-monitor-stand"></div>
+                        <div class="ws-monitor-base"></div>
+                    </div>
+                    <div class="ws-work-hands" aria-hidden="true">
+                        <span class="ws-keyboard"></span>
+                        <span class="ws-mouse"></span>
+                        <span class="ws-hand ws-hand-keyboard"></span>
+                        <span class="ws-hand ws-hand-mouse"></span>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="office-notice" id="officeNotice" role="status"></div>
+            <aside class="office-employee-card" id="officeEmployeeCard" hidden aria-label="子代理任务详情">
+                <div class="office-employee-heading">
+                    <h2 id="officeEmployeeTitle"></h2>
+                    <button type="button" id="officeCardClose" aria-label="关闭详情">×</button>
+                </div>
+                <div id="officeEmployeeStatus"></div>
+                <div id="officeEmployeeRelations"></div>
+                <section class="office-employee-section" aria-labelledby="officeTaskLabel">
+                    <h3 id="officeTaskLabel">当前任务</h3>
+                    <p id="officeEmployeeTask"></p>
+                </section>
+                <section class="office-employee-section" aria-labelledby="officeResultLabel">
+                    <h3 id="officeResultLabel">任务结果</h3>
+                    <pre id="officeEmployeeResult"></pre>
+                </section>
+                <details><summary>执行记录</summary><pre id="officeEmployeeLog"></pre></details>
+                <button type="button" id="officeEmployeeStop">停止整个任务分支</button>
+            </aside>
+        </div>

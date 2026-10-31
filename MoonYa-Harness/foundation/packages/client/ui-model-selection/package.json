@@ -1,0 +1,74 @@
+{
+  "name": "@moonya/harness-client-ui-model-selection",
+  "description": "Model selection over the shared model catalog, Session projection, and session.selectModel",
+  "version": "0.1.5-rc.2",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deepseek-ai/moonya-agent-runtime.git",
+    "directory": "packages/client/ui-model-selection"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./client": {
+      "types": "./lib/types/client/index.d.ts",
+      "default": "./lib/client.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "client": {
+      "inject": [
+        "@moonya/harness-api-session-controller",
+        "@moonya/harness-client-locale",
+        "@moonya/harness-client-ui-commands",
+        "@moonya/harness-api-remotes"
+      ],
+      "platform": "web"
+    }
+  },
+  "scripts": {
+    "bundle": "tsdown",
+    "watch": "tsdown --watch"
+  },
+  "license": "MIT",
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "workspace:^"
+  },
+  "devDependencies": {
+    "@moonya/harness-api-remotes": "workspace:^",
+    "@moonya/harness-api-session-controller": "workspace:^",
+    "@moonya/harness-client-locale": "workspace:^",
+    "@moonya/harness-client-test-runtime": "workspace:^",
+    "@moonya/harness-client-ui-commands": "workspace:^",
+    "@moonya/harness-client-ui-conversation": "workspace:^",
+    "@moonya/harness-client-ui-input-trigger": "workspace:^",
+    "@moonya/harness-client-ui-primitives": "workspace:^",
+    "@moonya/harness-client-ui-slots": "workspace:^",
+    "@moonya/harness-typert-protocol": "workspace:^",
+    "@types/react": "~18.3.1",
+    "@deepseek-ai/cordis": "workspace:^",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "@types/react-dom": "~18.3.0",
+    "@moonya/harness-client-store": "workspace:^",
+    "@moonya/harness-session": "workspace:^",
+    "@moonya/harness-client-ui-renderer": "workspace:^",
+    "@moonya/harness-client-ui-session": "workspace:^",
+    "clsx": "^2.1.1"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/client.js",
+    "lib/types/**/*.d.ts"
+  ]
+}

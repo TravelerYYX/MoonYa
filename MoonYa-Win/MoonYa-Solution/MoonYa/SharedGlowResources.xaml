@@ -1,0 +1,86 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+        <!-- 边缘光效厚度 -->
+        <system:Double x:Key="GlowThicknessValue"
+                       xmlns:system="clr-namespace:System;assembly=mscorlib">48</system:Double>
+
+        <!-- 舒适的粉蓝紫渐变配色（低饱和、高明度） -->
+        <Color x:Key="GlowCyan">#A5F3FC</Color>
+        <Color x:Key="GlowBlueSoft">#93C5FD</Color>
+        <Color x:Key="GlowLavender">#C4B5FD</Color>
+        <Color x:Key="GlowPurpleSoft">#D8B4FE</Color>
+        <Color x:Key="GlowPink">#F9A8D4</Color>
+
+        <!-- 顶部渐变：左青 → 中紫 → 右粉，整体柔和 -->
+        <LinearGradientBrush x:Key="TopGlowBrush" StartPoint="0,0" EndPoint="1,0">
+            <GradientStop Color="{StaticResource GlowCyan}" Offset="0.0" />
+            <GradientStop Color="{StaticResource GlowBlueSoft}" Offset="0.22" />
+            <GradientStop Color="{StaticResource GlowLavender}" Offset="0.50" />
+            <GradientStop Color="{StaticResource GlowPurpleSoft}" Offset="0.78" />
+            <GradientStop Color="{StaticResource GlowPink}" Offset="1.0" />
+        </LinearGradientBrush>
+
+        <!-- 底部渐变：与顶部同向 -->
+        <LinearGradientBrush x:Key="BottomGlowBrush" StartPoint="0,0" EndPoint="1,0">
+            <GradientStop Color="{StaticResource GlowCyan}" Offset="0.0" />
+            <GradientStop Color="{StaticResource GlowBlueSoft}" Offset="0.22" />
+            <GradientStop Color="{StaticResource GlowLavender}" Offset="0.50" />
+            <GradientStop Color="{StaticResource GlowPurpleSoft}" Offset="0.78" />
+            <GradientStop Color="{StaticResource GlowPink}" Offset="1.0" />
+        </LinearGradientBrush>
+
+        <!-- 左侧渐变：青色到蓝色，向中心柔和淡出 -->
+        <LinearGradientBrush x:Key="LeftGlowBrush" StartPoint="0,0" EndPoint="1,0">
+            <GradientStop Color="{StaticResource GlowCyan}" Offset="0.0" />
+            <GradientStop Color="{StaticResource GlowBlueSoft}" Offset="0.40" />
+            <GradientStop Color="Transparent" Offset="1.0" />
+        </LinearGradientBrush>
+
+        <!-- 右侧渐变：淡紫粉色，向中心柔和淡出 -->
+        <LinearGradientBrush x:Key="RightGlowBrush" StartPoint="0,0" EndPoint="1,0">
+            <GradientStop Color="Transparent" Offset="0.0" />
+            <GradientStop Color="{StaticResource GlowPurpleSoft}" Offset="0.40" />
+            <GradientStop Color="{StaticResource GlowPink}" Offset="0.85" />
+            <GradientStop Color="{StaticResource GlowPink}" Offset="1.0" />
+        </LinearGradientBrush>
+
+        <!-- 全屏水波填充渐变：底部颜色浓，向上渐淡 -->
+        <LinearGradientBrush x:Key="WaterFillBrush" StartPoint="0,1" EndPoint="0,0">
+            <GradientStop Color="{StaticResource GlowCyan}" Offset="0.0" />
+            <GradientStop Color="{StaticResource GlowBlueSoft}" Offset="0.15" />
+            <GradientStop Color="{StaticResource GlowLavender}" Offset="0.35" />
+            <GradientStop Color="{StaticResource GlowPurpleSoft}" Offset="0.55" />
+            <GradientStop Color="{StaticResource GlowPink}" Offset="0.75" />
+            <GradientStop Color="Transparent" Offset="1.0" />
+        </LinearGradientBrush>
+
+        <!-- 淡出遮罩：更长的过渡，弱化硬边 -->
+        <LinearGradientBrush x:Key="TopFadeMask" StartPoint="0,0" EndPoint="0,1">
+            <GradientStop Color="White" Offset="0.0" />
+            <GradientStop Color="White" Offset="0.25" />
+            <GradientStop Color="Transparent" Offset="1.0" />
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="BottomFadeMask" StartPoint="0,1" EndPoint="0,0">
+            <GradientStop Color="White" Offset="0.0" />
+            <GradientStop Color="White" Offset="0.25" />
+            <GradientStop Color="Transparent" Offset="1.0" />
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="LeftFadeMask" StartPoint="0,0" EndPoint="1,0">
+            <GradientStop Color="White" Offset="0.0" />
+            <GradientStop Color="White" Offset="0.25" />
+            <GradientStop Color="Transparent" Offset="1.0" />
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="RightFadeMask" StartPoint="1,0" EndPoint="0,0">
+            <GradientStop Color="White" Offset="0.0" />
+            <GradientStop Color="White" Offset="0.25" />
+            <GradientStop Color="Transparent" Offset="1.0" />
+        </LinearGradientBrush>
+
+    <Style x:Key="GlowEdgeStyle" TargetType="Border">
+        <Setter Property="IsHitTestVisible" Value="False" />
+        <Setter Property="Effect"><Setter.Value><BlurEffect Radius="56" /></Setter.Value></Setter>
+    </Style>
+</ResourceDictionary>

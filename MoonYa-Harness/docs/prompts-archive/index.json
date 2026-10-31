@@ -1,0 +1,36 @@
+{
+  "archived_at": "2026-09-13T20:36:58+08:00",
+  "source_database": "ai_system (MariaDB 10.4.32, dump 2026-08-09)",
+  "staging_database": "ai_system_old (MySQL 8.0.46 暂存)",
+  "note": "提示词归档，留待封装插件时程序化读取",
+  "files": [
+    {
+      "file": "agents.json",
+      "source_table": "agents",
+      "row_count": 8,
+      "legacy_agent_system_rows": null,
+      "purpose": "各专业 Agent 定义与提示词（旧 agent 团队体系，留待封装插件）"
+    },
+    {
+      "file": "personality.json",
+      "source_table": "personality",
+      "row_count": 1,
+      "legacy_agent_system_rows": null,
+      "purpose": "AI 人格定义（name/description/use_custom，留待封装插件）"
+    },
+    {
+      "file": "tool_settings.json",
+      "source_table": "tool_settings",
+      "row_count": 4,
+      "legacy_agent_system_rows": null,
+      "purpose": "写作助手、翻译助手等工具提示词（功能已删除，留待参考）"
+    },
+    {
+      "file": "system_prompts.json",
+      "source_table": "system_prompts",
+      "row_count": 24,
+      "legacy_agent_system_rows": 11,
+      "purpose": "系统提示词快照：legacy_agent_system=旧 agent 体系条目；retained_general=通用条目（保留在库）"
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "name": "@moonya/harness-experimental-code-runtime-python",
+  "description": "CPython subprocess implementation of the MoonYa Agent Runtime code-execution seam",
+  "version": "0.1.5-rc.2",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deepseek-ai/moonya-agent-runtime.git",
+    "directory": "packages/experimental/code-runtime-python"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/index.js",
+    "py/**/*.py",
+    "lib/types/**/*.d.ts"
+  ],
+  "license": "MIT",
+  "peerDependencies": {
+    "@moonya/harness-code-runtime": "workspace:^",
+    "@moonya/harness-timeout": "workspace:^",
+    "@deepseek-ai/cordis": "workspace:^",
+    "@moonya/harness-util-values": "workspace:^"
+  },
+  "devDependencies": {
+    "@moonya/harness-code-runtime": "workspace:^",
+    "@moonya/harness-timeout": "workspace:^",
+    "@deepseek-ai/cordis": "workspace:^",
+    "@moonya/harness-util-values": "workspace:^"
+  },
+  "dependencies": {
+    "@deepseek-ai/schemastery": "workspace:^"
+  },
+  "private": true
+}

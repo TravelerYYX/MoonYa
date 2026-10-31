@@ -1,0 +1,27 @@
+# Minimal tool-pwsh composition: real app boot path, real pwsh executor, real
+# foreground + background tool calls; driven by the package's loader.spec.ts.
+- id: system-prompt
+  name: '@moonya/harness-system-prompt'
+
+- id: tools
+  name: '@moonya/harness-tools'
+
+- id: subprocess
+  name: '@moonya/harness-subprocess-local'
+
+- id: bash
+  name: '@moonya/harness-pwsh-local'
+  config:
+    graceMs: 200
+
+- id: shell-env
+  name: '@moonya/harness-shell-env'
+
+- id: tasks
+  name: '@moonya/harness-jobs-local'
+
+- id: tool-jobs
+  name: '@moonya/harness-tool-jobs'
+
+- id: tool-pwsh
+  name: '@moonya/harness-tool-pwsh'

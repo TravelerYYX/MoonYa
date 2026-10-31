@@ -1,0 +1,12 @@
+{
+    "require": {
+        "phpmailer/phpmailer": "^6.9",
+        "alipaysdk/easysdk": "^2.0",
+        "spomky-labs/otphp": "^11.4",
+        "phpseclib/phpseclib": "^3.0",
+        "php": "^8.1",
+        "ext-openssl": "*",
+        "ext-pdo": "*",
+        "ext-pdo_mysql": "*"
+    }
+}

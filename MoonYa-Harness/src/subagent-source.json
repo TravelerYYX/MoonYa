@@ -1,0 +1,142 @@
+{
+  "source": "deepseek-harness-master",
+  "license": "MIT",
+  "files": [
+    {
+      "path": "subagent/src/assistant-output.ts",
+      "sha256": "111e3462f7e838baec7a8a21e045b8e9fc3aea8d91f0ff129c78d4c025aaebbf"
+    },
+    {
+      "path": "subagent/src/catalog.ts",
+      "sha256": "f8417c1917dbbd7f3c01ca60e512efd2cae4c61c04e0e7d3f87ea86da30f841e"
+    },
+    {
+      "path": "subagent/src/child-agent.ts",
+      "sha256": "89c157c123a58039fdfeeb4113d71430c72302e07491347c6ab61e48554dac86"
+    },
+    {
+      "path": "subagent/src/client.ts",
+      "sha256": "f2858ddb71b639a6b53b11e627fbab40afc92bdd60fb8f7ac34a341e1e8d2c26"
+    },
+    {
+      "path": "subagent/src/continuation-activation.ts",
+      "sha256": "f6ff8a3f8066d4f7e31b666dbb12d3d794ee0c69a7cbacbd3da9615a4509651c"
+    },
+    {
+      "path": "subagent/src/continuation-messages.ts",
+      "sha256": "8e6375635b85935cb73f50f31708add848f5c386f117dedcee2523cec943e1af"
+    },
+    {
+      "path": "subagent/src/continuation.ts",
+      "sha256": "0324599499683693377681c381af7f13465235be5ba273093ceee06202ad7e4d"
+    },
+    {
+      "path": "subagent/src/control-types.ts",
+      "sha256": "64eb1827b3200a46bef60c20b9a192959172fa874cc28c55fd55b304c93924c4"
+    },
+    {
+      "path": "subagent/src/control.ts",
+      "sha256": "b0f42962dbcce3a95ad82e0dfa98cdcd94facdb08bc2c6f4f0866ee3536c75c7"
+    },
+    {
+      "path": "subagent/src/depth.ts",
+      "sha256": "52fe8c33e3becc3c5925ce4c63cfa097dc67158207e50db4622c7b9c15bc9b6f"
+    },
+    {
+      "path": "subagent/src/descriptor.ts",
+      "sha256": "00b5dc5d259f78ab9fb66cf7aa4f1c08835f471f2379e6fab79f7e03791c614c"
+    },
+    {
+      "path": "subagent/src/error.ts",
+      "sha256": "efdb67c6c6342c53775d817eebeb495c959892f95b2e00a1eda5a71d711fa4ce"
+    },
+    {
+      "path": "subagent/src/inbox.ts",
+      "sha256": "3c7bcfd451ee2b261cc638a35de6f100369e768f1affc73ea6f89943bac4f7a4"
+    },
+    {
+      "path": "subagent/src/index.ts",
+      "sha256": "7597543b5f29b802545ecb559513efeb9fd1f8af66e90e8abc49d914943b1e36"
+    },
+    {
+      "path": "subagent/src/internal.ts",
+      "sha256": "bc7af4b0a1d4653119159ee2a1786aed9693b70f6f5c9e88c796e43decf69f9c"
+    },
+    {
+      "path": "subagent/src/invariant.ts",
+      "sha256": "0c28969d6913838860651a60e00876a448039ff2e6da8d2364886c2817d6aaff"
+    },
+    {
+      "path": "subagent/src/lifecycle.ts",
+      "sha256": "bdd0c67a1ead461b15e99f34550203fb5d6cce42c84641d03bb8bc6db8d4f887"
+    },
+    {
+      "path": "subagent/src/list-children.ts",
+      "sha256": "ac1222aee57599988f64c0b60c0c5fdbce684a091d9bc7743f80dd9ca3469640"
+    },
+    {
+      "path": "subagent/src/out-of-process.ts",
+      "sha256": "d99f9c3e272d48286cbbd6d0cf3eb0820c6b8ad1397168009f784bad37f23d6b"
+    },
+    {
+      "path": "subagent/src/projection-types.ts",
+      "sha256": "c53ab26eeb0ab8e0c0d18f65cfb28f00be68b22ee1b7eb0d77480f114f1bb002"
+    },
+    {
+      "path": "subagent/src/projection.ts",
+      "sha256": "003138c6f71d9451dbe0ac0ec61aab54bf20b118c83bc9651b57d849047ed193"
+    },
+    {
+      "path": "subagent/src/run-settlement.ts",
+      "sha256": "f8bef231a9ba5efc89b5dacad3b7427b31ecaf39d8036b078bfd14639381b825"
+    },
+    {
+      "path": "subagent/src/types.ts",
+      "sha256": "9a1f755aece7d541bd84772a0d2894cba003614a442f8dcc1896f8384fb91bee"
+    },
+    {
+      "path": "subagent-spawn-in-process/src/index.ts",
+      "sha256": "0401c302d49b44a779d1e6ba93f817f43a8fe67974840c432d881792ff14fe66"
+    },
+    {
+      "path": "subagent-in-process-driver/src/index.ts",
+      "sha256": "b8d039899b81553747929f56063b79247bf12bc5d7bfa0c1b2e91d431772baa5"
+    },
+    {
+      "path": "subagent-in-process-driver/src/structured.ts",
+      "sha256": "0c911d97ef20b7f18509d7a3e49b0000da1d723aa6e77060161c1ff311596975"
+    },
+    {
+      "path": "tool-subagent/src/index.ts",
+      "sha256": "7ed184d6f1e59675410cd292ebffee95fbb83c37ce43e4d005a421a969501af3"
+    },
+    {
+      "path": "tool-subagent/src/invariant.ts",
+      "sha256": "e404b222e603e70b44087648ce7a6fc53353794b1dd4db26b62d3c5bf2457751"
+    },
+    {
+      "path": "tool-subagent/src/list-models.ts",
+      "sha256": "90e8adaa3188aca4b1f1437b43094969a069324de84e44bdbb5dccaf96198067"
+    },
+    {
+      "path": "tool-subagent/src/model-selection-settings.ts",
+      "sha256": "3f07d234441fb1f5694fc59b6cb63e4522c267de7c1a206022cdec33e1471fac"
+    },
+    {
+      "path": "tool-subagent/src/model-selection-state.ts",
+      "sha256": "00468741a23e701fcee29c2a9c783e4c4c93fbc2e834c3d8f1667fabad5dd298"
+    },
+    {
+      "path": "tool-subagent/src/model-selection.ts",
+      "sha256": "3e874dbca18bd6f672b4a0c6d2a2dfd514ede1b515ba9123d2b0c9a94b729724"
+    },
+    {
+      "path": "tool-subagent-control/src/index.ts",
+      "sha256": "a9f7a316a18daced10f43955bfa7701899dae4b6b7bebac7619c829da7d7333a"
+    },
+    {
+      "path": "tool-subagent-control/src/list-agents.ts",
+      "sha256": "6eb52d3657bf7ef83bfaad62a0444778fd4e88a5c2576d1a5d9030bb4fe2800c"
+    }
+  ]
+}

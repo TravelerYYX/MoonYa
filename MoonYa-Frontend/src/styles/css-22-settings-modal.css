@@ -1,0 +1,703 @@
+/* ══════════════════════════════════════════════════════════
+   豆包式应用内设置弹窗 - 精美毛玻璃与圆角居中卡片样式
+   ══════════════════════════════════════════════════════════ */
+
+.settings-overlay {
+    display: none;
+    position: fixed;
+    z-index: 2500;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.42);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+#itemDefaultPermission,
+#settingsPermissionView .settings-choice-item {
+    width: 100%;
+    border: 0;
+    border-bottom: 1px solid var(--theme-border, #eee);
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    text-align: left;
+}
+
+#settingsPermissionView .settings-choice-item:last-child { border-bottom: 0; }
+
+.settings-overlay.show {
+    display: flex;
+    opacity: 1;
+}
+
+.settings-modal {
+    position: relative;
+    width: 448px;
+    max-width: calc(100vw - 32px);
+    max-height: 86vh;
+    border-radius: 20px;
+    background: var(--theme-soft, #f7f8fa);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.18), 0 4px 16px rgba(0, 0, 0, 0.06);
+    border: 1px solid rgba(var(--theme-surface-rgb), 0.85);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transform: scale(0.96) translateY(8px);
+    opacity: 0;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.settings-overlay.show .settings-modal {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+}
+
+/* 顶栏关闭按钮 */
+.settings-close-btn {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: transparent;
+    border: none;
+    font-size: 15px;
+    font-family: inherit;
+    color: var(--theme-secondary, #646a73);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 20;
+    transition: all 0.18s ease;
+}
+
+.settings-close-btn:hover {
+    background: rgba(0, 0, 0, 0.07);
+    color: var(--theme-text, #1f2329);
+}
+
+/* 子页面顶栏导航 */
+.settings-sub-header {
+    height: 50px;
+    padding: 0 16px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid var(--theme-border, #ebecee);
+    background: var(--theme-surface, #ffffff);
+    flex-shrink: 0;
+}
+
+.settings-back-btn {
+    background: transparent;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--theme-text, #1f2329);
+    cursor: pointer;
+    padding: 6px 10px;
+    border-radius: 8px;
+    transition: background 0.15s ease;
+}
+
+.settings-back-btn:hover {
+    background: var(--theme-soft, #f2f3f5);
+}
+
+/* 滚动区域 */
+.settings-scroll-body {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 0 0 20px 0;
+    -webkit-overflow-scrolling: touch;
+}
+
+.settings-scroll-body::-webkit-scrollbar {
+    width: 6px;
+}
+
+.settings-scroll-body::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.settings-scroll-body::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 3px;
+}
+
+.settings-scroll-body::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.25);
+}
+
+/* 顶部个人信息卡片 (完全对应图片1中上方居中样式) */
+.settings-profile-section {
+    padding: 30px 20px 16px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.settings-avatar-wrap {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    position: relative;
+    cursor: pointer;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.settings-avatar-wrap:hover {
+    transform: scale(1.04);
+}
+
+.settings-avatar-img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+    border: 2px solid var(--theme-border, #ffffff);
+    background: var(--theme-soft, #f0f2f5);
+}
+
+.settings-profile-name-row {
+    margin-top: 10px;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--theme-text, #1a1a1a);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    cursor: pointer;
+    transition: opacity 0.15s ease;
+}
+
+.settings-profile-name-row:hover {
+    opacity: 0.8;
+}
+
+.settings-chevron-icon {
+    color: var(--theme-muted, #999);
+}
+
+.settings-profile-id {
+    font-size: 12.5px;
+    color: var(--theme-muted, #8f959e);
+    margin-top: 4px;
+    letter-spacing: 0.2px;
+}
+
+.settings-manage-btn {
+    margin-top: 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 18px;
+    border-radius: 20px;
+    background: var(--theme-surface, #ffffff);
+    border: 1px solid var(--theme-border, #dee0e3);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--theme-text, #1f2329);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+}
+
+.settings-manage-btn:hover {
+    background: var(--theme-soft, #f2f3f5);
+    border-color: var(--theme-border, #cfd2d6);
+}
+
+/* 分组白卡片容器 */
+.settings-card {
+    margin: 0 16px 12px 16px;
+    background: var(--theme-surface, #ffffff);
+    border-radius: 14px;
+    border: 1px solid var(--theme-border, #ebecee);
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+}
+
+/* 设置项行 */
+.settings-item {
+    display: flex;
+    align-items: center;
+    padding: 13px 16px;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+    border-bottom: 1px solid var(--theme-border, #f2f3f5);
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.settings-item:last-child {
+    border-bottom: none;
+}
+
+.settings-item:hover {
+    background-color: var(--theme-surface, #fafbfc);
+}
+
+.settings-item:active {
+    background-color: var(--theme-soft, #f2f4f7);
+}
+
+/* 左侧彩色图标 */
+.settings-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 7px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 12px;
+    flex-shrink: 0;
+}
+
+.settings-icon svg {
+    display: block;
+}
+
+/* 图标配色系统（严格对应图片1） */
+.settings-icon.plan {
+    background: var(--theme-accent-soft, #e8f3ff);
+    color: var(--theme-accent-text, #2b7fff);
+}
+
+.settings-icon.quota {
+    background: var(--theme-soft, #f4eefe);
+    color: var(--theme-accent-text, #8b5cf6);
+}
+
+.settings-icon.voice {
+    background: var(--theme-soft, #f0eaff);
+    color: var(--theme-accent-text, #7c3aed);
+}
+
+.settings-icon.appearance {
+    background: var(--theme-soft, #e8f9ed);
+    color: var(--theme-success, #10b981);
+}
+
+.settings-icon.memory {
+    background: var(--theme-accent-soft, #e6f4fe);
+    color: var(--theme-accent-text, #0284c7);
+}
+
+.settings-icon.notify {
+    background: var(--theme-soft, #feeeee);
+    color: var(--theme-danger, #ef4444);
+}
+
+.settings-icon.model {
+    background: var(--theme-soft, #f4ecfd);
+    color: var(--theme-accent-text, #8b5cf6);
+}
+
+.settings-icon.workmode {
+    background: var(--theme-soft, #e8f1fd);
+    color: var(--theme-accent-text, #2563eb);
+}
+
+.settings-icon.datasync {
+    background: var(--theme-soft, #e6f9f0);
+    color: var(--theme-success, #059669);
+}
+
+.settings-icon.archive {
+    background: var(--theme-soft, #f1f2f4);
+    color: var(--theme-secondary, #64748b);
+}
+
+.settings-icon.gen {
+    background: var(--theme-soft, #e8f4fd);
+    color: var(--theme-accent-text, #0284c7);
+}
+
+.settings-icon.video {
+    background: var(--theme-accent-soft, #e0f2fe);
+    color: var(--theme-accent-text, #0284c7);
+}
+
+.settings-icon.sendkey {
+    background: var(--theme-soft, #e8f1fd);
+    color: var(--theme-accent-text, #2563eb);
+}
+
+.settings-icon.paging {
+    background: var(--theme-soft, #ecfdf5);
+    color: var(--theme-success, #10b981);
+}
+
+.settings-icon.shortcuts {
+    background: var(--theme-soft, #f1f2f4);
+    color: var(--theme-secondary, #64748b);
+}
+
+.settings-icon.autostart {
+    background: var(--theme-soft, #e6f9f0);
+    color: var(--theme-success, #16a34a);
+}
+
+.settings-icon.logout {
+    background: var(--theme-danger-soft, #fee2e2);
+    color: var(--theme-danger, #dc2626);
+}
+
+/* 设置项文字与额外信息 */
+.settings-item-title {
+    flex: 1;
+    font-size: 14.5px;
+    color: var(--theme-text, #1f2329);
+    font-weight: 450;
+    letter-spacing: 0.1px;
+}
+
+.settings-item-extra {
+    font-size: 13.5px;
+    color: var(--theme-muted, #8f959e);
+    margin-right: 6px;
+    white-space: nowrap;
+}
+
+.settings-arrow {
+    font-size: 18px;
+    color: var(--theme-muted, #c0c4cc);
+    line-height: 1;
+    display: inline-block;
+    transition: transform 0.15s ease;
+}
+
+.settings-item:hover .settings-arrow {
+    color: var(--theme-muted, #8f959e);
+}
+
+/* 开关控件 Toggle Switch（蓝底白色圆点，图片1中的明亮蓝） */
+.settings-toggle-switch {
+    width: 44px;
+    height: 24px;
+    border-radius: 12px;
+    background: var(--theme-hover, #dcdee2);
+    position: relative;
+    cursor: pointer;
+    transition: background-color 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    flex-shrink: 0;
+}
+
+.settings-toggle-switch::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--theme-surface, #ffffff);
+    top: 2px;
+    left: 2px;
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+}
+
+.settings-toggle-switch.active {
+    background: #1677ff;
+}
+
+.settings-toggle-switch.active::after {
+    transform: translateX(20px);
+}
+
+/* ══════════ 子页面样式 ══════════ */
+.settings-sub-view {
+    padding: 16px;
+}
+
+.settings-sub-card {
+    background: var(--theme-surface, #ffffff);
+    border-radius: 14px;
+    border: 1px solid var(--theme-border, #ebecee);
+    padding: 16px;
+    margin-bottom: 12px;
+}
+
+.settings-sub-card-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--theme-text, #1f2329);
+    margin-bottom: 12px;
+}
+
+.settings-card-desc {
+    font-size: 13px;
+    color: var(--theme-secondary, #646a73);
+    line-height: 1.6;
+}
+
+/* 子页面单选项（带勾选） */
+.settings-choice-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    background: var(--theme-soft, #f7f8fa);
+    border: 1.5px solid transparent;
+    cursor: pointer;
+    margin-bottom: 10px;
+    transition: all 0.18s ease;
+}
+
+.settings-choice-item:last-child {
+    margin-bottom: 0;
+}
+
+.settings-model-choice {
+    width: 100%;
+    text-align: left;
+    font: inherit;
+}
+
+.settings-model-choice:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.settings-model-choice .settings-choice-title,
+.settings-model-choice .settings-choice-desc {
+    overflow-wrap: anywhere;
+}
+
+.settings-choice-item:hover {
+    background: var(--theme-soft, #f0f2f5);
+}
+
+.settings-choice-item.active {
+    background: var(--theme-soft, #f0f7ff);
+    border-color: #1677ff;
+}
+
+.settings-choice-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: var(--theme-surface, #ffffff);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: var(--theme-accent-text, #1677ff);
+    flex-shrink: 0;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.settings-choice-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.settings-choice-title {
+    font-size: 14.5px;
+    font-weight: 500;
+    color: var(--theme-text, #1f2329);
+    margin-bottom: 2px;
+}
+
+.settings-choice-desc {
+    font-size: 12px;
+    color: var(--theme-muted, #8f959e);
+    line-height: 1.4;
+}
+
+.settings-choice-check {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #1677ff;
+    color: #ffffff;
+    font-size: 13px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.settings-choice-item.active .settings-choice-check {
+    display: flex;
+}
+
+/* 账号设置表单 */
+.settings-account-avatar-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.settings-account-avatar-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.settings-tip {
+    font-size: 12px;
+    color: var(--theme-muted, #8f959e);
+}
+
+.settings-form-group {
+    margin-bottom: 14px;
+}
+
+.settings-form-label {
+    display: block;
+    font-size: 13px;
+    color: var(--theme-secondary, #646a73);
+    margin-bottom: 6px;
+    font-weight: 500;
+}
+
+.settings-input {
+    width: 100%;
+    height: 38px;
+    padding: 0 12px;
+    border-radius: 8px;
+    border: 1px solid var(--theme-border, #dee0e3);
+    background: var(--theme-surface, #ffffff);
+    font-size: 14px;
+    color: var(--theme-text, #1f2329);
+    box-sizing: border-box;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.settings-input:focus {
+    outline: none;
+    border-color: #1677ff;
+    box-shadow: 0 0 0 2px rgba(22, 119, 255, 0.15);
+}
+
+.settings-input:disabled {
+    background: var(--theme-soft, #f7f8fa);
+    color: var(--theme-muted, #8f959e);
+    cursor: not-allowed;
+}
+
+.settings-btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 18px;
+    border-radius: 8px;
+    background: #1677ff;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+.settings-btn-primary:hover {
+    background: #0958d9;
+}
+
+.settings-btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 7px 16px;
+    border-radius: 8px;
+    background: var(--theme-surface, #ffffff);
+    color: var(--theme-text, #1f2329);
+    border: 1px solid var(--theme-border, #dee0e3);
+    font-size: 13.5px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.settings-btn-secondary:hover {
+    background: var(--theme-soft, #f2f3f5);
+    border-color: var(--theme-border, #cfd2d6);
+}
+
+/* 快捷键表格 */
+.settings-shortcut-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--theme-border, #f2f3f5);
+    font-size: 14px;
+}
+
+.settings-shortcut-row:last-child {
+    border-bottom: none;
+}
+
+.settings-shortcut-label {
+    color: var(--theme-text, #1f2329);
+}
+
+.settings-kbd {
+    display: inline-block;
+    padding: 2px 7px;
+    border-radius: 5px;
+    border: 1px solid var(--theme-border, #dcdfe6);
+    background: var(--theme-soft, #f4f5f7);
+    color: var(--theme-text, #303133);
+    font-size: 12px;
+    font-family: inherit;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+}
+
+/* 套餐权益徽章与列表 */
+.settings-plan-badge-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.settings-plan-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #e6f4ff 0%, #d4e8fe 100%);
+    color: var(--theme-accent-text, #1677ff);
+    font-weight: 600;
+    font-size: 13.5px;
+}
+
+.settings-plan-status {
+    font-size: 12.5px;
+    color: var(--theme-success, #52c41a);
+    font-weight: 500;
+}
+
+.settings-feature-list {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0 0 0;
+}
+
+.settings-feature-list li {
+    font-size: 13px;
+    color: var(--theme-secondary, #4e5969);
+    padding: 6px 0;
+    line-height: 1.5;
+}

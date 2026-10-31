@@ -1,0 +1,71 @@
+;
+; MoonYaVirtualDisplay.inf
+;
+
+[Version]
+PnpLockDown=1
+Signature="$Windows NT$"
+ClassGUID = {4D36E968-E325-11CE-BFC1-08002BE10318}
+Class = Display
+ClassVer = 2.0
+Provider=%ManufacturerName%
+CatalogFile=MoonYaVirtualDisplay.cat
+DriverVer=09/26/2026,1.0.0.0
+
+[Manufacturer]
+%ManufacturerName%=Standard,NTamd64.10.0...19041
+
+[Standard.NTamd64.10.0...19041]
+%DeviceName%=MyDevice_Install, MoonYaVirtualDisplay
+
+[SourceDisksFiles]
+MoonYaVirtualDisplay.dll=1
+
+[SourceDisksNames]
+1 = %DiskName%
+
+; =================== UMDF Device ==================================
+
+[MyDevice_Install.NT]
+Include=WUDFRD.inf
+Needs=WUDFRD.NT
+CopyFiles=UMDriverCopy
+
+[MyDevice_Install.NT.hw]
+Include=WUDFRD.inf
+Needs=WUDFRD.NT.HW
+AddReg = MyDevice_HardwareDeviceSettings
+
+[MyDevice_HardwareDeviceSettings]
+HKR,, "UpperFilters",  %REG_MULTI_SZ%, "IndirectKmd"
+HKR, "WUDF", "DeviceGroupId", %REG_SZ%, "MoonYaVirtualDisplayGroup"
+
+[MyDevice_Install.NT.Services]
+Include=WUDFRD.inf
+Needs=WUDFRD.NT.Services
+
+[MyDevice_Install.NT.Wdf]
+UmdfService=MoonYaVirtualDisplay,MoonYaVirtualDisplay_Install
+UmdfServiceOrder=MoonYaVirtualDisplay
+UmdfKernelModeClientPolicy = AllowKernelModeClients
+
+[MoonYaVirtualDisplay_Install]
+UmdfLibraryVersion=2.25.0
+ServiceBinary=%12%\UMDF\MoonYaVirtualDisplay.dll
+UmdfExtensions = IddCx0102
+
+[DestinationDirs]
+UMDriverCopy=12,UMDF ; copy to drivers\umdf
+
+[UMDriverCopy]
+MoonYaVirtualDisplay.dll
+
+; =================== Generic ==================================
+
+[Strings]
+ManufacturerName="MoonYa"
+DiskName = "MoonYaVirtualDisplay Installation Disk"
+DeviceName="MoonYa Virtual Display"
+
+REG_MULTI_SZ  = 0x00010000
+REG_SZ        = 0x00000000

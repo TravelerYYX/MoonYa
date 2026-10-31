@@ -1,0 +1,28 @@
+<!doctype html><meta charset="utf-8"><title>MoonYa browser visual smoke</title>
+<style>
+body { margin:0; font:14px 'Segoe UI'; background:#fff; }
+button { margin:4px; padding:6px; }
+#detailPanel { width:100%; height:100vh; }
+#panelTabStrip { display:flex; height:38px; }
+.bp-tab { display:flex; align-items:center; padding:4px 12px; }
+.bp-tab.active { background:#ddd; }
+.bp-tab-close { width:20px; height:20px; }
+#teamBrowserViewport { position:absolute; top:130px; left:0; right:0; bottom:0; }
+[hidden] { display:none !important; }
+</style>
+<div id="detailPanel" class="open">
+ <div id="teamPaneHome"><button id="homeBrowserEntry" data-team-tab="browser">Open browser</button></div>
+ <div id="panelViewMenu"><button class="bp-menu-item" id="teamTabBrowser" data-team-tab="browser">New manual tab</button><button class="bp-menu-item" data-team-tab="log">Log</button></div>
+ <div id="panelTabStrip"></div>
+ <div id="teamPaneBrowser" hidden><input id="teamBrowserAddress"><button id="teamBrowserHandoffComplete" hidden>Complete</button><div id="teamBrowserViewport"></div><div id="teamBrowserPlaceholder" hidden></div></div>
+</div>
+<script>
+window.moonyaSetDetailPanelOpen = open => document.getElementById('detailPanel').classList.toggle('open',open);
+window.moonyaSplitLayout = { setPanelWidth() {} };
+document.addEventListener('click',event => {
+ const item=event.target.closest('[data-team-tab]');
+ if (!item) return;
+ document.querySelectorAll('[data-team-tab]').forEach(node=>node.classList.toggle('selected',node===item));
+ document.getElementById('teamPaneBrowser').hidden=item.dataset.teamTab!=='browser';
+},true);
+</script>

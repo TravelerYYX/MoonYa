@@ -1,0 +1,587 @@
+        /* ==================== 右侧栏工作面板外壳 + 内置浏览器 ====================
+           视觉对齐参考图：浅灰标签条（当前标签 + 「+」新建标签 + 展开 + 折叠）
+           + 浏览器视图的白色导航条（地址胶囊内含 ↗、右侧 ⋮）+ 白色圆角菜单（图标/文字/快捷键 pill）。
+
+           注意：网页视图由 C# 侧的 CEF 控件覆盖在 #teamBrowserViewport 上，
+           因此菜单展开时会临时隐藏覆盖层（见 script-6-browser-panel.php）。 */
+
+        /* ── 动效令牌 ────────────────────────────────────────
+           与仓库既有语言一致：控件级 .15s/.16s（css-16、css-06 的 team-menu-in），
+           面板开合与宽度沿用 css-06 的 .3s ease（本文件不改面板级时长）。
+           退场一律比入场略快，避免"拖泥带水"。 */
+        #detailPanel.team-panel {
+            --bp-dur-fast: 110ms;
+            --bp-dur: 160ms;
+            --bp-dur-slow: 180ms;
+            --bp-ease-out: cubic-bezier(.2, .8, .2, 1);
+            --bp-ease-in: cubic-bezier(.4, 0, 1, 1);
+        }
+
+        #teamPaneBrowser {
+            position: relative;      /* 菜单的定位上下文 */
+            flex: 1;
+            min-height: 0;
+        }
+
+        /* 外壳顶到面板边缘（对齐参考图）：面板自身不再留内边距，
+           非浏览器视图用等量内边距包裹内容，观感与改造前一致；
+           浏览器视图（导航条 + 网页视口）则铺满整个面板。 */
+        #detailPanel.detail-panel.open.team-panel {
+            padding: 0;
+        }
+
+        #detailPanel .team-panel-pane {
+            min-height: 0;
+        }
+
+        #teamPaneLog,
+        #teamPaneArtifacts,
+        #teamPanePreview {
+            padding: 12px;
+        }
+
+        /* ── 标签条（面板外壳）─────────────────────────────── */
+        .bp-tabbar,
+        .bp-navbar {
+            position: relative;      /* 各自作为所属菜单的定位上下文 */
+        }
+
+        .bp-tabbar {
+            display: flex;
+            flex: 0 0 auto;
+            align-items: center;
+            gap: 6px;
+            height: 40px;
+            padding: 0 8px;
+            border-bottom: 1px solid #ededed;
+            background: #fff;
+        }
+
+        .bp-spacer {
+            flex: 1 1 auto;
+        }
+
+        /* 标签区：标签多了横向滚动，「+」和右侧按钮始终留在原处 */
+        .bp-tabs {
+            display: flex;
+            flex: 0 1 auto;
+            align-items: center;
+            gap: 4px;
+            min-width: 0;
+            max-width: 100%;
+            overflow-x: auto;
+            overflow-y: hidden;
+            scrollbar-width: none;
+            /* 当前标签滚进视野时平滑滑动（reduced-motion 由 css-06 的全局规则改回 auto） */
+            scroll-behavior: smooth;
+        }
+
+        .bp-tabs::-webkit-scrollbar {
+            height: 0;
+        }
+
+        .bp-tabs[hidden] {
+            display: none;
+        }
+
+        .bp-tab {
+            display: inline-flex;
+            flex: 0 1 auto;
+            align-items: center;
+            gap: 6px;
+            min-width: 54px;
+            max-width: 168px;
+            height: 28px;
+            padding: 0 4px 0 8px;
+            border-radius: 8px;
+            background: transparent;
+            color: #5f6368;
+            cursor: pointer;
+            user-select: none;
+            transition: background-color var(--bp-dur) ease, color var(--bp-dur) ease,
+                        transform var(--bp-dur-fast) ease;
+        }
+
+        .bp-tab:hover {
+            background: #f1f3f4;
+        }
+
+        .bp-tab:active {
+            transform: scale(.97);
+        }
+
+        /* 当前标签＝参考图里的浅灰胶囊 */
+        .bp-tab.active {
+            background: #ececec;
+            color: #202124;
+        }
+
+        .bp-tab:focus-visible {
+            outline: 2px solid rgba(116, 102, 255, .45);
+            outline-offset: -2px;
+        }
+
+        /* 新标签：从 0 宽长出来（浏览器习惯），结束由 JS 摘掉类 */
+        .bp-tab.is-entering {
+            overflow: hidden;
+            animation: bp-tab-in var(--bp-dur-slow) var(--bp-ease-out) both;
+        }
+
+        /* 关闭标签：宽度收到 0，后面的标签顺势平移而不是瞬移 */
+        .bp-tab.is-closing {
+            overflow: hidden;
+            transition: width var(--bp-dur) var(--bp-ease-in),
+                        min-width var(--bp-dur) var(--bp-ease-in),
+                        padding var(--bp-dur) var(--bp-ease-in),
+                        margin-right var(--bp-dur) var(--bp-ease-in),
+                        opacity var(--bp-dur-fast) var(--bp-ease-in);
+        }
+
+        /* !important 用于压过 JS 写入的内联起始宽度；margin 抵消 .bp-tabs 的 4px gap */
+        .bp-tab.is-closing.is-closing-active {
+            width: 0 !important;
+            min-width: 0 !important;
+            margin-right: -4px;
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+            opacity: 0;
+        }
+
+        .bp-tab-icon {
+            flex: 0 0 auto;
+            color: currentColor;
+        }
+
+        /* SVG 上 hidden 属性不生效（UA 的 [hidden]{display:none} 只对 HTML 元素可靠），
+           因此图标显隐统一用这个类。 */
+        .bp-tab-icon.is-hidden {
+            display: none;
+        }
+
+        .bp-tab-title {
+            min-width: 0;
+            overflow: hidden;
+            font-size: 13px;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            transition: opacity var(--bp-dur-fast) ease;
+        }
+
+        /* 网页标题变化时轻微淡一下（JS 只在文本真的变了时才加这个类） */
+        .bp-tab.is-title-updating .bp-tab-title {
+            opacity: .45;
+        }
+
+        .bp-tab-close {
+            display: inline-flex;
+            flex: 0 0 auto;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 20px;
+            padding: 0;
+            border: 0;
+            border-radius: 6px;
+            background: transparent;
+            color: #5f6368;
+            cursor: pointer;
+            transition: background-color var(--bp-dur) ease, color var(--bp-dur) ease,
+                        transform var(--bp-dur-fast) ease;
+        }
+
+        .bp-tab-close:active {
+            transform: scale(.88);
+        }
+
+        .bp-tab-close:hover {
+            background: rgba(32, 33, 36, .12);
+        }
+
+        /* ── 浏览器导航条 ──────────────────────────────────── */
+        .bp-navbar {
+            display: flex;
+            flex: 0 0 auto;
+            align-items: center;
+            gap: 2px;
+            height: 40px;
+            padding: 0 8px;
+            border-bottom: 1px solid #f1f1f1;
+            background: #fff;
+        }
+
+        .bp-navbar[hidden] {
+            display: none;
+        }
+
+        .bp-icon-btn {
+            display: inline-flex;
+            flex: 0 0 auto;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            padding: 0;
+            border: 0;
+            border-radius: 8px;
+            background: transparent;
+            color: #5f6368;
+            cursor: pointer;
+            transition: background-color var(--bp-dur) ease, color var(--bp-dur) ease,
+                        transform var(--bp-dur-fast) ease;
+        }
+
+        .bp-icon-btn:hover:not(:disabled) {
+            background: #f1f3f4;
+        }
+
+        .bp-icon-btn:active:not(:disabled) {
+            transform: scale(.92);
+        }
+
+        .bp-icon-btn:disabled {
+            color: #bdc1c6;
+            cursor: default;
+        }
+
+        .bp-icon-btn[aria-pressed="true"],
+        .bp-icon-btn.is-active {
+            background: #ececec;
+            color: #202124;
+        }
+
+        .bp-reload.is-loading svg {
+            animation: bp-spin 1s linear infinite;
+        }
+
+        @keyframes bp-spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* 地址栏：白色胶囊 + 右侧内嵌“前往”箭头（对齐参考图） */
+        .bp-address-wrap {
+            display: flex;
+            flex: 1 1 auto;
+            align-items: center;
+            min-width: 0;
+            height: 28px;
+            margin: 0 4px;
+            padding: 0 3px 0 12px;
+            border: 1px solid #e3e3e3;
+            border-radius: 999px;
+            background: #fff;
+            transition: border-color var(--bp-dur) ease, box-shadow var(--bp-dur) ease;
+        }
+
+        .bp-address-wrap:focus-within {
+            border-color: #c9ccd1;
+            box-shadow: 0 0 0 2px rgba(95, 99, 104, .08);
+        }
+
+        .bp-address {
+            flex: 1 1 auto;
+            min-width: 0;
+            height: 100%;
+            padding: 0;
+            border: 0;
+            background: transparent;
+            color: #202124;
+            font: inherit;
+            font-size: 13px;
+            outline: none;
+        }
+
+        .bp-address::placeholder {
+            color: #9aa0a6;
+        }
+
+        .bp-go {
+            display: inline-flex;
+            flex: 0 0 auto;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            padding: 0;
+            border: 0;
+            border-radius: 999px;
+            background: transparent;
+            color: #5f6368;
+            cursor: pointer;
+            transition: background-color var(--bp-dur) ease, color var(--bp-dur) ease,
+                        transform var(--bp-dur-fast) ease;
+        }
+
+        .bp-go:hover {
+            background: #f1f3f4;
+        }
+
+        .bp-go:active {
+            transform: scale(.9);
+        }
+
+        /* ── 下拉菜单（对齐参考图的菜单行样式）────────────── */
+        .bp-menu {
+            position: absolute;
+            top: calc(100% - 2px);
+            z-index: 40;
+            min-width: 236px;
+            max-height: 320px;
+            padding: 6px;
+            overflow-y: auto;
+            border-radius: 12px;
+            background: #fff;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, .14), 0 1px 3px rgba(0, 0, 0, .08);
+            /* 缩放锚在触发按钮上（视图菜单在左、⋮ 菜单在右），否则动画会"飘" */
+            transform-origin: top left;
+        }
+
+        /* 显隐仍由 hidden 负责（无障碍与覆盖层挂起都依赖它），
+           is-open / is-closing 只叠加动画；退场结束由 JS 摘类并置 hidden。 */
+        .bp-menu.is-open {
+            animation: bp-menu-in var(--bp-dur) var(--bp-ease-out) both;
+        }
+
+        .bp-menu.is-closing {
+            animation: bp-menu-out var(--bp-dur-fast) var(--bp-ease-in) both;
+        }
+
+        /* 菜单项错峰入场：延迟很小，整体仍在一个 .16s 的节拍里 */
+        .bp-menu.is-open .bp-menu-item {
+            animation: bp-item-in 140ms var(--bp-ease-out) both;
+            animation-delay: calc(var(--i, 0) * 10ms);
+        }
+
+        .bp-menu[hidden] {
+            display: none;
+        }
+
+        /* 下面几个元素的 display 是显式声明的，会压过 UA 的 [hidden]{display:none}，
+           因此 hidden 必须逐条兜底（首页状态下标签与「+」靠 hidden 隐藏）。 */
+        .bp-tabs[hidden],
+        .bp-tab[hidden],
+        .bp-icon-btn[hidden],
+        .bp-menu-item[hidden],
+        .bp-home-marker[hidden] {
+            display: none;
+        }
+
+        .bp-home-marker {
+            display: none;      /* 只作 script-1e 的视图锚点，不参与布局 */
+        }
+
+        /* ── 首页（未打开任何视图时的列表）─────────────────── */
+        .bp-home {
+            display: flex;
+            flex: 1 1 auto;
+            flex-direction: column;
+            gap: 2px;
+            min-height: 0;
+            padding: 12px;
+            overflow-y: auto;
+        }
+
+        .bp-home .bp-menu-sep {
+            margin: 8px;
+        }
+
+        /* 首页列表逐行入场（nth-child 计入了分隔条，延迟只是略微错开） */
+        .bp-home .bp-menu-item {
+            animation: bp-row-in 200ms var(--bp-ease-out) both;
+        }
+
+        .bp-home .bp-menu-item:nth-child(1) { animation-delay: 0ms; }
+        .bp-home .bp-menu-item:nth-child(2) { animation-delay: 18ms; }
+        .bp-home .bp-menu-item:nth-child(3) { animation-delay: 36ms; }
+        .bp-home .bp-menu-item:nth-child(4) { animation-delay: 54ms; }
+        .bp-home .bp-menu-item:nth-child(5) { animation-delay: 72ms; }
+        .bp-home .bp-menu-item:nth-child(6) { animation-delay: 90ms; }
+        .bp-home .bp-menu-item:nth-child(7) { animation-delay: 108ms; }
+        .bp-home .bp-menu-item:nth-child(8) { animation-delay: 126ms; }
+
+        .bp-menu-views {
+            left: 8px;
+        }
+
+        .bp-menu-more {
+            right: 8px;
+            transform-origin: top right;
+        }
+
+        .bp-menu-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            height: 38px;
+            padding: 0 10px;
+            border: 0;
+            border-radius: 8px;
+            background: transparent;
+            color: #202124;
+            font: inherit;
+            font-size: 13px;
+            text-align: left;
+            cursor: pointer;
+            transition: background-color var(--bp-dur) ease, color var(--bp-dur) ease;
+        }
+
+        .bp-menu-item:hover,
+        .bp-menu-item:focus-visible {
+            background: #f4f5f7;
+            outline: none;
+        }
+
+        /* 当前视图高亮 */
+        .bp-menu-item.selected {
+            background: #f1f3f4;
+        }
+
+        .bp-menu-icon {
+            flex: 0 0 auto;
+            color: #5f6368;
+        }
+
+        .bp-menu-label {
+            flex: 1 1 auto;
+            min-width: 0;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .bp-menu-sep {
+            height: 1px;
+            margin: 6px 8px;
+            background: #f1f3f4;
+        }
+
+        .bp-kbd {
+            flex: 0 0 auto;
+            padding: 2px 8px;
+            border-radius: 999px;
+            background: #f1f3f4;
+            color: #7a7f87;
+            font-size: 11px;
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* ── 视口（被 CEF 覆盖层占据）与空状态 ────────────── */
+        .bp-viewport {
+            position: relative;
+            flex: 1 1 auto;
+            min-height: 0;
+            overflow: hidden;
+            background: #fff;
+        }
+
+        .bp-placeholder {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 18px;
+            color: #8a90a4;
+            font-size: 12px;
+            line-height: 1.7;
+            text-align: center;
+        }
+
+        /* 必须显式处理：上面的 display:flex 会压过 [hidden] 的 UA display:none，
+           否则菜单展开（覆盖层挂起）时提示文案会透出来。 */
+        .bp-placeholder[hidden] {
+            display: none;
+        }
+
+        .bp-placeholder strong {
+            color: #5c6478;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .bp-placeholder-orb {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background:
+                radial-gradient(circle at 35% 30%, rgba(255,255,255,.95), transparent 60%),
+                linear-gradient(150deg, rgba(132,111,255,.35), rgba(120,132,168,.18));
+            box-shadow: inset 0 1px rgba(255,255,255,.9), 0 8px 20px rgba(65,60,119,.12);
+        }
+
+        /* ── 视图内容入场 ──────────────────────────────────────
+           三块内容面用位移 + 淡入；浏览器面板只淡入——它是 CEF 覆盖层的锚点，
+           位移会让 #teamBrowserViewport 的矩形逐帧变化，覆盖层跟不上就会"脱节"。 */
+        #teamPaneLog > *,
+        #teamPaneArtifacts > *,
+        #teamPanePreview > * {
+            animation: bp-pane-in var(--bp-dur-slow) var(--bp-ease-out) both;
+        }
+
+        #teamPaneBrowser > .bp-navbar {
+            animation: bp-fade-in var(--bp-dur) var(--bp-ease-out) both;
+        }
+
+        /* ── 关键帧 ──────────────────────────────────────────── */
+        @keyframes bp-tab-in {
+            from {
+                max-width: 0;
+                padding-left: 0;
+                padding-right: 0;
+                opacity: 0;
+            }
+            to {
+                max-width: 168px;
+                padding-left: 8px;
+                padding-right: 4px;
+                opacity: 1;
+            }
+        }
+
+        /* 与 css-06 的 team-menu-in 同形（位移 + 轻微缩放 + 淡入），保持全站观感一致 */
+        @keyframes bp-menu-in {
+            from { opacity: 0; transform: translateY(-4px) scale(.97); }
+            to { opacity: 1; transform: none; }
+        }
+
+        @keyframes bp-menu-out {
+            from { opacity: 1; transform: none; }
+            to { opacity: 0; transform: scale(.98); }
+        }
+
+        @keyframes bp-item-in {
+            from { opacity: 0; transform: translateY(-3px); }
+            to { opacity: 1; transform: none; }
+        }
+
+        @keyframes bp-row-in {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: none; }
+        }
+
+        @keyframes bp-pane-in {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: none; }
+        }
+
+        @keyframes bp-fade-in {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .bp-handoff-complete {
+            flex: 0 0 auto;
+            min-height: 32px;
+            border: 0;
+            border-radius: 7px;
+            padding: 0 12px;
+            background: #146ef5;
+            color: #fff;
+            font: 600 13px/1 system-ui, "Microsoft YaHei", sans-serif;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(20,110,245,.24);
+        }
+        .bp-handoff-complete[hidden] { display: none !important; }
+        .bp-handoff-complete:disabled { opacity: .58; cursor: wait; }

@@ -1,0 +1,63 @@
+{
+  "name": "@moonya/harness-client-connection",
+  "description": "Authenticated RPC transport, generation lifecycle, and browser fixture",
+  "version": "0.1.5-rc.2",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deepseek-ai/moonya-agent-runtime.git",
+    "directory": "packages/client/connection"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./client": {
+      "types": "./lib/types/client/index.d.ts",
+      "default": "./lib/client.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "client": {
+      "inject": [],
+      "platform": "web",
+      "immediately": true
+    }
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@moonya/harness-credentials": "workspace:^",
+    "@deepseek-ai/schemastery": "workspace:^",
+    "zod": "^4.4.3"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/client.js",
+    "lib/types/**/*.d.ts"
+  ],
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "workspace:^"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "workspace:^",
+    "@moonya/harness-api-session-controller": "workspace:^",
+    "@moonya/harness-attachment": "workspace:^",
+    "@moonya/harness-brand": "workspace:^",
+    "@moonya/harness-commands": "workspace:^",
+    "@moonya/harness-host-directory-picker": "workspace:^",
+    "@moonya/harness-host-webserver": "workspace:^",
+    "@moonya/harness-llm": "workspace:^",
+    "@moonya/harness-session": "workspace:^",
+    "@moonya/harness-settings": "workspace:^",
+    "@moonya/harness-tool-todo": "workspace:^",
+    "@moonya/harness-util-values": "workspace:^"
+  }
+}

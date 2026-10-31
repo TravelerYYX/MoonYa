@@ -1,0 +1,5 @@
+{
+  "name": "moonya-frontend", "private": true, "type": "module",
+  "scripts": { "build": "node build.mjs", "test": "node build.mjs && dotnet build ../MoonYa-Win/MoonYa-Solution/MoonYa.FrontendSmoke/MoonYa.FrontendSmoke.csproj -v:quiet && node --test tests/*.test.mjs", "benchmark:process": "node scripts/benchmark-process.mjs" },
+  "devDependencies": { "playwright-core": "1.63.0" }
+}

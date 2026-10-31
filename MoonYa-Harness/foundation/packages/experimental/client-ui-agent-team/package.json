@@ -1,0 +1,85 @@
+{
+  "name": "@moonya/harness-experimental-client-ui-agent-team",
+  "description": "Web Agent Teams roster, task board, and teammate navigation",
+  "version": "0.1.5-rc.2",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deepseek-ai/moonya-agent-runtime.git",
+    "directory": "packages/experimental/client-ui-agent-team"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./client": {
+      "types": "./lib/types/client/index.d.ts",
+      "default": "./lib/client.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "client": {
+      "inject": [
+        "@moonya/harness-api-remotes",
+        "@moonya/harness-api-session-controller",
+        "@moonya/harness-client-locale",
+        "@moonya/harness-client-ui-conversation",
+        "@moonya/harness-client-ui-primitives"
+      ],
+      "platform": "web"
+    }
+  },
+  "scripts": {
+    "bundle": "tsdown",
+    "watch": "tsdown --watch"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "react": "^18.2.0"
+  },
+  "peerDependencies": {
+    "@moonya/harness-api-remotes": "workspace:^",
+    "@moonya/harness-api-session-controller": "workspace:^",
+    "@moonya/harness-client-locale": "workspace:^",
+    "@moonya/harness-client-ui-conversation": "workspace:^",
+    "@moonya/harness-client-ui-primitives": "workspace:^",
+    "@moonya/harness-client-ui-renderer": "workspace:^",
+    "@moonya/harness-client-ui-session": "workspace:^",
+    "@moonya/harness-client-ui-slots": "workspace:^",
+    "@moonya/harness-experimental-agent-team": "workspace:^",
+    "@moonya/harness-session": "workspace:^",
+    "@moonya/harness-typert-protocol": "workspace:^",
+    "@deepseek-ai/cordis": "workspace:^"
+  },
+  "devDependencies": {
+    "@moonya/harness-api-remotes": "workspace:^",
+    "@moonya/harness-api-session-controller": "workspace:^",
+    "@moonya/harness-client-locale": "workspace:^",
+    "@moonya/harness-client-test-runtime": "workspace:^",
+    "@moonya/harness-client-ui-conversation": "workspace:^",
+    "@moonya/harness-client-ui-primitives": "workspace:^",
+    "@moonya/harness-client-ui-renderer": "workspace:^",
+    "@moonya/harness-client-ui-session": "workspace:^",
+    "@moonya/harness-client-ui-slots": "workspace:^",
+    "@moonya/harness-experimental-agent-team": "workspace:^",
+    "@moonya/harness-session": "workspace:^",
+    "@moonya/harness-typert-protocol": "workspace:^",
+    "@testing-library/react": "^16.1.0",
+    "@types/react": "~18.3.1",
+    "@deepseek-ai/cordis": "workspace:^",
+    "react-dom": "^18.2.0"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/client.js",
+    "lib/types/**/*.d.ts"
+  ]
+}

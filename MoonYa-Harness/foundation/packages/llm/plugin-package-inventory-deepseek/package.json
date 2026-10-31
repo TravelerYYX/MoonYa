@@ -1,0 +1,62 @@
+{
+  "name": "@moonya/harness-plugin-package-inventory-deepseek",
+  "description": "Active Loader-backed plugin package inventory for official DeepSeek LLM API requests",
+  "version": "0.1.5-rc.2",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deepseek-ai/moonya-agent-runtime.git",
+    "directory": "packages/llm/plugin-package-inventory-deepseek"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./types": {
+      "types": "./lib/types/types.d.ts",
+      "default": "./lib/types/types.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/types/**/*.js",
+    "lib/types/**/*.d.ts"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@moonya/harness-brand": "workspace:^",
+    "@deepseek-ai/schemastery": "workspace:^"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "workspace:^",
+    "@deepseek-ai/cordis-plugin-loader": "workspace:^",
+    "@moonya/harness-agent": "workspace:^",
+    "@moonya/harness-agent-presets": "workspace:^",
+    "@moonya/harness-deepseek-llm-api-extensions": "workspace:^",
+    "@moonya/harness-session": "workspace:^"
+  },
+  "peerDependenciesMeta": {
+    "@moonya/harness-agent-presets": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "workspace:^",
+    "@deepseek-ai/cordis-plugin-include": "workspace:^",
+    "@deepseek-ai/cordis-plugin-loader": "workspace:^",
+    "@moonya/harness-agent": "workspace:^",
+    "@moonya/harness-agent-presets": "workspace:^",
+    "@moonya/harness-deepseek-llm-api-extensions": "workspace:^",
+    "@moonya/harness-scope": "workspace:^",
+    "@moonya/harness-session": "workspace:^",
+    "@moonya/harness-session-projection": "workspace:^"
+  }
+}

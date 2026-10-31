@@ -1,0 +1,19 @@
+{
+  "license": "MIT",
+  "source": "deepseek-harness-master",
+  "adaptation": "Per-session turn snapshot queue and whole-file capture design; compare.ts adapted to ESM JavaScript. MoonYa adds raw-byte persistence, non-Git recording, undo and migration.",
+  "files": [
+    {
+      "path": "packages/deliverables/workspace-changes/src/compare.ts",
+      "sha256": "6ecc20f8b53909a95be8cb2d8135325f78a7fc5b862f5cf04e8f71e92d01c2aa"
+    },
+    {
+      "path": "packages/deliverables/workspace-changes/src/capture.ts",
+      "sha256": "d42b58c5bb8834c0f83509bcfa5e48933e1f720fb7267d212d706ee9cb8c1d26"
+    },
+    {
+      "path": "packages/deliverables/workspace-changes/src/recorder.ts",
+      "sha256": "3c4b13be0fd6df6aef1a81a2889fb7653ab263e7bd5b09de71293370cbf85928"
+    }
+  ]
+}

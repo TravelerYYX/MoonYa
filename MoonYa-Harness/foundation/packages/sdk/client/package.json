@@ -1,0 +1,43 @@
+{
+  "name": "@moonya/harness-sdk-client",
+  "description": "TypeScript client SDK for driving a MoonYa Agent Runtime runtime subprocess over stdio JSON-RPC: the DeepSeekHarness high-level turns API and the lower-level HarnessClient",
+  "version": "0.1.5-rc.2",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deepseek-ai/moonya-agent-runtime.git",
+    "directory": "packages/sdk/client"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/types/**/*.d.ts"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@moonya/harness": "workspace:*"
+  },
+  "peerDependencies": {
+    "@moonya/harness-llm": "workspace:^",
+    "@moonya/harness-sdk-protocol": "workspace:^",
+    "@moonya/harness-session": "workspace:^",
+    "@deepseek-ai/cordis": "workspace:^"
+  },
+  "devDependencies": {
+    "@moonya/harness-llm": "workspace:^",
+    "@moonya/harness-sdk-protocol": "workspace:^",
+    "@moonya/harness-session": "workspace:^",
+    "@deepseek-ai/cordis": "workspace:^"
+  }
+}

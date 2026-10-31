@@ -1,0 +1,52 @@
+{
+  "name": "@moonya/harness-host-directory-picker-auto",
+  "description": "Adaptive chooser of the directory-picker seam: resolves the host situation at boot and mounts the native or browse backend for the MoonYa Agent Runtime web GUI host",
+  "version": "0.1.5-rc.2",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deepseek-ai/moonya-agent-runtime.git",
+    "directory": "packages/host/directory-picker-auto"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/types/**/*.d.ts"
+  ],
+  "license": "MIT",
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "workspace:^",
+    "@deepseek-ai/cordis-plugin-loader": "workspace:^",
+    "@moonya/harness-client-ui-directory-picker-browse": "workspace:^",
+    "@moonya/harness-client-ui-directory-picker-native": "workspace:^",
+    "@moonya/harness-host-directory-picker-browse": "workspace:^",
+    "@moonya/harness-host-directory-picker-native": "workspace:^",
+    "@moonya/harness-host-webserver": "workspace:^"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "workspace:^",
+    "@deepseek-ai/cordis-plugin-include": "workspace:^",
+    "@deepseek-ai/cordis-plugin-loader": "workspace:^",
+    "@moonya/harness-client-ui-directory-picker-browse": "workspace:^",
+    "@moonya/harness-client-ui-directory-picker-native": "workspace:^",
+    "@moonya/harness-host-directory-picker": "workspace:^",
+    "@moonya/harness-host-directory-picker-browse": "workspace:^",
+    "@moonya/harness-host-directory-picker-native": "workspace:^",
+    "@moonya/harness-host-webserver": "workspace:^"
+  },
+  "dependencies": {
+    "@moonya/harness-launch-environment": "workspace:^"
+  }
+}

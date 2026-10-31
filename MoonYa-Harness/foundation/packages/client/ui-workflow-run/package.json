@@ -1,0 +1,72 @@
+{
+  "name": "@moonya/harness-client-ui-workflow-run",
+  "description": "Durable workflow-run Conversation Node and nested member disclosure for dsh web",
+  "version": "0.1.5-rc.2",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deepseek-ai/moonya-agent-runtime.git",
+    "directory": "packages/client/ui-workflow-run"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./client": {
+      "types": "./lib/types/client/index.d.ts",
+      "default": "./lib/client.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "client": {
+      "inject": [
+        "@moonya/harness-api-session-controller",
+        "@moonya/harness-client-locale",
+        "@moonya/harness-client-ui-chat",
+        "@moonya/harness-client-ui-conversation",
+        "@moonya/harness-client-ui-renderer",
+        "@moonya/harness-client-ui-session"
+      ],
+      "platform": "web"
+    }
+  },
+  "scripts": {
+    "bundle": "tsdown",
+    "watch": "tsdown --watch"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/client.js",
+    "lib/types/**/*.d.ts"
+  ],
+  "license": "MIT",
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "workspace:^"
+  },
+  "devDependencies": {
+    "@moonya/harness-api-session-controller": "workspace:^",
+    "@moonya/harness-client-locale": "workspace:^",
+    "@moonya/harness-client-store": "workspace:^",
+    "@moonya/harness-client-test-runtime": "workspace:^",
+    "@moonya/harness-client-ui-chat": "workspace:^",
+    "@moonya/harness-client-ui-conversation": "workspace:^",
+    "@moonya/harness-client-ui-primitives": "workspace:^",
+    "@moonya/harness-client-ui-slots": "workspace:^",
+    "@moonya/harness-client-ui-renderer": "workspace:^",
+    "@moonya/harness-client-ui-session": "workspace:^",
+    "@moonya/harness-session": "workspace:^",
+    "@moonya/harness-tool-workflow": "workspace:^",
+    "@moonya/harness-workflow": "workspace:^",
+    "@types/react": "~18.3.1",
+    "@deepseek-ai/cordis": "workspace:^",
+    "react": "^18.2.0"
+  }
+}

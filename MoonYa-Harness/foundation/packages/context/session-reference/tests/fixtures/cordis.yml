@@ -1,0 +1,17 @@
+- name: '@moonya/harness-session'
+- name: '@moonya/harness-system-prompt'
+- name: '@moonya/harness-tools'
+- name: '@moonya/harness-fs-local'
+- name: '@moonya/harness-tool-fs'
+- name: '@moonya/harness-session-query-sqlite'
+  config:
+    path: ':memory:'
+    openAt: never
+- name: '@moonya/harness-session-reference'
+  config:
+    maxReferenceBytes: 360
+- name: './source-session.ts'
+- name: '@moonya/harness-spill-local'
+  config:
+    root: '{{spillRoot}}'
+    cleanupPeriodDays: 0

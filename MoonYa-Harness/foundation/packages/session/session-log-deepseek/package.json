@@ -1,0 +1,64 @@
+{
+  "name": "@moonya/harness-session-log-deepseek",
+  "description": "Incremental lossless session-log request extension for the official DeepSeek LLM API",
+  "version": "0.1.5-rc.2",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deepseek-ai/moonya-agent-runtime.git",
+    "directory": "packages/session/session-log-deepseek"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./invariant": {
+      "types": "./lib/types/invariant.d.ts",
+      "default": "./lib/invariant.js"
+    },
+    "./types": {
+      "types": "./lib/types/types.d.ts",
+      "default": "./lib/types/types.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/invariant.js",
+    "lib/types/**/*.js",
+    "lib/types/**/*.d.ts"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@moonya/harness-brand": "workspace:^",
+    "@moonya/harness-util-values": "workspace:^",
+    "@deepseek-ai/schemastery": "workspace:^"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "workspace:^",
+    "@moonya/harness-deepseek-llm-api-extensions": "workspace:^",
+    "@moonya/harness-invariants": "workspace:^",
+    "@moonya/harness-session": "workspace:^"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "workspace:^",
+    "@deepseek-ai/cordis-plugin-include": "workspace:^",
+    "@deepseek-ai/cordis-plugin-loader": "workspace:^",
+    "@moonya/harness-command-feedback": "workspace:^",
+    "@moonya/harness-deepseek-llm-api-extensions": "workspace:^",
+    "@moonya/harness-invariants": "workspace:^",
+    "@moonya/harness-llm": "workspace:^",
+    "@moonya/harness-llm-deepseek": "workspace:^",
+    "@moonya/harness-llm-mock-server": "workspace:^",
+    "@moonya/harness-message-feedback": "workspace:^",
+    "@moonya/harness-session": "workspace:^",
+    "@moonya/harness-session-persistence-jsonl": "workspace:^"
+  }
+}

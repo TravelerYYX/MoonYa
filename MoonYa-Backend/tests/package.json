@@ -1,0 +1,5 @@
+{
+  "private": true,
+  "scripts": { "test": "npm --prefix ../../MoonYa-Frontend test", "test:local-history": "node --test history_store_browser_test.js", "test:page": "node --test full_page_boot_test.js" },
+  "devDependencies": { "playwright-core": "^1.63.0" }
+}

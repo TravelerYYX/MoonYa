@@ -1,0 +1,72 @@
+{
+  "name": "@moonya/harness-llm-retry",
+  "description": "Provider-routed LLM request retry policy for the MoonYa Agent Runtime",
+  "version": "0.1.5-rc.2",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deepseek-ai/moonya-agent-runtime.git",
+    "directory": "packages/llm/llm-retry"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./invariant": {
+      "types": "./lib/types/invariant.d.ts",
+      "default": "./lib/invariant.js"
+    },
+    "./types": {
+      "types": "./lib/types/types.d.ts",
+      "default": "./lib/types/types.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/invariant.js",
+    "lib/types/**/*.js",
+    "lib/types/**/*.d.ts"
+  ],
+  "license": "MIT",
+  "peerDependencies": {
+    "@moonya/harness-brand": "workspace:^",
+    "@moonya/harness-agent": "workspace:^",
+    "@moonya/harness-invariants": "workspace:^",
+    "@moonya/harness-llm": "workspace:^",
+    "@moonya/harness-session": "workspace:^",
+    "@moonya/harness-timeout": "workspace:^",
+    "@deepseek-ai/cordis": "workspace:^",
+    "@moonya/harness-session-projection": "workspace:^"
+  },
+  "dependencies": {
+    "@deepseek-ai/schemastery": "workspace:^",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@moonya/harness-brand": "workspace:^",
+    "@deepseek-ai/cordis-plugin-include": "workspace:^",
+    "@deepseek-ai/cordis-plugin-loader": "workspace:^",
+    "@moonya/harness-agent": "workspace:^",
+    "@moonya/harness-agent-loop": "workspace:^",
+    "@moonya/harness-agent-loop-testkit": "workspace:^",
+    "@moonya/harness-invariants": "workspace:^",
+    "@moonya/harness-llm": "workspace:^",
+    "@moonya/harness-llm-deepseek": "workspace:^",
+    "@moonya/harness-llm-mock-server": "workspace:^",
+    "@moonya/harness-session": "workspace:^",
+    "@moonya/harness-session-projection": "workspace:^",
+    "@moonya/harness-session-persistence-jsonl": "workspace:^",
+    "@moonya/harness-system-prompt": "workspace:^",
+    "@moonya/harness-timeout": "workspace:^",
+    "@moonya/harness-tools": "workspace:^",
+    "@deepseek-ai/cordis": "workspace:^",
+    "@moonya/harness-session-projection": "workspace:^"
+  }
+}

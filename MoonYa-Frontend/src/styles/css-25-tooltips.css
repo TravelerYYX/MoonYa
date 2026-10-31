@@ -1,0 +1,26 @@
+.moonya-tooltip {
+    position: fixed;
+    inset: auto;
+    margin: 0;
+    box-sizing: border-box;
+    width: max-content;
+    max-width: min(360px, calc(100vw - 16px));
+    max-height: calc(100vh - 16px);
+    overflow: hidden;
+    padding: 6px 12px;
+    border: 0;
+    border-radius: 10px;
+    background: #252628;
+    color: #fff;
+    font-family: var(--ui-font, "Segoe UI", "Microsoft YaHei", sans-serif);
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 18px;
+    text-align: left;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    box-shadow: 0 4px 12px rgb(0 0 0 / 18%);
+    pointer-events: none;
+    user-select: none;
+}
+.moonya-tooltip::backdrop { background: transparent; pointer-events: none; }

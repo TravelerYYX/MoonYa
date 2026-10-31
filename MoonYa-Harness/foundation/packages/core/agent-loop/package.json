@@ -1,0 +1,67 @@
+{
+  "name": "@moonya/harness-agent-loop",
+  "description": "The concrete agent loop plugin for the MoonYa Agent Runtime",
+  "version": "0.1.5-rc.2",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deepseek-ai/moonya-agent-runtime.git",
+    "directory": "packages/core/agent-loop"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./invariant": {
+      "types": "./lib/types/invariant.d.ts",
+      "default": "./lib/invariant.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/invariant.js",
+    "lib/types/**/*.d.ts"
+  ],
+  "license": "MIT",
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "workspace:^",
+    "@moonya/harness-agent": "workspace:^",
+    "@moonya/harness-invariants": "workspace:^",
+    "@moonya/harness-llm": "workspace:^",
+    "@moonya/harness-scope": "workspace:^",
+    "@moonya/harness-session": "workspace:^",
+    "@moonya/harness-session-persistence": "workspace:^",
+    "@moonya/harness-session-projection": "workspace:^",
+    "@moonya/harness-settings": "workspace:^",
+    "@moonya/harness-system-prompt": "workspace:^",
+    "@moonya/harness-tools": "workspace:^"
+  },
+  "dependencies": {
+    "@moonya/harness-brand": "workspace:^",
+    "@moonya/harness-util-values": "workspace:^",
+    "@deepseek-ai/schemastery": "workspace:^",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "workspace:^",
+    "@moonya/harness-llm-pi-ai": "workspace:^",
+    "@moonya/harness-agent": "workspace:^",
+    "@moonya/harness-invariants": "workspace:^",
+    "@moonya/harness-llm": "workspace:^",
+    "@moonya/harness-scope": "workspace:^",
+    "@moonya/harness-session": "workspace:^",
+    "@moonya/harness-session-persistence": "workspace:^",
+    "@moonya/harness-session-persistence-jsonl": "workspace:^",
+    "@moonya/harness-session-projection": "workspace:^",
+    "@moonya/harness-settings": "workspace:^",
+    "@moonya/harness-system-prompt": "workspace:^",
+    "@moonya/harness-tools": "workspace:^"
+  }
+}

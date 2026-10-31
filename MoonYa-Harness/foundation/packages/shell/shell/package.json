@@ -1,0 +1,41 @@
+{
+  "name": "@moonya/harness-shell",
+  "description": "Abstract bash executor seam (ctx.shell) for the MoonYa Agent Runtime",
+  "version": "0.1.5-rc.2",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deepseek-ai/moonya-agent-runtime.git",
+    "directory": "packages/shell/shell"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/types/**/*.d.ts"
+  ],
+  "license": "MIT",
+  "peerDependencies": {
+    "@moonya/harness-subprocess": "workspace:^",
+    "@moonya/harness-sandbox": "workspace:^",
+    "@deepseek-ai/cordis": "workspace:^",
+    "@moonya/harness-settings": "workspace:^"
+  },
+  "devDependencies": {
+    "@moonya/harness-subprocess": "workspace:^",
+    "@moonya/harness-sandbox": "workspace:^",
+    "@deepseek-ai/cordis": "workspace:^",
+    "@moonya/harness-settings": "workspace:^"
+  }
+}

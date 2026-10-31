@@ -1,0 +1,125 @@
+/* ══ 外观页横屏布局 + 内置主题卡片 ══════════════════════════════
+   只作用于「外观」子页：settings-modal.js 在 showSubView('settingsAppearanceView')
+   时给 #settingsModalBox 挂 .settings-modal--wide，返回主视图时摘掉。
+   窄屏（< 860px）这层保持 display:block，与改造前的单列完全一致 ——
+   tests/theme.test.mjs 的 360px 断言的正是那套结构，所以不会被打破。 */
+
+.settings-modal.settings-modal--wide {
+    width: min(920px, calc(100vw - 32px));
+    max-height: 88vh;
+}
+
+/* 窄屏：单列（等价于改造前） */
+.appearance-layout {
+    display: block;
+}
+
+@media (min-width: 860px) {
+    .settings-modal--wide .appearance-layout {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+        align-content: start;
+    }
+
+    /* 栅格间隙已负责间距，避免与卡片的 margin-bottom 叠加 */
+    .settings-modal--wide .appearance-layout > .settings-sub-card {
+        margin-bottom: 0;
+    }
+
+    /* 需要整行宽度的卡（tagline / 自定义颜色 / 全部主题） */
+    .settings-modal--wide .appearance-layout > [data-span="2"] {
+        grid-column: 1 / -1;
+    }
+}
+
+/* ── 主题卡片：内置来源徽标 + 下载圆环 ─────────────────────── */
+
+.appearance-theme-card {
+    position: relative;
+}
+
+.appearance-theme-card[data-builtin] .appearance-theme-preview {
+    cursor: pointer;
+}
+
+.appearance-theme-badge {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    z-index: 2;
+    padding: 1px 7px;
+    border-radius: 99px;
+    background: #000000a6;
+    color: #ffffff;
+    font-size: 10px;
+    line-height: 1.7;
+    pointer-events: none;
+}
+
+.appearance-theme-card[data-state="downloading"] .appearance-theme-badge,
+.appearance-theme-card[data-state="error"] .appearance-theme-badge {
+    display: none;
+}
+
+/* 下载中/失败时盖住整张卡片：半透明遮罩 + 居中圆环（环内是百分比） */
+.appearance-theme-progress {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    display: none;
+    place-items: center;
+    border-radius: inherit;
+    background: #00000066;
+}
+
+.appearance-theme-card[data-state="downloading"] .appearance-theme-progress,
+.appearance-theme-card[data-state="error"] .appearance-theme-progress {
+    display: grid;
+}
+
+.appearance-theme-progress svg {
+    grid-area: 1 / 1;
+    width: 52px;
+    height: 52px;
+    transform: rotate(-90deg);
+}
+
+.appearance-ring-track {
+    fill: none;
+    stroke: #ffffff45;
+    stroke-width: 3;
+}
+
+.appearance-ring-arc {
+    fill: none;
+    stroke: #ffffff;
+    stroke-width: 3;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.2s linear;
+}
+
+.appearance-theme-percent {
+    grid-area: 1 / 1;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+}
+
+/* 失败态不画环，只在遮罩上给一个可点的「重试」 */
+.appearance-theme-card[data-state="error"] .appearance-theme-progress svg {
+    display: none;
+}
+
+.appearance-theme-card[data-state="error"] .appearance-theme-percent {
+    font-size: 12.5px;
+    font-weight: 500;
+}
+
+/* 旧客户端没有 mediaToken / 下载桥：内置卡置灰，避免点了没反应 */
+.appearance-theme-card[data-state="unavailable"] .appearance-theme-preview {
+    opacity: 0.45;
+    cursor: not-allowed;
+}

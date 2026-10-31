@@ -1,0 +1,8 @@
+.env
+.env.*
+tests
+logs
+temp
+uploads
+downloads
+*.zip

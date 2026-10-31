@@ -1,0 +1,39 @@
+/* Upload progress; file card layouts live in css-35-attachments.css. */
+.upload-progress {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--theme-border, #e8e8e8);
+    box-sizing: border-box;
+}
+        /* 环形进度条 */
+        .progress-ring {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .progress-ring-circle {
+            stroke: #e8e8e8;
+            stroke-width: 2;
+            fill: none;
+        }
+
+        .progress-ring-circle-active {
+            stroke: var(--theme-accent-text, #1890ff);
+            stroke-width: 2;
+            fill: none;
+            stroke-linecap: round;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+            transition: stroke-dashoffset 0.1s;
+        }
+
+        /* 进度百分比 */
+        .progress-text {
+            font-size: 10px;
+            color: var(--theme-accent-text, #1890ff);
+            font-weight: 500;
+            z-index: 5;
+        }

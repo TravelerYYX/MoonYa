@@ -1,0 +1,31 @@
+{
+  "name": "@moonya/agent-runtime",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.19.0"
+  },
+  "scripts": {
+    "build:subagents": "node scripts/build-subagent-runtime.mjs",
+    "start": "node src/server.mjs",
+    "test": "node --test tests/*.test.mjs"
+  },
+  "pkg": {
+    "scripts": [
+      "src/worker.cjs"
+    ],
+    "assets": [
+      "package.json",
+      "src/subagent-source.json",
+      "src/subagent-LICENSE.txt",
+      "node_modules/koffi/**/*",
+      "node_modules/@koromix/**/*"
+    ]
+  },
+  "dependencies": {
+    "diff": "9.0.0",
+    "ignore": "7.0.5",
+    "smol-toml": "^1.9.0"
+  }
+}

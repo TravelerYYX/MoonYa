@@ -1,0 +1,88 @@
+/** The standalone SDK-minimal bundle's complete declared Cordis tree. */
+
+import { readFileSync } from 'node:fs'
+import { resolve } from 'node:path'
+import { fileURLToPath } from 'node:url'
+import * as yaml from 'js-yaml'
+import { describe, expect, it } from 'vitest'
+import { entryListSchema } from '@deepseek-ai/cordis-plugin-include'
+
+function packageName(specifier: string): string {
+  return specifier.startsWith('@') ? specifier.split('/').slice(0, 2).join('/') : specifier.split('/')[0]!
+}
+
+describe('dsh-sdk-minimal bundle', () => {
+  it('declares one standalone allowlisted tree with every row dependency', () => {
+    const root = fileURLToPath(new URL('..', import.meta.url))
+    const manifest = JSON.parse(readFileSync(resolve(root, 'package.json'), 'utf8')) as {
+      dependencies?: Record<string, string>
+      dsh?: { bundle?: { patch?: string } }
+    }
+    expect(manifest.dsh?.bundle?.patch).toBe('./cordis.patch.yml')
+    const patches = yaml.load(
+      readFileSync(resolve(root, manifest.dsh!.bundle!.patch!), 'utf8'),
+      { schema: entryListSchema },
+    ) as Array<{ insert?: Array<{ id?: string; inject?: string[]; name?: string; config?: Record<string, unknown>; disabled?: unknown }> }>
+    expect(patches).toHaveLength(1)
+    const rows = patches[0]?.insert ?? []
+    expect(rows.map(row => [row.id, row.name])).toEqual([
+      ['sdk-app-startup', '@moonya/harness-sdk-app'],
+      ['sdk-jsonrpc-server', '@moonya/harness-sdk-jsonrpc-server'],
+      ['deepseek-llm-api-extensions', '@moonya/harness-deepseek-llm-api-extensions'],
+      ['session-log-deepseek', '@moonya/harness-session-log-deepseek'],
+      ['plugin-package-inventory-deepseek', '@moonya/harness-plugin-package-inventory-deepseek'],
+      ['llm-deepseek', '@moonya/harness-llm-deepseek'],
+      ['sandbox', '@moonya/harness-sandbox-local'],
+      ['session-projection', '@moonya/harness-session-projection'],
+      ['sandbox-policy', '@moonya/harness-sandbox-policy'],
+      ['subprocess', '@moonya/harness-subprocess-local'],
+      ['pty', '@moonya/harness-terminal'],
+      ['terminal-bash', '@moonya/harness-terminal-bash'],
+      ['terminal-pwsh', '@moonya/harness-terminal-bash'],
+      ['timer', '@deepseek-ai/cordis-plugin-timer'],
+      ['llm', '@moonya/harness-llm'],
+      ['session', '@moonya/harness-session'],
+      ['session-title', '@moonya/harness-session-title'],
+      ['system-prompt', '@moonya/harness-system-prompt'],
+      ['tools', '@moonya/harness-tools'],
+      ['agent', '@moonya/harness-agent'],
+      ['llm-retry', '@moonya/harness-llm-retry'],
+      ['jobs', '@moonya/harness-jobs-local'],
+      ['invariants', '@moonya/harness-invariants'],
+      ['session-invariant', '@moonya/harness-session/invariant'],
+      ['agent-invariant', '@moonya/harness-agent/invariant'],
+      ['scope-invariant', '@moonya/harness-scope/invariant'],
+      ['agent-loop-invariant', '@moonya/harness-agent-loop/invariant'],
+      ['agent-loop', '@moonya/harness-agent-loop'],
+      ['persistent-bash', '@moonya/harness-tool-bash-persistent'],
+      ['persistent-pwsh', '@moonya/harness-tool-pwsh-persistent'],
+      ['sessions', '@moonya/harness-session-persistence-jsonl'],
+    ])
+    expect(rows.find(row => row.id === 'sdk-app-startup')?.config).toEqual({ profile: 'sdk-minimal' })
+    expect(rows.find(row => row.id === 'sdk-jsonrpc-server')).toMatchObject({
+      inject: ['sdkAppStartup', 'loader'],
+      config: { maxTokensAsSuccess: false },
+    })
+    expect(rows.find(row => row.id === 'llm-deepseek')?.config).toEqual({
+      apiKeyEnv: 'DEEPSEEK_API_KEY',
+      defaultContextWindow: { __jsExpr: 'Number(process.env.DSH_CONTEXT_WINDOW ?? 1000000)' },
+      streamIdleTimeoutMs: 172800000,
+    })
+    expect(rows.find(row => row.id === 'system-prompt')?.config).toEqual({
+      includeHarnessIdentity: false,
+      includeRuntimeContext: false,
+      personaPrefix: { __jsExpr: "process.env.DSH_SYSTEM_PROMPT ?? 'You are a helpful software engineer assistant.'" },
+    })
+    expect(rows.find(row => row.id === 'agent-loop')?.config).toEqual({ agents: [] })
+    expect(rows.find(row => row.id === 'terminal-bash')).toMatchObject({
+      disabled: { __jsExpr: "process.platform === 'win32'" },
+    })
+    expect(rows.find(row => row.id === 'terminal-pwsh')).toMatchObject({
+      disabled: { __jsExpr: "process.platform !== 'win32'" },
+      config: { shellDialect: 'pwsh', timeoutMs: 300000 },
+    })
+    expect(Object.keys(manifest.dependencies ?? {}).sort()).toEqual(
+      [...new Set(rows.map(row => row.name).filter((name): name is string => name !== undefined).map(packageName))].sort(),
+    )
+  })
+})

@@ -1,0 +1,66 @@
+{
+  "name": "@moonya/harness-acp",
+  "description": "Automation-only Agent Client Protocol server for driving MoonYa Agent Runtime agents over JSON-RPC stdio",
+  "version": "0.1.5-rc.2",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deepseek-ai/moonya-agent-runtime.git",
+    "directory": "packages/acp/acp"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/types/**/*.d.ts"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@agentclientprotocol/sdk": "1.4.0",
+    "@moonya/harness-brand": "workspace:^",
+    "@deepseek-ai/schemastery": "workspace:^"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "workspace:^",
+    "@moonya/harness-agent": "workspace:^",
+    "@moonya/harness-attachment": "workspace:^",
+    "@moonya/harness-llm": "workspace:^",
+    "@moonya/harness-mcp-client": "workspace:^",
+    "@moonya/harness-session": "workspace:^",
+    "@moonya/harness-session-persistence": "workspace:^",
+    "@moonya/harness-token-meter": "workspace:^",
+    "@moonya/harness-user-approval": "workspace:^"
+  },
+  "peerDependenciesMeta": {
+    "@moonya/harness-token-meter": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "workspace:^",
+    "@moonya/harness-agent": "workspace:^",
+    "@moonya/harness-agent-loop": "workspace:^",
+    "@moonya/harness-agent-loop-testkit": "workspace:^",
+    "@moonya/harness-attachment": "workspace:^",
+    "@moonya/harness-llm": "workspace:^",
+    "@moonya/harness-mcp-client": "workspace:^",
+    "@moonya/harness-session": "workspace:^",
+    "@moonya/harness-session-persistence": "workspace:^",
+    "@moonya/harness-session-persistence-jsonl": "workspace:^",
+    "@moonya/harness-session-projection": "workspace:^",
+    "@moonya/harness-token-meter": "workspace:^",
+    "@moonya/harness-tools": "workspace:^",
+    "@moonya/harness-user-approval": "workspace:^"
+  }
+}

@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <PlatformTarget>x64</PlatformTarget>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MoonYa\MoonYa.csproj" />
+    <Compile Include="..\MoonYa\Services\SingleInstanceGuard.cs" Link="SingleInstanceGuard.cs" />
+    <Compile Include="..\MoonYa\Services\PaymentActivationService.cs" Link="PaymentActivationService.cs" />
+  </ItemGroup>
+</Project>

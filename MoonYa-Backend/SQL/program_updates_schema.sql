@@ -1,0 +1,20 @@
+CREATE TABLE IF NOT EXISTS program_updates (
+    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    version VARCHAR(32) NOT NULL,
+    major_version INT UNSIGNED NOT NULL,
+    minor_version INT UNSIGNED NOT NULL,
+    patch_version INT UNSIGNED NOT NULL,
+    notes TEXT NOT NULL,
+    force_update TINYINT(1) NOT NULL DEFAULT 0,
+    file_name VARCHAR(255) NOT NULL,
+    file_key CHAR(32) NOT NULL,
+    file_size BIGINT UNSIGNED NOT NULL,
+    sha256 CHAR(64) NOT NULL,
+    status ENUM('draft','published') NOT NULL DEFAULT 'draft',
+    admin_id INT NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    published_at TIMESTAMP NULL,
+    UNIQUE KEY uq_program_update_version (version),
+    UNIQUE KEY uq_program_update_file (file_key),
+    KEY idx_program_update_latest (status, major_version, minor_version, patch_version)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

@@ -1,0 +1,66 @@
+{
+  "name": "@moonya/harness-compaction-basic",
+  "description": "Token-meter-driven compaction policy and LLM summarization backend for the MoonYa Agent Runtime",
+  "version": "0.1.5-rc.2",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deepseek-ai/moonya-agent-runtime.git",
+    "directory": "packages/compaction/compaction-basic"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/types/**/*.d.ts"
+  ],
+  "license": "MIT",
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "workspace:^",
+    "@moonya/harness-agent": "workspace:^",
+    "@moonya/harness-commands": "workspace:^",
+    "@moonya/harness-compaction": "workspace:^",
+    "@moonya/harness-compaction-tool-result-pruner": "workspace:^",
+    "@moonya/harness-llm": "workspace:^",
+    "@moonya/harness-session": "workspace:^",
+    "@moonya/harness-token-meter": "workspace:^"
+  },
+  "peerDependenciesMeta": {
+    "@moonya/harness-compaction-tool-result-pruner": {
+      "optional": true
+    }
+  },
+  "dependencies": {
+    "@moonya/harness-util-values": "workspace:^",
+    "@deepseek-ai/schemastery": "workspace:^"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "workspace:^",
+    "@deepseek-ai/cordis-plugin-include": "workspace:^",
+    "@deepseek-ai/cordis-plugin-loader": "workspace:^",
+    "@moonya/harness-agent": "workspace:^",
+    "@moonya/harness-agent-loop": "workspace:^",
+    "@moonya/harness-agent-loop-testkit": "workspace:^",
+    "@moonya/harness-commands": "workspace:^",
+    "@moonya/harness-compaction": "workspace:^",
+    "@moonya/harness-compaction-tool-result-pruner": "workspace:^",
+    "@moonya/harness-invariants": "workspace:^",
+    "@moonya/harness-llm": "workspace:^",
+    "@moonya/harness-llm-retry": "workspace:^",
+    "@moonya/harness-session": "workspace:^",
+    "@moonya/harness-session-projection": "workspace:^",
+    "@moonya/harness-token-meter": "workspace:^",
+    "@moonya/harness-tools": "workspace:^"
+  }
+}

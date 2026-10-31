@@ -1,0 +1,113 @@
+/* Process disclosures share the same motion in chat and child records. */
+.message.ai > .turn-duration { display: flex; align-items: center; gap: 4px; width: 100%; min-height: 30px; margin: 0 0 8px; padding: 0 0 7px; border: 0; border-bottom: 1px solid var(--theme-border, #e8e8e8); background: transparent; color: var(--theme-muted, #929292); font: inherit; font-size: 13px; line-height: 22px; text-align: left; cursor: pointer; }
+.turn-duration > .process-arrow { position: static; width: 14px; height: 14px; opacity: 1; transform: none; }
+.turn-duration[aria-expanded="false"] > .process-arrow { transform: rotate(-90deg); }
+.turn-duration:focus-visible { outline: 2px solid #7aa7e8; outline-offset: 2px; border-radius: 3px; }
+.process-segment.turn-process.codex-turn-trace { padding: 0; margin: 5px 0 10px; }
+.process-segment.turn-process.codex-turn-trace[hidden] { display: none; }
+.message-content > .process-commentary[hidden] { display: none; }
+.process-segment > .codex-turn-header { position: relative; height: auto; min-height: 26px; margin: 0; padding: 0; border: 0; font-size: 13px; gap: 6px; }
+.process-segment .process-arrow, .process-arrow { display: inline-flex; flex: none; width: 14px; height: 14px; opacity: 1; color: var(--theme-muted, #9297a0); transition: transform 220ms ease; }
+.process-arrow svg { width: 100%; height: 100%; }
+.process-segment > .codex-turn-header > .process-arrow,
+.process-segment .codex-tool-main > .process-arrow,
+.process-segment .reasoning-row > .process-arrow,
+.subagent-header > .process-arrow { position: static; order: 10; margin: 0; transform: rotate(-90deg); pointer-events: none; }
+.turn-process-leading { display: inline-flex; align-items: center; justify-content: center; width: 16px; height: 16px; flex: none; color: var(--theme-muted, #9297a0); order: 0; }
+.turn-process-leading svg { width: 14px; height: 14px; }
+.process-segment > .codex-turn-header .process-arrow { order: 10; margin: 0; transform: rotate(-90deg); }
+.process-segment .turn-process-label { order: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.process-segment > .codex-turn-header[aria-expanded="true"] > .process-arrow,
+.codex-tool-main[aria-expanded="true"] > .process-arrow,
+.reasoning-row[aria-expanded="true"] > .process-arrow,
+.subagent-header[aria-expanded="true"] > .process-arrow { transform: rotate(0deg); }
+.turn-process.process-segment > .turn-process-body.process-disclosure-body { display: block; padding: 2px 0 0; }
+.process-disclosure-body { box-sizing: border-box; }
+.process-disclosure-animating { overflow: hidden; }
+.process-disclosure-body[hidden], .turn-process.process-segment > .turn-process-body.process-disclosure-body[hidden] { display: none; }
+.process-segment .tool-row { display: block; height: auto; min-height: 26px; margin: 0; padding: 0; overflow: visible; }
+/* Keep every record in history/search while skipping layout/paint of rows far
+   outside the viewport. Expanded details retain their natural, scrollable size. */
+@supports (content-visibility: auto) {
+    .process-segment .tool-row:not([data-open]),
+    .process-segment .reasoning-row:not([data-open]) {
+        content-visibility: auto;
+        contain-intrinsic-block-size: auto 26px;
+    }
+}
+.process-segment .codex-tool-main { position: relative; min-height: 26px; gap: 6px; font-size: 13px; }
+.process-segment .codex-tool-main .tool-row-leading, .process-segment .reasoning-row-leading,
+.process-segment .codex-tool-main .tool-row-title { margin-right: 0; }
+.process-segment .process-row { min-height: 26px; padding: 0; gap: 6px; font-size: 13px; }
+.process-segment .codex-tool-main .process-arrow { transform: rotate(-90deg); margin: 0; }
+.process-segment .codex-tool-main[aria-expanded="true"] .process-arrow { transform: rotate(0deg); }
+.process-segment .moonya-icon-edit { width: 16px; height: 16px; color: var(--theme-secondary, #808080); }
+.process-segment .tool-row-title, .process-segment .tool-row-summary { font-size: 13px; }
+.process-segment .tool-row-summary { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.process-segment .reasoning-row { height: auto; min-height: 26px; gap: 6px; }
+.process-segment .reasoning-row-summary { flex: 0 1 auto; }
+.process-segment .reasoning-row-sep { margin: 0; }
+.process-segment .reasoning-row-body { margin: 0; padding: 4px 0 8px 22px; overflow-y: auto; overflow-x: hidden; }
+.process-segment .codex-tool-detail { margin: 4px 0 8px 22px; position: relative; padding-bottom: 30px; }
+.subagent-header { position: relative; }
+.subagent-detail.process-disclosure-body { display: block; }
+.subagent-detail.process-disclosure-body[hidden] { display: none; }
+.subagent-log .process-segment .tool-row { margin: 0; }
+.process-segment .tool-row::after, .process-segment .reasoning-row::after { content: none; animation: none; }
+@media (prefers-reduced-motion: reduce) {
+    .process-arrow { transition: none; }
+}
+.turn-duration .turn-status { font-size: 12px; color: var(--theme-secondary, #888); margin-left: 6px; }
+
+/* Status changes share timing; only live text receives the white sweep. */
+:root { --process-disclosure-time: 260ms; --process-motion-ease: cubic-bezier(.2,.7,.2,1); }
+:root[data-process-animation-style="glass"] { --process-disclosure-time: 340ms; --process-motion-ease: cubic-bezier(.22,.8,.22,1); }
+.process-arrow { transition: transform var(--process-disclosure-time) var(--process-motion-ease); }
+.process-segment .turn-process-leading,
+.process-segment .tool-row-leading,
+.process-segment .turn-process-label,
+.process-segment .tool-row-title,
+.process-segment .reasoning-row-title,
+.subagent-status { transform-origin: left center; }
+.process-segment > .codex-turn-header,
+.process-segment .codex-tool-main,
+.process-segment .reasoning-row,
+.subagent-header { background: none; box-shadow: none; backdrop-filter: none; }
+[data-process-active]::before { content: none; animation: none; }
+[data-process-active] > :is(.turn-process-label, .tool-row-title, .subagent-status) {
+    background-image: linear-gradient(110deg, currentColor 40%, #fff 50%, currentColor 60%);
+    background-size: 250% 100%; background-repeat: no-repeat;
+    background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    animation: process-white-sweep 1000ms linear infinite;
+}
+/* One highlight crosses the whole reasoning line, including its icon and clipped
+   streaming summary. Keep the real glyphs intact so nested overflow stays correct. */
+.process-segment .reasoning-row { isolation: isolate; }
+.process-segment .reasoning-row[data-process-active]::after {
+    content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+    background-image: linear-gradient(110deg, #ffffff00 40%, #fff 50%, #ffffff00 60%);
+    background-size: 250% 100%; background-repeat: no-repeat;
+    mix-blend-mode: screen; animation: process-white-sweep 1000ms linear infinite;
+}
+@keyframes process-white-sweep {
+    from { background-position: 100% 0; }
+    75%, to { background-position: 0 0; }
+}
+:root[data-process-animation-style="glass"] .process-segment > .codex-turn-header {
+    width: fit-content; max-width: 100%;
+}
+.process-motion-ghost {
+    position: fixed; z-index: 1000; display: inline-flex; align-items: center;
+    pointer-events: none; user-select: none; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
+    transform-origin: left center;
+}
+.process-motion-ghost > svg { width: 100%; height: 100%; flex: none; }
+.settings-process-animation { width: 100%; text-align: left; font: inherit; color: inherit; }
+.settings-process-animation:focus-visible { outline: 2px solid var(--ui-accent); outline-offset: 2px; border-radius: 12px; }
+@media (prefers-reduced-motion: reduce) {
+    .process-arrow { transition: none; }
+    [data-process-active] > :is(.turn-process-label, .tool-row-title, .subagent-status) {
+        animation: none; background-image: none; -webkit-text-fill-color: currentColor;
+    }
+    .process-segment .reasoning-row[data-process-active]::after { content: none; animation: none; background-image: none; }
+}

@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>新标签页</title>
+<!-- 避免任何外部请求：内置浏览器的新标签页必须完全离线可用 -->
+<link rel="icon" href="data:,">
+<script>
+  // Native navigation supplies the resolved application theme before the first paint.
+  // Opening this file independently follows the system appearance.
+  (function () {
+    const selectedTheme = () => new URLSearchParams(location.hash.slice(1)).get('moonya-theme');
+    const media = matchMedia('(prefers-color-scheme: dark)');
+    function apply() {
+      const selected = selectedTheme();
+      document.documentElement.dataset.theme = selected === 'light' || selected === 'dark' ? selected : media.matches ? 'dark' : 'light';
+    }
+    apply();
+    window.addEventListener('hashchange', apply);
+    media.addEventListener('change', () => { if (!['light', 'dark'].includes(selectedTheme())) apply(); });
+  }());
+</script>
+<style>
+  :root { color-scheme: light; --bg: #fff; --text: #1a1a1a; --secondary: #6b6b6b; --muted: #8a8a8a; --border: #e0e0e0; --hover: #f5f5f5; }
+  :root[data-theme="dark"] { color-scheme: dark; --bg: #1e1f23; --text: #eeeef2; --secondary: #bec0cb; --muted: #a4a6b1; --border: #383a43; --hover: #32343b; }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; }
+  body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Segoe UI", "Microsoft YaHei", system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+  }
+  .start {
+    text-align: center;
+    padding: 24px 18px;
+    max-width: 420px;
+  }
+  .globe {
+    width: 56px;
+    height: 56px;
+    margin: 0 auto 18px;
+    color: var(--muted);
+  }
+  h1 {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0 0 8px;
+  }
+  p {
+    font-size: 12px;
+    line-height: 1.7;
+    color: var(--secondary);
+    margin: 0 0 20px;
+  }
+  .links { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+  .links a {
+    display: inline-block;
+    padding: 6px 12px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    font-size: 12px;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .links a:hover { background: var(--hover); }
+  .links a:focus-visible { outline: 2px solid #80b4ff; outline-offset: 3px; }
+  .hint {
+    margin-top: 22px;
+    font-size: 11px;
+    color: var(--muted);
+  }
+</style>
+</head>
+<body>
+  <main class="start">
+    <svg class="globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"
+         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <circle cx="12" cy="12" r="9"></circle>
+      <path d="M3 12h18"></path>
+      <path d="M12 3c2.6 2.6 3.9 5.6 3.9 9s-1.3 6.4-3.9 9c-2.6-2.6-3.9-5.6-3.9-9S9.4 5.6 12 3z"></path>
+    </svg>
+    <h1>开始浏览</h1>
+    <p>在上方地址栏输入网址，或让 Agent 直接操作这个内置浏览器。<br>本页面由 MoonYa 自带的 Chromium 内核渲染，无需安装 Google Chrome。</p>
+    <div class="links">
+      <a href="https://www.bing.com/">Bing</a>
+      <a href="https://www.baidu.com/">百度</a>
+      <a href="https://github.com/">GitHub</a>
+    </div>
+    <div class="hint">内置浏览器 · 单标签</div>
+  </main>
+  <script>
+    // 面板识别标记：C# 侧在每次加载完成后也会重写一次，二者互为兜底。
+    try { window.name = 'moonya-builtin-panel'; } catch (e) {}
+  </script>
+</body>
+</html>

@@ -1,0 +1,88 @@
+{
+  "name": "@moonya/harness-goal",
+  "description": "Event-sourced same-session goal state and lifecycle service for the MoonYa Agent Runtime",
+  "version": "0.1.5-rc.2",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deepseek-ai/moonya-agent-runtime.git",
+    "directory": "packages/goal/goal"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./invariant": {
+      "types": "./lib/types/invariant.d.ts",
+      "default": "./lib/invariant.js"
+    },
+    "./types": {
+      "types": "./lib/types/types.d.ts",
+      "default": "./lib/types/types.js"
+    },
+    "./client": {
+      "types": "./lib/types/client.d.ts",
+      "default": "./lib/types/client.js"
+    },
+    "./typert": {
+      "types": "./lib/typert.host.d.ts",
+      "default": "./lib/typert.host.js"
+    },
+    "./remote": {
+      "types": "./lib/typert.remote-client.d.ts",
+      "default": "./lib/typert.remote-client.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/invariant.js",
+    "lib/types/**/*.js",
+    "lib/types/**/*.d.ts",
+    "lib/typert.host.js",
+    "lib/typert.host.d.ts",
+    "lib/typert.remote-client.js",
+    "lib/typert.remote-client.d.ts"
+  ],
+  "license": "MIT",
+  "peerDependencies": {
+    "@moonya/harness-agent": "workspace:^",
+    "@moonya/harness-session-projection": "workspace:^",
+    "@moonya/harness-brand": "workspace:^",
+    "@moonya/harness-invariants": "workspace:^",
+    "@moonya/harness-llm": "workspace:^",
+    "@moonya/harness-scope": "workspace:^",
+    "@moonya/harness-session": "workspace:^",
+    "@moonya/harness-typert-protocol": "workspace:^",
+    "@deepseek-ai/cordis": "workspace:^"
+  },
+  "dependencies": {
+    "@deepseek-ai/schemastery": "workspace:^",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@moonya/harness-agent": "workspace:^",
+    "@moonya/harness-agent-loop": "workspace:^",
+    "@moonya/harness-agent-loop-testkit": "workspace:^",
+    "@moonya/harness-bash-local": "workspace:^",
+    "@moonya/harness-session-projection": "workspace:^",
+    "@moonya/harness-brand": "workspace:^",
+    "@moonya/harness-invariants": "workspace:^",
+    "@moonya/harness-llm": "workspace:^",
+    "@moonya/harness-loader-smoke": "workspace:^",
+    "@moonya/harness-scope": "workspace:^",
+    "@moonya/harness-session": "workspace:^",
+    "@moonya/harness-session-checkpoint-policy": "workspace:^",
+    "@moonya/harness-session-persistence-jsonl": "workspace:^",
+    "@moonya/harness-subprocess-local": "workspace:^",
+    "@moonya/harness-typert-protocol": "workspace:^",
+    "@deepseek-ai/cordis": "workspace:^"
+  }
+}

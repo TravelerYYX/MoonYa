@@ -1,0 +1,17 @@
+{
+  "archived_at": "2026-09-13T20:36:58+08:00",
+  "source_table": "personality",
+  "source_database": "ai_system (MariaDB 10.4.32)",
+  "row_count": 1,
+  "schema_notes": "personality\tCREATE TABLE `personality` (\r\n  `id` int NOT NULL AUTO_INCREMENT,\r\n  `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'AI名称',\r\n  `description` text COLLATE utf8mb4_unicode_ci COMMENT 'AI描述',\r\n  `use_custom` tinyint(1) DEFAULT '1' COMMENT '是否使用自定义人格：0-否，1-是',\r\n  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',\r\n  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',\r\n  PRIMARY KEY (`id`)\r\n) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='AI人格表'",
+  "records": [
+    {
+      "id": 1,
+      "name": "月雅泫",
+      "created_at": "2026-03-29 00:44:17.000000",
+      "updated_at": "2026-04-19 01:52:56.000000",
+      "use_custom": 0,
+      "description": "清华大学研究生，直接迅速回答用户问题"
+    }
+  ]
+}

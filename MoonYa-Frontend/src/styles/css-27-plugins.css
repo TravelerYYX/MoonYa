@@ -1,0 +1,32 @@
+#pluginsBtn .ui-icon { width: 20px; height: 14px; color: var(--theme-text, #1a1c1f); }
+.app-shell.plugins-active .main-content { padding: 0; background: var(--theme-surface, #fff); }
+.plugins-view { flex: 1; min-width: 0; min-height: 0; overflow-y: auto; background: var(--theme-surface, #fff); color: var(--theme-text, #202123); }
+.plugins-view[hidden] { display: none; }
+.plugins-content { width: 100%; max-width: 824px; box-sizing: border-box; margin: 0 auto; padding: 32px 20px; }
+.plugins-content h1 { margin: 0 0 24px; font-size: 22px; line-height: 30px; font-weight: 600; }
+.plugins-content h1:focus { outline: none; }
+.plugins-list { display: flex; flex-direction: column; gap: 28px; }
+.plugin-row { display: flex; align-items: center; gap: 12px; min-width: 0; height: 40px; flex: 0 0 40px; }
+.plugin-icon { width: 40px; height: 40px; flex: 0 0 40px; display: grid; place-items: center; border-radius: 11px; background: var(--theme-soft, #f6f6f6); }
+.plugin-icon svg { width: 22px; height: 22px; }
+.plugin-red { color: var(--theme-danger, #ff4040); }
+.plugin-green { color: var(--theme-success, #1dab38); }
+.plugin-voice { color: var(--theme-text, #30333a); }
+.plugin-copy { flex: 1; min-width: 0; }
+.plugin-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 14px; font-weight: 500; line-height: 20px; }
+.plugin-description { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--theme-secondary, #737373); font-size: 13px; line-height: 20px; margin-top: 3px; }
+.plugin-switch { flex: 0 0 32px; width: 32px; height: 20px; padding: 2px; margin-left: 20px; margin-right: 32px; border: 0; border-radius: 10px; background: var(--theme-hover, #c8cbd0); cursor: pointer; }
+.plugin-switch > span { display: block; width: 16px; height: 16px; border-radius: 50%; background: var(--theme-surface, #fff); transition: transform .12s ease; }
+.plugin-switch[aria-checked=true] { background: #3784ff; }
+.plugin-switch[aria-checked=true] > span { transform: translateX(12px); }
+.plugin-switch:disabled { opacity: .5; cursor: default; }
+.app-shell.plugins-active .main-content > :not(#pluginsView),
+.app-shell.plugins-active #detailPanel,
+.app-shell.plugins-active #detailPanelResizer { display: none !important; }
+.app-shell.plugins-active .plugins-view { display: block; }
+[data-skill-group][hidden], #voiceChatToggle[hidden] { display: none !important; }
+@media (max-width: 600px) {
+    .plugins-content { padding: 24px 16px; }
+    .plugin-switch { margin-left: 0; margin-right: 0; }
+}
+@media (prefers-reduced-motion: reduce) { .plugin-switch > span { transition: none; } }

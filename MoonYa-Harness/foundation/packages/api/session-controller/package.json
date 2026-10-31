@@ -1,0 +1,163 @@
+{
+  "name": "@moonya/harness-api-session-controller",
+  "description": "Session Remote commands, cold reads, and live control transport",
+  "version": "0.1.5-rc.2",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deepseek-ai/moonya-agent-runtime.git",
+    "directory": "packages/api/session-controller"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./types": {
+      "types": "./lib/types/types.d.ts",
+      "default": "./lib/types/types.js"
+    },
+    "./remote-events": {
+      "types": "./lib/types/remote-events.d.ts",
+      "default": "./lib/types/remote-events.js"
+    },
+    "./client": {
+      "types": "./lib/types/client/index.d.ts",
+      "default": "./lib/client.js"
+    },
+    "./typert": {
+      "types": "./lib/typert.host.d.ts",
+      "default": "./lib/typert.host.js"
+    },
+    "./remote": {
+      "types": "./lib/typert.remote-client.d.ts",
+      "default": "./lib/typert.remote-client.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "client": {
+      "external": [
+        "@moonya/harness-api-gateway/client"
+      ],
+      "inject": [
+        "@moonya/harness-api-gateway",
+        "@moonya/harness-client-file-upload"
+      ],
+      "platform": "web"
+    }
+  },
+  "scripts": {
+    "bundle": "tsdown",
+    "watch": "tsdown --watch"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/client.js",
+    "lib/types/**/*.js",
+    "lib/types/**/*.d.ts",
+    "lib/typert.host.js",
+    "lib/typert.host.d.ts",
+    "lib/typert.remote-client.js",
+    "lib/typert.remote-client.d.ts"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@moonya/harness-brand": "workspace:^",
+    "@moonya/harness-deque": "workspace:^",
+    "@deepseek-ai/schemastery": "workspace:^",
+    "mime-types": "^3.0.2",
+    "zod": "^4.4.3"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "workspace:^",
+    "@moonya/harness-agent": "workspace:^",
+    "@moonya/harness-agent-default-model": "workspace:^",
+    "@moonya/harness-agent-presets": "workspace:^",
+    "@moonya/harness-api-gateway": "workspace:^",
+    "@moonya/harness-attachment": "workspace:^",
+    "@moonya/harness-client-connection": "workspace:^",
+    "@moonya/harness-client-file-upload": "workspace:^",
+    "@moonya/harness-commands": "workspace:^",
+    "@moonya/harness-file-reference": "workspace:^",
+    "@moonya/harness-fs": "workspace:^",
+    "@moonya/harness-jobs": "workspace:^",
+    "@moonya/harness-llm": "workspace:^",
+    "@moonya/harness-native-command": "workspace:^",
+    "@moonya/harness-scope": "workspace:^",
+    "@moonya/harness-session": "workspace:^",
+    "@moonya/harness-session-persistence": "workspace:^",
+    "@moonya/harness-session-projection": "workspace:^",
+    "@moonya/harness-session-projection-cache": "workspace:^",
+    "@moonya/harness-session-query": "workspace:^",
+    "@moonya/harness-session-title": "workspace:^",
+    "@moonya/harness-skill": "workspace:^",
+    "@moonya/harness-subagent": "workspace:^",
+    "@moonya/harness-typert-protocol": "workspace:^",
+    "@moonya/harness-typert-registry": "workspace:^",
+    "@moonya/harness-util-time": "workspace:^",
+    "@moonya/harness-util-values": "workspace:^",
+    "@moonya/harness-util-workspace-path": "workspace:^",
+    "@moonya/harness-workspace": "workspace:^"
+  },
+  "peerDependenciesMeta": {
+    "@moonya/harness-jobs": {
+      "optional": true
+    },
+    "@moonya/harness-session-persistence": {
+      "optional": true
+    },
+    "@moonya/harness-session-projection-cache": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "workspace:^",
+    "@moonya/harness-agent": "workspace:^",
+    "@moonya/harness-agent-default-model": "workspace:^",
+    "@moonya/harness-agent-loop": "workspace:^",
+    "@moonya/harness-agent-loop-testkit": "workspace:^",
+    "@moonya/harness-agent-presets": "workspace:^",
+    "@moonya/harness-api-gateway": "workspace:^",
+    "@moonya/harness-attachment": "workspace:^",
+    "@moonya/harness-client-connection": "workspace:^",
+    "@moonya/harness-client-file-upload": "workspace:^",
+    "@moonya/harness-client-store": "workspace:^",
+    "@moonya/harness-client-test-runtime": "workspace:^",
+    "@moonya/harness-commands": "workspace:^",
+    "@moonya/harness-file-reference": "workspace:^",
+    "@moonya/harness-fs": "workspace:^",
+    "@moonya/harness-fs-local": "workspace:^",
+    "@moonya/harness-jobs": "workspace:^",
+    "@moonya/harness-llm": "workspace:^",
+    "@moonya/harness-native-command": "workspace:^",
+    "@moonya/harness-permission-presets": "workspace:^",
+    "@moonya/harness-remote-mock": "workspace:^",
+    "@moonya/harness-scope": "workspace:^",
+    "@moonya/harness-session": "workspace:^",
+    "@moonya/harness-session-persistence": "workspace:^",
+    "@moonya/harness-session-projection": "workspace:^",
+    "@moonya/harness-session-projection-cache": "workspace:^",
+    "@moonya/harness-session-query": "workspace:^",
+    "@moonya/harness-session-title": "workspace:^",
+    "@moonya/harness-skill": "workspace:^",
+    "@moonya/harness-storage": "workspace:^",
+    "@moonya/harness-storage-domain": "workspace:^",
+    "@moonya/harness-storage-json": "workspace:^",
+    "@moonya/harness-subagent": "workspace:^",
+    "@moonya/harness-typert-protocol": "workspace:^",
+    "@moonya/harness-typert-registry": "workspace:^",
+    "@moonya/harness-util-crypto": "workspace:^",
+    "@moonya/harness-util-time": "workspace:^",
+    "@moonya/harness-util-values": "workspace:^",
+    "@moonya/harness-util-workspace-path": "workspace:^",
+    "@moonya/harness-workspace": "workspace:^",
+    "@types/mime-types": "^3.0.1"
+  }
+}

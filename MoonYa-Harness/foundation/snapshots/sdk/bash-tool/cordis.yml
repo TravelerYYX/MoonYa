@@ -1,0 +1,27 @@
+# SDK snapshot-record composition without provider-specific upload metadata.
+
+- id: skill-filesystem
+  name: '@moonya/harness-skill-filesystem'
+  config:
+    includeDefaultRoots: false
+
+- id: llm-deepseek
+  name: '@moonya/harness-llm-deepseek'
+  config:
+    thinking: enabled
+    reasoningEffort: max
+
+- id: session-persistence-jsonl
+  name: '@moonya/harness-session-persistence-jsonl'
+  config:
+    root: !!js dshHomePath('sessions')
+    compression: !!js "process.env.DSH_SNAPSHOT === undefined ? 'zstd' : 'none'"
+
+- id: tool-subagent
+  name: '@moonya/harness-tool-subagent'
+  config:
+    provider: spawn
+    toolName: subagent
+    backgroundMode: one-shot
+    enableRunInBackground: false
+    maxDepth: 1

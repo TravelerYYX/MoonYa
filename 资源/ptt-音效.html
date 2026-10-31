@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>MoonYa PTT 音效预览</title>
+<style>
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        color: #e2e8f0;
+        margin: 0;
+        padding: 40px 20px;
+        min-height: 100vh;
+    }
+    .container {
+        max-width: 720px;
+        margin: 0 auto;
+    }
+    h1 {
+        text-align: center;
+        color: #f8fafc;
+        margin-bottom: 8px;
+    }
+    .subtitle {
+        text-align: center;
+        color: #94a3b8;
+        margin-bottom: 40px;
+        font-size: 14px;
+    }
+    .card {
+        background: rgba(30, 41, 59, 0.6);
+        border: 1px solid rgba(148, 163, 184, 0.15);
+        border-radius: 12px;
+        padding: 24px;
+        margin-bottom: 20px;
+        backdrop-filter: blur(10px);
+    }
+    .card h2 {
+        margin-top: 0;
+        font-size: 18px;
+        color: #f1f5f9;
+    }
+    .card p {
+        color: #94a3b8;
+        font-size: 14px;
+        line-height: 1.6;
+    }
+    .params {
+        background: rgba(15, 23, 42, 0.5);
+        border-radius: 8px;
+        padding: 12px 16px;
+        margin: 12px 0;
+        font-family: 'Consolas', 'Monaco', monospace;
+        font-size: 13px;
+        color: #cbd5e1;
+    }
+    .params span {
+        color: #38bdf8;
+    }
+    button {
+        background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        margin-right: 8px;
+        margin-top: 8px;
+        transition: transform 0.1s, box-shadow 0.2s;
+    }
+    button:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
+    }
+    button:active {
+        transform: translateY(0);
+    }
+    button.secondary {
+        background: linear-gradient(135deg, #64748b 0%, #475569 100%);
+    }
+    button.cancel {
+        background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    }
+    .footer {
+        text-align: center;
+        color: #64748b;
+        font-size: 12px;
+        margin-top: 40px;
+    }
+</style>
+</head>
+<body>
+<div class="container">
+    <h1>MoonYa PTT 音效</h1>
+    <p class="subtitle">从 <code>script-3-push-to-talk.php</code> 提取的 Web Audio API 提示音</p>
+
+    <div class="card">
+        <h2>1. 开始提示音 <code>playStartTone()</code></h2>
+        <p>按下 Ctrl+空格触发，扫频 880Hz → 1200Hz</p>
+        <div class="params">
+            <span>osc.frequency</span>: 880Hz → 1200Hz (exponentialRamp, 0.1s)<br>
+            <span>gain</span>: 0.3 → 0.001 (exponentialRamp, 0.4s)
+        </div>
+        <button onclick="playStartTone()">▶ 播放</button>
+    </div>
+
+    <div class="card">
+        <h2>2. 结束提示音 <code>playEndTone()</code></h2>
+        <p>松开手触发，双音 660Hz + 880Hz（错开 150ms）</p>
+        <div class="params">
+            <span>osc1</span>: 660Hz × 0.3s<br>
+            <span>osc2</span>: 880Hz × 0.3s（延迟 150ms）
+        </div>
+        <button onclick="playEndTone()">▶ 播放</button>
+        <button class="secondary" onclick="playStartTone(); setTimeout(playEndTone, 600);">▶ 模拟按住→松开</button>
+    </div>
+
+    <div class="card">
+        <h2>3. 取消提示音 <code>playCancelTone()</code></h2>
+        <p>按 Esc 取消时触发，低频 200Hz 短促音</p>
+        <div class="params">
+            <span>osc.frequency</span>: 200Hz × 0.15s<br>
+            <span>gain</span>: 0.2 → 0.001
+        </div>
+        <button class="cancel" onclick="playCancelTone()">▶ 播放</button>
+    </div>
+
+    <p class="footer">
+        原始来源：<code>script-3-push-to-talk.php</code> · 调用点：startRecording / __onAsrFinished / onCancel
+    </p>
+</div>
+
+<script>
+// ════════════════════════════════════════════════════════════
+//  源码出处：d:\Project\Project\MoonYa\MoonYa-Backend\script\MoonYa-index\modules\script-3-push-to-talk.php
+//  函数：ensureAudioCtx / playStartTone / playEndTone / playCancelTone
+//  以下代码与原文件 224-315 行完全一致，仅做最小化独立运行适配
+// ════════════════════════════════════════════════════════════
+
+let audioCtx = null;
+
+function ensureAudioCtx() {
+    if (audioCtx) return audioCtx;
+    try {
+        const AC = window.AudioContext || window.webkitAudioContext;
+        if (!AC) return null;
+        audioCtx = new AC();
+    } catch(e) {
+        audioCtx = null;
+    }
+    return audioCtx;
+}
+
+function playStartTone() {
+    const ctx = ensureAudioCtx();
+    if (!ctx) return;
+    const play = () => {
+        try {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.frequency.setValueAtTime(880, ctx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(1200, ctx.currentTime + 0.1);
+            gain.gain.setValueAtTime(0.3, ctx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.4);
+            osc.start(ctx.currentTime);
+            osc.stop(ctx.currentTime + 0.4);
+        } catch(e) {
+            console.warn('[PTT] 播放开始提示音失败:', e);
+        }
+    };
+    try {
+        if (ctx.state === 'suspended') {
+            ctx.resume().then(play).catch(() => play());
+        } else {
+            play();
+        }
+    } catch(e) {
+        try { play(); } catch(_e) {}
+    }
+}
+
+function playEndTone() {
+    const ctx = ensureAudioCtx();
+    if (!ctx) return;
+    try {
+        if (ctx.state === 'suspended') ctx.resume();
+        const osc1 = ctx.createOscillator();
+        const gain1 = ctx.createGain();
+        osc1.connect(gain1);
+        gain1.connect(ctx.destination);
+        osc1.frequency.setValueAtTime(660, ctx.currentTime);
+        gain1.gain.setValueAtTime(0.3, ctx.currentTime);
+        gain1.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.3);
+        osc1.start(ctx.currentTime);
+        osc1.stop(ctx.currentTime + 0.3);
+
+        const osc2 = ctx.createOscillator();
+        const gain2 = ctx.createGain();
+        osc2.connect(gain2);
+        gain2.connect(ctx.destination);
+        osc2.frequency.setValueAtTime(880, ctx.currentTime + 0.15);
+        gain2.gain.setValueAtTime(0.3, ctx.currentTime + 0.15);
+        gain2.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.45);
+        osc2.start(ctx.currentTime + 0.15);
+        osc2.stop(ctx.currentTime + 0.45);
+    } catch(e) {
+        console.warn('[PTT] 播放结束提示音失败:', e);
+    }
+}
+
+function playCancelTone() {
+    const ctx = ensureAudioCtx();
+    if (!ctx) return;
+    try {
+        if (ctx.state === 'suspended') ctx.resume();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.frequency.setValueAtTime(200, ctx.currentTime);
+        gain.gain.setValueAtTime(0.2, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.15);
+        osc.start(ctx.currentTime);
+        osc.stop(ctx.currentTime + 0.15);
+    } catch(e) {
+        console.warn('[PTT] 播放取消提示音失败:', e);
+    }
+}
+</script>
+</body>
+</html>

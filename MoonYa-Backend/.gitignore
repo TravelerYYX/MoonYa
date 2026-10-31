@@ -1,0 +1,22 @@
+# 敏感配置（绝对不能进仓库）
+.env
+
+# PHP / Composer
+/vendor/
+composer.phar
+
+# 临时与日志
+*.log
+*.tmp
+*.bak
+*.swp
+*.swo
+
+# 系统文件
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Published installers and incomplete chunks are persistent server data.
+/uploads/program-updates/*
+!/uploads/program-updates/.htaccess

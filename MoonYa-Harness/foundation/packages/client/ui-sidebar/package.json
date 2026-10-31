@@ -1,0 +1,70 @@
+{
+  "name": "@moonya/harness-client-ui-sidebar",
+  "description": "Sidebar plugin: session multi-level tree, search, grouping, state dots",
+  "version": "0.1.5-rc.2",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deepseek-ai/moonya-agent-runtime.git",
+    "directory": "packages/client/ui-sidebar"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./client": {
+      "types": "./lib/types/client/index.d.ts",
+      "default": "./lib/client.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "client": {
+      "inject": [
+        "@moonya/harness-api-workspace-controller",
+        "@moonya/harness-client-ui-renderer",
+        "@moonya/harness-client-ui-layout",
+        "@moonya/harness-client-ui-session",
+        "@moonya/harness-client-ui-workspace",
+        "@moonya/harness-client-locale"
+      ],
+      "platform": "web"
+    }
+  },
+  "scripts": {
+    "bundle": "tsdown",
+    "watch": "tsdown --watch"
+  },
+  "license": "MIT",
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "workspace:^"
+  },
+  "devDependencies": {
+    "@moonya/harness-api-workspace-controller": "workspace:^",
+    "@moonya/harness-client-locale": "workspace:^",
+    "@moonya/harness-client-store": "workspace:^",
+    "@moonya/harness-client-test-runtime": "workspace:^",
+    "@moonya/harness-client-ui-layout": "workspace:^",
+    "@moonya/harness-client-ui-primitives": "workspace:^",
+    "@moonya/harness-client-ui-renderer": "workspace:^",
+    "@moonya/harness-client-ui-slots": "workspace:^",
+    "@moonya/harness-client-ui-session": "workspace:^",
+    "@moonya/harness-client-ui-workspace": "workspace:^",
+    "@types/react": "~18.3.1",
+    "@deepseek-ai/cordis": "workspace:^",
+    "react": "^18.2.0",
+    "clsx": "^2.0.0"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/client.js",
+    "lib/types/**/*.d.ts"
+  ]
+}

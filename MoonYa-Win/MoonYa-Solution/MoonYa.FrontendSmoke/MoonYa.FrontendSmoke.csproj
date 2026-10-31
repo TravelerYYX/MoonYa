@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup><OutputType>Exe</OutputType><TargetFramework>net8.0-windows10.0.19041.0</TargetFramework><ImplicitUsings>enable</ImplicitUsings><UseWPF>true</UseWPF><Nullable>enable</Nullable></PropertyGroup>
+  <!-- Keep the path consumed by the frontend integration tests while enabling Windows media APIs. -->
+  <PropertyGroup><AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath><OutputPath>bin/$(Configuration)/net8.0-windows/</OutputPath></PropertyGroup>
+  <ItemGroup>
+    <Using Include="System.IO" /><Using Include="System.Net.Http" />
+    <Compile Include="../MoonYa/Services/FileOperationService.cs" Link="FileOperationService.cs" />
+    <Compile Include="../MoonYa/Services/DesktopFrontendService.cs" Link="DesktopFrontendService.cs" />
+    <Compile Include="../MoonYa/Services/ProgramUpdateService.cs" Link="ProgramUpdateService.cs" />
+    <Compile Include="../MoonYa/Services/AnnouncementReadStore.cs" Link="AnnouncementReadStore.cs" />
+    <Compile Include="../MoonYa/Services/PaymentActivationService.cs" Link="PaymentActivationService.cs" />
+    <Compile Include="../MoonYa/Services/BrowserProtocol.cs" Link="BrowserProtocol.cs" />
+    <Compile Include="../MoonYa/Services/BrowserPreferences.cs" Link="BrowserPreferences.cs" />
+    <PackageReference Include="System.Security.Cryptography.ProtectedData" Version="9.0.10" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,881 @@
+
+        <!-- 右侧主内容区 -->
+        <div class="main-content">
+            <!-- include:layouts/plugins-panel.html -->
+            <div class="conversation-heading" aria-label="当前会话"><span class="ui-icon" data-ui-icon="folder" aria-hidden="true"></span><span id="conversationTitle" class="conversation-title">新对话</span></div>
+            <button id="workPanelToggle" class="work-panel-toggle" type="button" aria-label="展开或收起工作面板" data-tooltip="工作面板"><span class="ui-icon" data-ui-icon="sliders" aria-hidden="true"></span></button>
+            <!-- 工作面板入口 - 顶部右侧：点击加号直接弹出右侧工作面板
+                 （原「新建对话」已移入下面的「更多」菜单，桌面端仍由原生标题栏承担） -->
+            <button class="new-chat-top-btn" id="newChatTopBtn" type="button" aria-label="工作面板" aria-haspopup="dialog" aria-expanded="false" data-tooltip="工作面板"><span class="ui-icon" data-ui-icon="square-plus" aria-hidden="true"></span></button>
+
+            <!-- 顶部工具栏 -->
+            <div class="top-toolbar" id="topToolbar">
+                <button id="conversationMoreBtn" class="conversation-more-button" type="button" aria-label="更多会话选项" aria-haspopup="menu" aria-expanded="false" aria-controls="conversationMoreMenu" data-tooltip="更多"><span class="ui-icon" data-ui-icon="more" aria-hidden="true"></span></button>
+                <div id="conversationMoreMenu" class="conversation-more-menu" role="menu" hidden>
+                    <button type="button" role="menuitem" class="top-toolbar-item more-menu-item" id="moreMenuNewChat" data-tooltip="开始一个新的对话">
+                        <span class="ui-icon" data-ui-icon="new-chat" aria-hidden="true"></span>
+                        <span>新建对话</span>
+                    </button>
+                    <button type="button" role="menuitem" class="top-toolbar-item voice-toggle-container" id="voiceToggleContainer" data-tooltip="点击开启语音播报">
+                        <img src="/image/voice-on.svg" alt="语音播报" class="voice-toggle-icon" id="voiceToggleIcon">
+                        <span>语音播报</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="main-header">
+                <div class="welcome-mark" aria-hidden="true"><span class="welcome-logo"></span></div><h1 class="main-title">你想让我们构建什么？</h1>
+
+            </div>
+            
+            <!-- 消息容器 -->
+            <div class="messages-container">
+            </div>
+
+            <!-- 输入框容器 -->
+            <div class="input-container-wrapper">
+                <!-- Work 模式：项目栏与输入框组合为上下衔接的卡片 -->
+                <div class="work-project-bar" id="workProjectBar">
+                    <div class="work-project-selector" id="workProjectSelector">
+                        <button class="work-project-btn" id="workProjectBtn" type="button">
+                            <svg class="work-project-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+                            </svg>
+                            <span>进入项目工作</span>
+                            <svg class="work-project-arrow" id="workProjectArrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="9 6 15 12 9 18"></polyline>
+                            </svg>
+                        </button>
+                        <div class="work-project-dropdown" id="workProjectDropdown">
+                            <div class="work-project-option" data-action="new_project">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                </svg>
+                                <span>新建空白项目</span>
+                            </div>
+                            <div class="work-project-option" data-action="existing_folder">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+                                    <path d="M12 11v6"></path>
+                                    <path d="M9 14h6"></path>
+                                </svg>
+                                <span>使用现有文件夹</span>
+                            </div>
+                            <div class="work-project-option" data-action="no_folder">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+                                    <line x1="9" y1="13" x2="15" y2="13"></line>
+                                </svg>
+                                <span>不使用文件夹</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <section class="composer-approval-host" id="composerApprovalHost" hidden aria-live="polite" aria-label="请求批准"></section>
+
+                <section class="user-action-card" id="userActionCard" hidden aria-live="polite" aria-label="请求协助">
+                    <div class="user-action-heading"><span aria-hidden="true"><span class="ui-icon" data-ui-icon="hand" aria-hidden="true"></span></span><span>请求协助</span></div>
+                    <strong>请求协助</strong>
+                    <p id="userActionMessage"></p>
+                    <div class="user-action-status" id="userActionStatus" hidden></div>
+                    <div class="user-action-buttons">
+                        <button type="button" class="user-action-skip" id="userActionSkip">跳过 <kbd>esc</kbd></button>
+                        <button type="button" class="user-action-primary" id="userActionOpen"><span id="userActionOpenLabel">去操作</span><span aria-hidden="true">↵</span></button>
+                    </div>
+                </section>
+
+                <div class="input-container">
+                    <div class="input-wrapper">
+                        <div class="upload-container" id="uploadContainer"></div>
+                        <div class="selected-skills-inline" id="selectedSkillsInline" aria-hidden="true"></div>
+                        <textarea class="message-input" placeholder="随心输入"></textarea>
+                        <div id="ptt-input-glow" aria-hidden="true">
+                            <div class="ptt-orb-glow"></div>
+                            <div class="ptt-orb-ring ring-1"></div>
+                            <div class="ptt-orb-ring ring-2"></div>
+                            <div class="ptt-orb-core"></div>
+                            <div class="ptt-orb-waves" aria-hidden="true">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                        </div>
+
+                        <div class="input-bottom-bar">
+                            <div class="input-bottom-left">
+                                <div class="add-menu-selector" id="addMenuSelector">
+                                    <button type="button" class="file-card file-upload-plus" id="fileCard"
+                                            aria-label="添加文件或功能" aria-haspopup="menu" aria-expanded="false" data-tooltip="添加">
+                                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                                            <path d="M12 5v14M5 12h14"></path>
+                                        </svg>
+                                        <span class="file-upload-plus-label">添加</span>
+                                    </button>
+                                    <div class="add-menu-popover" id="addMenuPopover" role="menu" aria-label="添加">
+                                        <div class="add-menu-scroll-area">
+                                            <div class="add-menu-shortcuts" aria-label="快捷入口">
+                                                <button type="button" class="add-menu-shortcut" id="addMenuFileUpload" role="menuitem">
+                                                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V4m0 0L7.5 8.5M12 4l4.5 4.5M4.5 16.5V18a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-1.5"></path></svg>
+                                                    <span>上传文件</span>
+                                                </button>
+                                                <button type="button" class="add-menu-shortcut" id="addMenuProjectPicker" role="menuitem">
+                                                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h5l2 2h7a2 2 0 0 1 2 2v9H3z"></path></svg>
+                                                    <span>选择项目</span>
+                                                </button>
+                                            </div>
+
+                                            <section class="chat-menu-section" aria-label="MoonYa 快捷功能"><div class="add-menu-heading">快捷功能</div>
+                    <div class="chat-menu-features">
+                        <button type="button" role="menuitem" class="feature-btn programming" id="programmingBtn">编程</button>
+                        <button type="button" role="menuitem" class="feature-btn research" id="researchBtn">深入研究</button>
+                        <button type="button" role="menuitem" class="feature-btn classical" id="classicalBtn">文言文翻译</button>
+                        <button type="button" role="menuitem" class="feature-btn horoscope" id="horoscopeBtn">星座运势</button>
+                        <button type="button" role="menuitem" class="feature-btn weather" id="weatherBtn">今天天气</button>
+                    </div><div class="add-menu-heading">热门话题</div><div class="hot-topics-container" id="hotTopicsContainer"></div></section>
+                                            <div data-skill-group="common"></div>
+
+                                            <div data-skill-group="development"></div>
+                                            <div data-skill-group="custom"></div>
+
+                                            <button type="button" class="add-menu-option add-menu-switch-option add-menu-voice-option" id="voiceChatToggle"
+                                                    role="switch" aria-checked="false" aria-label="实时语音对话">
+                                                <svg class="add-menu-option-icon" viewBox="0 0 24 24" aria-hidden="true">
+                                                    <rect x="8" y="3" width="8" height="12" rx="4"></rect>
+                                                    <path d="M5 11a7 7 0 0 0 14 0M12 18v3M8.5 21h7"></path>
+                                                </svg>
+                                                <span class="add-menu-option-copy">
+                                                    <span class="add-menu-option-title">实时语音对话</span>
+                                                    <span class="add-menu-option-desc">实时语音任务</span>
+                                                </span>
+                                                <span class="add-menu-switch" aria-hidden="true"><span></span></span>
+                                            </button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <input type="file" id="fileInput" accept="*/*" multiple>
+                                <input type="file" id="folderInput" accept="*/*" webkitdirectory directory multiple>
+                                <div class="input-label-container">
+                                    <div class="input-label" id="deepThinkingLabel">思考</div>
+                                    <div class="deepseek-model-selector" id="deepseekModelSelector">
+                                        <div class="deepseek-model-btn" id="deepseekModelBtn">
+                                            <span id="deepseekModelBtnText"></span>
+                                            <svg class="arrow-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M21.5627 8.86518C21.8751 8.55276 21.8751 8.04674 21.5627 7.73432C21.2502 7.4219 20.7442 7.4219 20.4318 7.73432L12.3117 15.8544C12.1555 16.0106 11.9015 16.0106 11.7453 15.8544L3.62517 7.73432C3.31275 7.4219 2.80673 7.4219 2.49431 7.73432C2.18189 8.04673 2.18189 8.55275 2.49431 8.86517L10.6144 16.9853C11.3955 17.7663 12.6615 17.7663 13.4425 16.9853L21.5627 8.86518Z" fill="currentColor"></path></svg>
+                                        </div>
+                                        <div class="deepseek-model-dropdown" id="deepseekModelDropdown">
+                                            <div id="builtinModelOptions" data-builtin-model-options="chat"></div>
+                                            <div class="context-limit-section">
+                                                <div class="context-limit-label">上下文长度</div>
+                                                <div class="context-model-length" aria-live="polite">读取中</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="reasoning-effort-selector" id="reasoningEffortSelector">
+                                        <div class="reasoning-effort-btn" id="reasoningEffortBtn">
+                                            <span id="reasoningEffortBtnText">高推理</span>
+                                            <svg class="arrow-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M21.5627 8.86518C21.8751 8.55276 21.8751 8.04674 21.5627 7.73432C21.2502 7.4219 20.7442 7.4219 20.4318 7.73432L12.3117 15.8544C12.1555 16.0106 11.9015 16.0106 11.7453 15.8544L3.62517 7.73432C3.31275 7.4219 2.80673 7.4219 2.49431 7.73432C2.18189 8.04673 2.18189 8.55275 2.49431 8.86517L10.6144 16.9853C11.3955 17.7663 12.6615 17.7663 13.4425 16.9853L21.5627 8.86518Z" fill="currentColor"></path></svg>
+                                        </div>
+                                        <div class="reasoning-effort-dropdown" id="reasoningEffortDropdown">
+                                            <div class="reasoning-effort-option selected" data-effort="high">
+                                                <span>高推理</span>
+                                                <span class="check-icon"><span class="ui-icon" data-ui-icon="check" aria-hidden="true"></span></span>
+                                            </div>
+                                            <div class="reasoning-effort-option" data-effort="max">
+                                                <span>极致推理</span>
+                                                <span class="check-icon"><span class="ui-icon" data-ui-icon="check" aria-hidden="true"></span></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="input-label" id="expertLabel">专家模式</div>
+                                    <div class="input-label" id="specialistLabel">专精模式</div>
+                                    <div class="more-features-selector" id="moreFeaturesSelector">
+                                        <div class="more-features-btn" id="moreFeaturesBtn">
+                                            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><circle cx="3" cy="8" r="1.5"/><circle cx="8" cy="8" r="1.5"/><circle cx="13" cy="8" r="1.5"/></svg>
+                                            <span>更多</span>
+                                            <svg class="arrow-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M21.5627 8.86518C21.8751 8.55276 21.8751 8.04674 21.5627 7.73432C21.2502 7.4219 20.7442 7.4219 20.4318 7.73432L12.3117 15.8544C12.1555 16.0106 11.9015 16.0106 11.7453 15.8544L3.62517 7.73432C3.31275 7.4219 2.80673 7.4219 2.49431 7.73432C2.18189 8.04673 2.18189 8.55275 2.49431 8.86517L10.6144 16.9853C11.3955 17.7663 12.6615 17.7663 13.4425 16.9853L21.5627 8.86518Z" fill="currentColor"></path></svg>
+                                        </div>
+                                        <div class="more-features-dropdown" id="moreFeaturesDropdown">
+                                            <div class="more-features-option" data-feature="programming"><span>编程</span></div>
+                                            <div class="more-features-option" data-feature="research"><span>深入研究</span></div>
+                                            <div class="more-features-option" data-feature="classical"><span>文言文翻译</span></div>
+                                            <div class="more-features-option" data-feature="horoscope"><span>星座运势</span></div>
+                                            <div class="more-features-option" data-feature="weather"><span>今天天气</span></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="input-bottom-right">
+                                <!-- 上下文圆环：实时显示当前对话占用的模型上下文 -->
+                                <div class="context-ring-wrap" id="contextRingWrap">
+                                    <button class="context-ring-trigger" id="contextRingTrigger" type="button" aria-label="查看会话详情" aria-haspopup="dialog" aria-expanded="false" aria-controls="contextRingTooltip">
+                                        <svg class="context-ring-svg" width="18" height="18" viewBox="0 0 18 18" aria-hidden="true">
+                                            <circle class="context-ring-bg" cx="9" cy="9" r="7.5"></circle>
+                                            <circle class="context-ring-fill" id="contextRingFill" cx="9" cy="9" r="7.5"></circle>
+                                        </svg>
+                                    </button>
+                                    <div class="context-ring-tooltip" id="contextRingTooltip" role="dialog" aria-label="会话详情" aria-hidden="true" hidden inert>
+                                        <button class="crt-close" id="crtClose" type="button" aria-label="关闭详情">
+                                            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4 4 8 8M12 4l-8 8"/></svg>
+                                        </button>
+                                        <details class="crt-section" data-stat-section="tokens" open>
+                                            <summary>
+                                                <svg class="crt-section-icon" viewBox="0 0 16 16" aria-hidden="true"><ellipse cx="8" cy="3.5" rx="5" ry="2"/><path d="M3 3.5v8c0 1.1 2.2 2 5 2s5-.9 5-2v-8M3 7.5c0 1.1 2.2 2 5 2s5-.9 5-2M3 11c0 1.1 2.2 2 5 2s5-.9 5-2"/></svg>
+                                                <span>Token 用量</span><span class="crt-summary-value" id="crtTokenTotal">暂不可用</span>
+                                                <svg class="crt-chevron" viewBox="0 0 16 16" aria-hidden="true"><path d="m6 4 4 4-4 4"/></svg>
+                                            </summary>
+                                            <dl class="crt-details">
+                                                <div><dt>缓存命中</dt><dd id="crtCacheHit">暂不可用</dd></div>
+                                                <div><dt>未缓存输入</dt><dd id="crtUncachedInput">暂不可用</dd></div>
+                                                <div><dt>缓存读取</dt><dd id="crtCacheRead">暂不可用</dd></div>
+                                                <div id="crtCacheWriteRow" hidden><dt>缓存写入</dt><dd id="crtCacheWrite">暂不可用</dd></div>
+                                                <div><dt>输出</dt><dd id="crtOutputTokens">暂不可用</dd></div>
+                                            </dl>
+                                            <p class="crt-record-note" id="crtTokenNote" hidden></p>
+                                        </details>
+                                        <details class="crt-section" data-stat-section="timing" open>
+                                            <summary>
+                                                <svg class="crt-section-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 12a6 6 0 1 1 10 0M8 8l3-3"/><circle cx="8" cy="8" r=".8"/></svg>
+                                                <span>会话统计</span>
+                                                <svg class="crt-chevron" viewBox="0 0 16 16" aria-hidden="true"><path d="m6 4 4 4-4 4"/></svg>
+                                            </summary>
+                                            <dl class="crt-details">
+                                                <div><dt>模型用时</dt><dd id="crtModelTime">暂不可用</dd></div>
+                                                <div><dt>工具调用用时</dt><dd id="crtToolTime">暂不可用</dd></div>
+                                                <div><dt>首 token 平均 (TTFT)</dt><dd id="crtTtft">暂不可用</dd></div>
+                                                <div><dt>输出速度 (TPS)</dt><dd id="crtTps">暂不可用</dd></div>
+                                            </dl>
+                                            <p class="crt-record-note" id="crtTimingNote" hidden></p>
+                                        </details>
+                                        <details class="crt-section" data-stat-section="context" open>
+                                            <summary>
+                                                <span class="crt-title">上下文已用</span><span id="crtPercent">—</span><span class="crt-summary-value" id="crtNums">暂不可用</span>
+                                                <svg class="crt-chevron" viewBox="0 0 16 16" aria-hidden="true"><path d="m6 4 4 4-4 4"/></svg>
+                                            </summary>
+                                            <div class="crt-context-body">
+                                                <div class="crt-bar" aria-hidden="true">
+                                                    <span class="crt-seg crt-seg-system" id="crtSegSystem"></span>
+                                                    <span class="crt-seg crt-seg-tools" id="crtSegTools"></span>
+                                                    <span class="crt-seg crt-seg-msgs" id="crtSegMessages"></span>
+                                                </div>
+                                                <ul class="crt-legend">
+                                                    <li><svg class="crt-dot crt-dot-system" viewBox="0 0 8 8" aria-hidden="true"><rect width="8" height="8" rx="1"/></svg>系统提示词<b id="crtSystemPct">—</b></li>
+                                                    <li><svg class="crt-dot crt-dot-tools" viewBox="0 0 8 8" aria-hidden="true"><rect width="8" height="8" rx="1"/></svg>工具定义<b id="crtToolsPct">—</b></li>
+                                                    <li><svg class="crt-dot crt-dot-msgs" viewBox="0 0 8 8" aria-hidden="true"><rect width="8" height="8" rx="1"/></svg>对话消息<b id="crtMessagesPct">—</b></li>
+                                                </ul>
+                                                <p class="crt-record-note" id="crtContextNote">根据实际上下文估算</p>
+                                            </div>
+                                        </details>
+                                    </div>
+                                </div>
+                                <div class="agent-settings-selector" id="agentSettingsSelector">
+                                    <button class="agent-settings-status" id="agentSettingsStatus" type="button"
+                                            aria-haspopup="dialog" aria-expanded="false" aria-label="模型与推理设置">
+                                        <span id="agentModelStatusText">deepseek-flash</span>
+                                        <span id="agentEffortStatusText">高</span>
+                                        <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m6 8 4 4 4-4"></path></svg>
+                                    </button>
+                                    <div class="agent-settings-popover" id="agentSettingsPopover" role="dialog"
+                                         aria-label="模型与推理设置" aria-hidden="true" inert>
+                                        <div class="agent-settings-heading">
+                                            <button class="agent-settings-advanced-toggle" id="agentAdvancedToggle" type="button"
+                                                    aria-expanded="false" aria-controls="agentAdvancedPanel" aria-label="高级选项" data-tooltip="高级选项">
+                                                <svg class="agent-effort-icon" viewBox="0 0 24 24" aria-hidden="true">
+                                                    <path d="m13 2-8 12h7l-1 8 8-12h-7l1-8Z"></path>
+                                                </svg>
+                                            </button>
+                                            <div class="agent-settings-summary">
+                                                <span id="agentSettingsCaptionEffort" aria-live="polite">高</span>
+                                                <button class="agent-settings-caption" id="agentModelCaptionToggle" type="button" aria-haspopup="menu" aria-expanded="false" aria-controls="agentModelMenu">
+                                                    <span id="agentSettingsCaptionModel">deepseek-flash</span>
+                                                    <svg class="ui-chevron-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"></path></svg>
+                                                </button>
+                                            </div>
+                                            <button class="agent-effort-reset" id="agentEffortReset" type="button" aria-label="重置推理强度" data-tooltip="重置推理强度">
+                                                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10a9 9 0 1 1 2.5 8M3 4v6h6"></path></svg>
+                                            </button>
+                                        </div>
+                                        <div class="agent-effort-control">
+                                            <div class="agent-effort-slider-wrap">
+                                                <input id="reasoningEffortSlider" class="agent-effort-slider" type="range"
+                                                       min="0" max="4" step="1" value="2"
+                                                       aria-label="推理强度：高">
+                                                <div class="agent-effort-dots" aria-hidden="true">
+                                                    <i></i><i></i><i></i><i></i><i></i><i></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="agent-settings-advanced" id="agentAdvancedPanel" aria-hidden="true" hidden inert>
+                                            <div class="agent-advanced-heading">高级选项</div>
+                                            <button class="agent-settings-row" id="agentModelMenuToggle" type="button"
+                                                    aria-expanded="false">
+                                                <span>模型</span>
+                                                <span class="agent-settings-row-value">
+                                                    <b id="agentAdvancedModelValue">deepseek-flash</b>
+                                                    <svg class="ui-chevron-icon" viewBox="0 0 24 24" aria-hidden="true">
+                                                        <polyline points="9 6 15 12 9 18"></polyline>
+                                                    </svg>
+                                                </span>
+                                            </button>
+                                            <div class="agent-settings-row agent-settings-row-static">
+                                                <span>推理强度</span><span id="agentAdvancedEffortValue">高</span>
+                                            </div>
+                                            <div class="agent-context-section">
+                                                <div class="agent-context-label">上下文长度</div>
+                                                <div class="context-model-length" aria-live="polite">读取中</div>
+                                            </div>
+                                        </div>
+                                        <div class="agent-model-menu" id="agentModelMenu" role="menu" aria-hidden="true" hidden inert>
+                                            <div id="agentBuiltinModelOptions" data-builtin-model-options="work"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="approval-mode-selector" id="approvalModeSelector">
+                                    <button class="approval-mode-button mode-always-confirm" id="approvalModeButton" type="button"
+                                            aria-haspopup="menu" aria-expanded="false" aria-label="工具权限：请求批准">
+                                        <svg class="approval-icon-hand" viewBox="0 0 24 24" aria-hidden="true">
+                                            <path d="M18 11V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2"></path>
+                                            <path d="M14 10V4a2 2 0 0 0-2-2a2 2 0 0 0-2 2v2"></path>
+                                            <path d="M10 10.5V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2v8"></path>
+                                            <path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"></path>
+                                        </svg>
+                                        <svg class="approval-icon-terminal" viewBox="0 0 24 24" aria-hidden="true">
+                                            <path d="M12 3 5 6v5c0 4.6 2.9 8.2 7 10 4.1-1.8 7-5.4 7-10V6l-7-3Z"></path>
+                                            <path d="m9.7 10.6 2 2-2 2"></path>
+                                            <path d="M13.4 14.6h2.2"></path>
+                                        </svg>
+                                        <svg class="approval-icon-alert" viewBox="0 0 24 24" aria-hidden="true">
+                                            <path d="M12 3 5 6v5c0 4.6 2.9 8.2 7 10 4.1-1.8 7-5.4 7-10V6l-7-3Z"></path>
+                                            <path d="M12 9.4v3.8"></path>
+                                            <path d="M12 15.8h.01"></path>
+                                        </svg>
+                                        <span id="approvalModeButtonText">请求批准</span>
+                                    </button>
+                                    <div class="approval-mode-menu" id="approvalModeMenu" role="menu" aria-label="工具权限模式">
+                                        <button type="button" role="menuitemradio" aria-checked="true" class="selected" data-approval-mode="always_confirm_changes">
+                                            <span class="approval-menu-icon" aria-hidden="true">
+                                                <svg viewBox="0 0 24 24">
+                                                    <path d="M18 11V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2"></path>
+                                                    <path d="M14 10V4a2 2 0 0 0-2-2a2 2 0 0 0-2 2v2"></path>
+                                                    <path d="M10 10.5V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2v8"></path>
+                                                    <path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"></path>
+                                                </svg>
+                                            </span>
+                                            <span class="approval-menu-copy">
+                                                <span class="approval-menu-title">请求批准</span>
+                                                <span class="approval-menu-desc">编辑外部文件和使用互联网时始终询问</span>
+                                            </span>
+                                            <span class="approval-menu-check" aria-hidden="true">
+                                                <svg viewBox="0 0 24 24"><path d="m5 12.6 4.6 4.6L19 7"></path></svg>
+                                            </span>
+                                        </button>
+                                        <button type="button" role="menuitemradio" aria-checked="false" data-approval-mode="high_risk_only">
+                                            <span class="approval-menu-icon" aria-hidden="true">
+                                                <svg viewBox="0 0 24 24">
+                                                    <path d="M12 3 5 6v5c0 4.6 2.9 8.2 7 10 4.1-1.8 7-5.4 7-10V6l-7-3Z"></path>
+                                                    <path d="m9.7 10.6 2 2-2 2"></path>
+                                                    <path d="M13.4 14.6h2.2"></path>
+                                                </svg>
+                                            </span>
+                                            <span class="approval-menu-copy">
+                                                <span class="approval-menu-title">帮我批准</span>
+                                                <span class="approval-menu-desc">仅对检测到的风险操作请求批准</span>
+                                            </span>
+                                            <span class="approval-menu-check" aria-hidden="true">
+                                                <svg viewBox="0 0 24 24"><path d="m5 12.6 4.6 4.6L19 7"></path></svg>
+                                            </span>
+                                        </button>
+                                        <button type="button" role="menuitemradio" aria-checked="false" data-approval-mode="full_access">
+                                            <span class="approval-menu-icon" aria-hidden="true">
+                                                <svg viewBox="0 0 24 24">
+                                                    <path d="M12 3 5 6v5c0 4.6 2.9 8.2 7 10 4.1-1.8 7-5.4 7-10V6l-7-3Z"></path>
+                                                    <path d="M12 9.4v3.8"></path>
+                                                    <path d="M12 15.8h.01"></path>
+                                                </svg>
+                                            </span>
+                                            <span class="approval-menu-copy">
+                                                <span class="approval-menu-title">完全访问权限</span>
+                                                <span class="approval-menu-desc">可不受限制地访问互联网和你电脑上的任何文件</span>
+                                            </span>
+                                            <span class="approval-menu-check" aria-hidden="true">
+                                                <svg viewBox="0 0 24 24"><path d="m5 12.6 4.6 4.6L19 7"></path></svg>
+                                            </span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="active-feature-badges" id="activeFeatureBadges" aria-live="polite" aria-label="已启用功能">
+                                    <span class="active-feature-badge" id="voiceFeatureBadge" hidden>
+                                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                                            <rect x="8" y="3" width="8" height="12" rx="4"></rect>
+                                            <path d="M5 11a7 7 0 0 0 14 0M12 18v3M8.5 21h7"></path>
+                                        </svg>
+                                        <span>实时语音对话</span>
+                                    </span>
+                                </div>
+                                <div class="send-btn2" id="voiceBtn">
+                                    <img id="voiceBtnImg" src="/image/composer-microphone.svg" alt="语音输入">
+                                </div>
+                                <div class="send-btn2" id="sendBtn">
+                                    <img id="sendBtnImg" src="/image/composer-send.svg" alt="发送">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Work 模式：网页端提示弹窗 -->
+                <div class="wp-modal-overlay" id="workProjectWebWarnModal" aria-hidden="true">
+                    <div class="wp-modal wp-modal-sm" role="dialog" aria-modal="true" aria-labelledby="wpWarnTitle">
+                        <div class="wp-modal-header">
+                            <h3 class="wp-modal-title" id="wpWarnTitle" data-i18n="web_mode_warning_title">需要桌面启动器</h3>
+                        </div>
+                        <div class="wp-modal-body">
+                            <p class="wp-modal-text" data-i18n="web_mode_warning_body">该功能需要配合 MoonYa 桌面启动器使用...</p>
+                        </div>
+                        <div class="wp-modal-footer">
+                            <button type="button" class="wp-btn-primary" id="wpWarnOkBtn" data-i18n="btn_acknowledge" aria-label="我知道了">我知道了</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Work 模式：新建项目弹窗 -->
+                <div class="wp-modal-overlay" id="workProjectCreateModal" aria-hidden="true">
+                    <div class="wp-modal" role="dialog" aria-modal="true" aria-labelledby="wpCreateTitle">
+                        <div class="wp-modal-header">
+                            <h3 class="wp-modal-title" id="wpCreateTitle" data-i18n="modal_create_title">创建项目</h3>
+                            <button type="button" class="wp-modal-close" id="wpCreateCloseBtn" aria-label="关闭">×</button>
+                        </div>
+                        <div class="wp-modal-body">
+                            <div class="wp-field">
+                                <label class="wp-label" for="wpCreateNameInput" data-i18n="label_project_name">项目名称</label>
+                                <input type="text" class="wp-input" id="wpCreateNameInput" data-i18n-ph="placeholder_project_name" placeholder="这里写项目名称" maxlength="100" autocomplete="off" />
+                            </div>
+                            <div class="wp-field">
+                                <label class="wp-label" for="wpCreatePathInput" data-i18n="label_project_path">项目路径</label>
+                                <div class="wp-path-row">
+                                    <input type="text" class="wp-input wp-path-input" id="wpCreatePathInput" data-i18n-ph="placeholder_project_path" placeholder="直接输入或粘贴项目路径" autocomplete="off" spellcheck="false" />
+                                    <button type="button" class="wp-btn-secondary wp-pick-btn" id="wpCreatePickBtn" data-i18n="btn_browse" aria-label="浏览选择文件夹" data-tooltip="打开文件夹选择器">浏览</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="wp-modal-footer">
+                            <button type="button" class="wp-btn-secondary" id="wpCreateCancelBtn" data-i18n="btn_cancel" aria-label="取消">取消</button>
+                            <button type="button" class="wp-btn-primary" id="wpCreateConfirmBtn" data-i18n="btn_save" aria-label="保存">保存</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Work 模式：现有文件夹列表弹窗 -->
+                <div class="wp-modal-overlay" id="workProjectListModal" aria-hidden="true">
+                    <div class="wp-modal" role="dialog" aria-modal="true" aria-labelledby="wpListTitle">
+                        <div class="wp-modal-header">
+                            <h3 class="wp-modal-title" id="wpListTitle" data-i18n="modal_list_title">选择现有文件夹</h3>
+                            <button type="button" class="wp-modal-close" id="wpListCloseBtn" aria-label="关闭">×</button>
+                        </div>
+                        <div class="wp-modal-body">
+                            <input type="text" class="wp-input wp-search-input" id="wpListSearchInput" data-i18n-ph="placeholder_search" placeholder="搜索文件夹名称..." />
+                            <div class="wp-folder-list" id="wpFolderList">
+                                <!-- 列表项 JS 动态渲染 -->
+                            </div>
+                            <div class="wp-empty" id="wpListEmpty" style="display:none;">
+                                <div class="wp-empty-icon"><span class="ui-icon" data-ui-icon="folder" aria-hidden="true"></span></div>
+                                <div class="wp-empty-text" data-i18n="empty_no_folders">暂无文件夹</div>
+                                <div class="wp-empty-hint" data-i18n="empty_no_folders_hint">点击下方按钮新建第一个项目</div>
+                                <button type="button" class="wp-btn-primary" id="wpEmptyCreateBtn" data-i18n="btn_create_new" aria-label="新建项目">新建项目</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+<!-- include:layouts/office-panel.html -->
+
+        </div>
+
+
+        <div class="detail-panel-resizer" id="detailPanelResizer"
+             role="separator" aria-orientation="vertical"
+             aria-label="调整主对话与工作日志宽度"
+             aria-controls="detailPanel" aria-valuemin="350"
+             aria-hidden="true" tabindex="-1"></div>
+
+        <!-- 原生七 Agent 团队工作面板（右侧）：外壳为浏览器式「标签条 + 视图菜单 + 工具栏」 -->
+        <aside class="detail-panel team-panel" id="detailPanel" aria-hidden="true" aria-label="团队工作面板">
+            <!-- ── 面板外壳（浏览器式标签条）──────────────────────────────
+                 工作面板的标题头与页签排已整体并入这里：
+                   · 多标签：工作日志/产出物/预览各最多一个，浏览器（新标签页）可开多个，
+                     已打开的视图不再出现在「+」菜单里；标签由 script-6-browser-panel.php 渲染
+                   · 未打开任何视图（首页空状态）→ 不显示标签与「+」，视图列表由首页承担
+                   · 清空日志 / 关闭面板 → 首页列表
+                 既有逻辑依赖的 id（detailPanelClear / detailPanelClose /
+                 teamArtifactCount / data-team-tab）全部保留，script-1e 无需改动；
+                 待命指示（teamLiveIndicator）已按需求删除，script-1e 的 teamSetLive 会自行跳过。 -->
+            <div class="bp-tabbar" id="panelTabbar">
+                <div class="bp-tabs" id="panelTabStrip" role="tablist" aria-label="工作面板标签"></div>
+                <button type="button" class="bp-icon-btn" id="panelViewMenuBtn" data-tooltip="新建标签页"
+                        aria-label="新建标签页" aria-haspopup="menu" aria-expanded="false" hidden>
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
+                         stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+                        <path d="M12 5v14"></path>
+                        <path d="M5 12h14"></path>
+                    </svg>
+                </button>
+                <span class="bp-spacer"></span>
+                <button type="button" class="bp-icon-btn" id="teamBrowserExpand" data-tooltip="展开面板"
+                        aria-label="展开面板" aria-pressed="false">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
+                         stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M14 4h6v6"></path>
+                        <path d="M20 4l-6 6"></path>
+                        <path d="M10 20H4v-6"></path>
+                        <path d="M4 20l6-6"></path>
+                    </svg>
+                </button>
+                <!-- 折叠工作面板（再展开走顶栏的操作详情按钮） -->
+                <button type="button" class="bp-icon-btn" id="panelCollapseBtn" data-tooltip="折叠工作面板"
+                        aria-label="折叠工作面板" aria-expanded="true">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
+                         stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M10 6.5l5.5 5.5-5.5 5.5"></path>
+                        <path d="M18.5 5.5v13"></path>
+                    </svg>
+                </button>
+                <!-- 首页标记：让 script-1e 的 activateTeamTab 能把「首页」视为一个视图；
+                     它带着 selected、自身隐藏，因此 onload 时 activePanelView() 就是 home -->
+                <button type="button" class="bp-home-marker selected" id="teamTabHome" data-team-tab="home"
+                        aria-selected="true" aria-controls="teamPaneHome" hidden></button>
+                <!-- 「+」视图菜单（样式对齐参考图：图标 + 文字；视图本身不绑定快捷键） -->
+                <div class="bp-menu bp-menu-views" id="panelViewMenu" role="menu"
+                     aria-label="打开视图" hidden>
+                    <button type="button" class="bp-menu-item" role="menuitem" id="teamTabLog"
+                            data-team-tab="log" aria-selected="false" aria-controls="teamPaneLog">
+                        <svg class="bp-menu-icon" viewBox="0 0 24 24" width="16" height="16" fill="none"
+                             stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                             stroke-linejoin="round" aria-hidden="true">
+                            <rect x="3.5" y="4.5" width="17" height="15" rx="3"></rect>
+                            <path d="M8 9h8"></path>
+                            <path d="M8 12.5h8"></path>
+                            <path d="M8 16h5"></path>
+                        </svg>
+                        <span class="bp-menu-label">工作日志</span>
+                    </button>
+                    <button type="button" class="bp-menu-item" role="menuitem" id="teamTabArtifacts"
+                            data-team-tab="artifacts" aria-selected="false" aria-controls="teamPaneArtifacts">
+                        <svg class="bp-menu-icon" viewBox="0 0 24 24" width="16" height="16" fill="none"
+                             stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                             stroke-linejoin="round" aria-hidden="true">
+                            <path d="M3.5 7.5a2 2 0 0 1 2-2h3.2l1.6 2h8.2a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2z"></path>
+                        </svg>
+                        <span class="bp-menu-label">产出物</span>
+                        <span class="team-tab-count" id="teamArtifactCount">0</span>
+                    </button>
+                    <button type="button" class="bp-menu-item" role="menuitem" id="teamTabPreview"
+                            data-team-tab="preview" aria-selected="false" aria-controls="teamPanePreview">
+                        <svg class="bp-menu-icon" viewBox="0 0 24 24" width="16" height="16" fill="none"
+                             stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                             stroke-linejoin="round" aria-hidden="true">
+                            <path d="M2.5 12S6 6 12 6s9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6z"></path>
+                            <circle cx="12" cy="12" r="2.5"></circle>
+                        </svg>
+                        <span class="bp-menu-label">预览</span>
+                    </button>
+                    <!-- 内置浏览器视图：仅当 CefSharp 桥可用时由 script-6-browser-panel.php 显示 -->
+                    <button type="button" class="bp-menu-item" role="menuitem" id="teamTabBrowser"
+                            data-team-tab="browser" aria-selected="false" aria-controls="teamPaneBrowser" hidden>
+                        <svg class="bp-menu-icon" viewBox="0 0 24 24" width="16" height="16" fill="none"
+                             stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                             stroke-linejoin="round" aria-hidden="true">
+                            <circle cx="12" cy="12" r="9"></circle>
+                            <path d="M3 12h18"></path>
+                            <path d="M12 3c2.6 2.6 3.9 5.6 3.9 9s-1.3 6.4-3.9 9c-2.6-2.6-3.9-5.6-3.9-9S9.4 5.6 12 3z"></path>
+                        </svg>
+                        <span class="bp-menu-label">浏览器</span>
+                    </button>
+                    <div class="bp-menu-sep" role="separator"></div>
+                    <button type="button" class="bp-menu-item" role="menuitem" data-bp-action="clear-log">
+                        <svg class="bp-menu-icon" viewBox="0 0 24 24" width="16" height="16" fill="none"
+                             stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                             stroke-linejoin="round" aria-hidden="true">
+                            <path d="M5 7h14"></path>
+                            <path d="M9.5 7V5.5h5V7"></path>
+                            <path d="M7 7l1 12h8l1-12"></path>
+                        </svg>
+                        <span class="bp-menu-label">清空当前日志</span>
+                    </button>
+                    <button type="button" class="bp-menu-item" role="menuitem" data-bp-action="close-panel">
+                        <svg class="bp-menu-icon" viewBox="0 0 24 24" width="16" height="16" fill="none"
+                             stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                             stroke-linejoin="round" aria-hidden="true">
+                            <path d="M6 6l12 12"></path>
+                            <path d="M18 6L6 18"></path>
+                        </svg>
+                        <span class="bp-menu-label">关闭工作面板</span>
+                    </button>
+                </div>
+            </div>
+            <div class="team-panel-panes">
+                <!-- 首页（空状态）：图标 + 文字列表，视图本身不显示快捷键 -->
+                <section class="team-panel-pane selected" id="teamPaneHome" role="tabpanel"
+                         aria-labelledby="teamTabHome">
+                    <div class="bp-home">
+                        <button type="button" class="bp-menu-item" data-team-tab="log" aria-selected="false"
+                                aria-controls="teamPaneLog">
+                            <svg class="bp-menu-icon" viewBox="0 0 24 24" width="16" height="16" fill="none"
+                                 stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                 stroke-linejoin="round" aria-hidden="true">
+                                <rect x="3.5" y="4.5" width="17" height="15" rx="3"></rect>
+                                <path d="M8 9h8"></path>
+                                <path d="M8 12.5h8"></path>
+                                <path d="M8 16h5"></path>
+                            </svg>
+                            <span class="bp-menu-label">工作日志</span>
+                        </button>
+                        <button type="button" class="bp-menu-item" data-team-tab="artifacts" aria-selected="false"
+                                aria-controls="teamPaneArtifacts">
+                            <svg class="bp-menu-icon" viewBox="0 0 24 24" width="16" height="16" fill="none"
+                                 stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                 stroke-linejoin="round" aria-hidden="true">
+                                <path d="M3.5 7.5a2 2 0 0 1 2-2h3.2l1.6 2h8.2a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2z"></path>
+                            </svg>
+                            <span class="bp-menu-label">产出物</span>
+                        </button>
+                        <button type="button" class="bp-menu-item" data-team-tab="preview" aria-selected="false"
+                                aria-controls="teamPanePreview">
+                            <svg class="bp-menu-icon" viewBox="0 0 24 24" width="16" height="16" fill="none"
+                                 stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                 stroke-linejoin="round" aria-hidden="true">
+                                <path d="M2.5 12S6 6 12 6s9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6z"></path>
+                                <circle cx="12" cy="12" r="2.5"></circle>
+                            </svg>
+                            <span class="bp-menu-label">预览</span>
+                        </button>
+                        <!-- 内置浏览器：仅当 CefSharp 桥可用时显示 -->
+                        <button type="button" class="bp-menu-item" id="homeBrowserEntry" data-team-tab="browser"
+                                aria-selected="false" aria-controls="teamPaneBrowser" hidden>
+                            <svg class="bp-menu-icon" viewBox="0 0 24 24" width="16" height="16" fill="none"
+                                 stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                 stroke-linejoin="round" aria-hidden="true">
+                                <circle cx="12" cy="12" r="9"></circle>
+                                <path d="M3 12h18"></path>
+                                <path d="M12 3c2.6 2.6 3.9 5.6 3.9 9s-1.3 6.4-3.9 9c-2.6-2.6-3.9-5.6-3.9-9S9.4 5.6 12 3z"></path>
+                            </svg>
+                            <span class="bp-menu-label">浏览器</span>
+                        </button>
+                        <div class="bp-menu-sep" role="separator"></div>
+                        <button type="button" class="bp-menu-item" id="detailPanelClear" data-tooltip="清空当前日志">
+                            <svg class="bp-menu-icon" viewBox="0 0 24 24" width="16" height="16" fill="none"
+                                 stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                 stroke-linejoin="round" aria-hidden="true">
+                                <path d="M5 7h14"></path>
+                                <path d="M9.5 7V5.5h5V7"></path>
+                                <path d="M7 7l1 12h8l1-12"></path>
+                            </svg>
+                            <span class="bp-menu-label">清空当前日志</span>
+                        </button>
+                        <button type="button" class="bp-menu-item" id="detailPanelClose" data-tooltip="关闭工作面板"
+                                aria-label="关闭工作面板">
+                            <svg class="bp-menu-icon" viewBox="0 0 24 24" width="16" height="16" fill="none"
+                                 stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                 stroke-linejoin="round" aria-hidden="true">
+                                <path d="M6 6l12 12"></path>
+                                <path d="M18 6L6 18"></path>
+                            </svg>
+                            <span class="bp-menu-label">关闭工作面板</span>
+                        </button>
+                    </div>
+                </section>
+                <section class="team-panel-pane" id="teamPaneLog" role="tabpanel" aria-labelledby="teamTabLog" hidden>
+                    <div class="detail-panel-content team-work-log" id="detailPanelContent">
+                        <div class="detail-panel-empty" id="detailPanelEmpty">
+                            <span class="team-empty-icon ui-icon" data-ui-icon="briefcase" aria-hidden="true"></span>
+                            <strong>团队尚未开始工作</strong>
+                            <span>FarSide 或电脑操作任务的执行过程会显示在这里</span>
+                        </div>
+                    </div>
+                </section>
+                <section class="team-panel-pane" id="teamPaneArtifacts" role="tabpanel"
+                         aria-labelledby="teamTabArtifacts" hidden>
+                    <div class="team-artifact-list" id="teamArtifactList">
+                        <div class="detail-panel-empty"><strong>暂无产出物</strong><span>文件、链接和媒体会按 Agent 分组</span></div>
+                    </div>
+                </section>
+                <section class="team-panel-pane" id="teamPanePreview" role="tabpanel"
+                         aria-labelledby="teamTabPreview" hidden>
+                    <div class="team-preview" id="teamPreview">
+                        <div class="detail-panel-empty"><strong>选择一个产出物</strong><span>支持安全预览文本、代码、JSON、CSV、图片、PDF 与媒体</span></div>
+                    </div>
+                </section>
+                <!--
+                    内置浏览器（进程内 Chromium / CEF）。
+                    本区块只绘制浏览器外壳（标签条 + 导航条 + 下拉菜单）与"视口占位"：
+                    真正的网页由 C# 侧的面板浏览器控件渲染并覆盖在 #teamBrowserViewport 的矩形上
+                    （CEF 无法在页面内部嵌套浏览器），矩形由 script-6-browser-panel.php 按视口比例实时上报。
+                    菜单会与视口重叠，因此菜单展开时该模块会临时隐藏覆盖层（桥 setVisible）。
+                -->
+                <section class="team-panel-pane" id="teamPaneBrowser" role="tabpanel"
+                         aria-labelledby="teamTabBrowser" hidden>
+                    <!-- ── 导航条 ── -->
+                    <div class="bp-navbar" role="toolbar" aria-label="内置浏览器工具栏">
+                        <button type="button" class="bp-icon-btn" id="teamBrowserBack" data-tooltip="后退" aria-label="后退" disabled>
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
+                                 stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <path d="M15 18l-6-6 6-6"></path>
+                            </svg>
+                        </button>
+                        <button type="button" class="bp-icon-btn" id="teamBrowserForward" data-tooltip="前进" aria-label="前进" disabled>
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
+                                 stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <path d="M9 6l6 6-6 6"></path>
+                            </svg>
+                        </button>
+                        <button type="button" class="bp-icon-btn bp-reload" id="teamBrowserReload" data-tooltip="刷新" aria-label="刷新">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
+                                 stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <path d="M20 11a8 8 0 1 0-2.3 5.6"></path>
+                                <path d="M20 5v6h-6"></path>
+                            </svg>
+                        </button>
+                        <div class="bp-address-wrap">
+                            <input type="text" id="teamBrowserAddress" class="bp-address"
+                                   placeholder="搜索或输入网址" spellcheck="false" autocomplete="off"
+                                   aria-label="地址栏" />
+                            <button type="button" class="bp-go" id="teamBrowserGo" data-tooltip="前往" aria-label="前往">
+                                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor"
+                                     stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                    <path d="M7 17L17 7"></path>
+                                    <path d="M9 7h8v8"></path>
+                                </svg>
+                            </button>
+                        </div>
+                        <button type="button" class="bp-icon-btn" id="teamBrowserMenuBtn" data-tooltip="更多"
+                                aria-label="更多" aria-haspopup="menu" aria-expanded="false">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">
+                                <circle cx="12" cy="5.5" r="1.6"></circle>
+                                <circle cx="12" cy="12" r="1.6"></circle>
+                                <circle cx="12" cy="18.5" r="1.6"></circle>
+                            </svg>
+                        </button>
+                        <button type="button" class="bp-handoff-complete" id="teamBrowserHandoffComplete" hidden><span class="ui-icon" data-ui-icon="check" aria-hidden="true"></span>&nbsp; 确认完成</button>
+                        <!-- ⋮ 菜单 -->
+                        <div class="bp-menu bp-menu-more" id="teamBrowserMenu" role="menu"
+                             aria-label="浏览器菜单" hidden>
+                            <button type="button" class="bp-menu-item" role="menuitem" data-bp-action="new-tab">
+                                <svg class="bp-menu-icon" viewBox="0 0 24 24" width="16" height="16" fill="none"
+                                     stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                     stroke-linejoin="round" aria-hidden="true">
+                                    <circle cx="12" cy="12" r="9"></circle>
+                                    <path d="M3 12h18"></path>
+                                    <path d="M12 3c2.6 2.6 3.9 5.6 3.9 9s-1.3 6.4-3.9 9c-2.6-2.6-3.9-5.6-3.9-9S9.4 5.6 12 3z"></path>
+                                </svg>
+                                <span class="bp-menu-label">新标签页</span>
+                                <span class="bp-kbd">Ctrl+T</span>
+                            </button>
+                            <button type="button" class="bp-menu-item" role="menuitem" data-bp-action="reload">
+                                <svg class="bp-menu-icon" viewBox="0 0 24 24" width="16" height="16" fill="none"
+                                     stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                     stroke-linejoin="round" aria-hidden="true">
+                                    <path d="M20 11a8 8 0 1 0-2.3 5.6"></path>
+                                    <path d="M20 5v6h-6"></path>
+                                </svg>
+                                <span class="bp-menu-label">刷新</span>
+                                <span class="bp-kbd">Ctrl+R</span>
+                            </button>
+                            <button type="button" class="bp-menu-item" role="menuitem" data-bp-action="copy-url">
+                                <svg class="bp-menu-icon" viewBox="0 0 24 24" width="16" height="16" fill="none"
+                                     stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                     stroke-linejoin="round" aria-hidden="true">
+                                    <rect x="9" y="9" width="11" height="11" rx="2.5"></rect>
+                                    <path d="M15 5.5A2.5 2.5 0 0 0 12.5 4H6.5A2.5 2.5 0 0 0 4 6.5v6A2.5 2.5 0 0 0 5.5 15"></path>
+                                </svg>
+                                <span class="bp-menu-label">复制网址</span>
+                            </button>
+                            <button type="button" class="bp-menu-item" role="menuitem" data-bp-action="open-external">
+                                <svg class="bp-menu-icon" viewBox="0 0 24 24" width="16" height="16" fill="none"
+                                     stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                     stroke-linejoin="round" aria-hidden="true">
+                                    <path d="M14 4h6v6"></path>
+                                    <path d="M20 4l-8 8"></path>
+                                    <path d="M19 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5"></path>
+                                </svg>
+                                <span class="bp-menu-label">在系统浏览器打开</span>
+                            </button>
+                            <button type="button" class="bp-menu-item" role="menuitem" data-bp-action="zoom-in">
+                                <svg class="bp-menu-icon" viewBox="0 0 24 24" width="16" height="16" fill="none"
+                                     stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                     stroke-linejoin="round" aria-hidden="true">
+                                    <circle cx="10.5" cy="10.5" r="6.5"></circle>
+                                    <path d="M15.5 15.5L20 20"></path>
+                                    <path d="M10.5 7.5v6"></path>
+                                    <path d="M7.5 10.5h6"></path>
+                                </svg>
+                                <span class="bp-menu-label">放大</span>
+                                <span class="bp-kbd">Ctrl+=</span>
+                            </button>
+                            <button type="button" class="bp-menu-item" role="menuitem" data-bp-action="zoom-out">
+                                <svg class="bp-menu-icon" viewBox="0 0 24 24" width="16" height="16" fill="none"
+                                     stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                     stroke-linejoin="round" aria-hidden="true">
+                                    <circle cx="10.5" cy="10.5" r="6.5"></circle>
+                                    <path d="M15.5 15.5L20 20"></path>
+                                    <path d="M7.5 10.5h6"></path>
+                                </svg>
+                                <span class="bp-menu-label">缩小</span>
+                                <span class="bp-kbd">Ctrl+-</span>
+                            </button>
+                            <button type="button" class="bp-menu-item" role="menuitem" data-bp-action="zoom-reset">
+                                <svg class="bp-menu-icon" viewBox="0 0 24 24" width="16" height="16" fill="none"
+                                     stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                     stroke-linejoin="round" aria-hidden="true">
+                                    <path d="M4 12a8 8 0 1 0 8-8"></path>
+                                    <path d="M4 4v5h5"></path>
+                                </svg>
+                                <span class="bp-menu-label">重置缩放</span>
+                                <span class="bp-kbd" id="teamBrowserZoomHint">100%</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="bp-viewport" id="teamBrowserViewport">
+                        <div class="bp-placeholder" id="teamBrowserPlaceholder">
+                            <span class="bp-placeholder-orb" aria-hidden="true"></span>
+                            <strong>内置浏览器仅在 MoonYa 桌面端可用</strong>
+                            <span>桌面端会在此处用随包的 Chromium 内核渲染网页，无需安装 Google Chrome</span>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </aside>
+
+    </div>
+
+    <div class="browser-security-overlay" id="browserSecurityOverlay" hidden>
+        <section class="browser-security-modal" role="dialog" aria-modal="true"
+                 aria-labelledby="browserSecurityTitle" aria-describedby="browserSecurityDescription">
+            <header class="browser-security-header">
+                <span class="browser-security-kicker">BROWSER SECURITY</span>
+                <h2 id="browserSecurityTitle">浏览器操作确认</h2>
+            </header>
+            <p id="browserSecurityDescription"></p>
+            <dl class="browser-security-facts" id="browserSecurityFacts"></dl>
+            <div class="browser-security-permissions" id="browserSecurityPermissions" hidden>
+                <h3>已保存的站点权限</h3>
+                <div id="browserSecurityPermissionList"></div>
+            </div>
+            <footer class="browser-security-actions" id="browserSecurityActions"></footer>
+            <button type="button" class="browser-security-manage" id="browserSecurityManage">管理站点权限</button>
+        </section>
+    </div>
+
+    <!-- 自定义右键刷新菜单 -->
+    <div class="my-context-menu" id="myContextMenu" data-tooltip="刷新页面">
+        <div class="ctx-icon">
+            <svg t="1782040107803" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5090" width="200" height="200"><path d="M820.2752 204.8a435.2 435.2 0 1 0 104.0896 167.7312 25.6 25.6 0 1 1 48.4864-16.384 486.4 486.4 0 1 1-117.8112-188.928V25.5488a25.6 25.6 0 1 1 51.2 0v204.8a25.6 25.6 0 0 1-25.6 25.6h-204.8a25.6 25.6 0 1 1 0-51.2h144.4352z" fill="#000000" p-id="5091"></path></svg>
+        </div>
+        <div class="ctx-text">
+            <div class="ctx-title">刷新</div>
+        </div>
+    </div>

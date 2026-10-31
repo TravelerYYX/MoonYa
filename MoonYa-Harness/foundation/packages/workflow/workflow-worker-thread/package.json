@@ -1,0 +1,65 @@
+{
+  "name": "@moonya/harness-workflow-worker-thread",
+  "description": "worker-thread workflow engine: executes model-written orchestration scripts off the host event loop, bridging agent() calls back to ctx.subagents",
+  "version": "0.1.5-rc.2",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deepseek-ai/moonya-agent-runtime.git",
+    "directory": "packages/workflow/workflow-worker-thread"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./worker": {
+      "types": "./lib/types/worker.d.ts",
+      "default": "./lib/worker.cjs"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/worker.cjs",
+    "lib/types/**/*.d.ts"
+  ],
+  "license": "MIT",
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "workspace:^",
+    "@moonya/harness-agent": "workspace:^",
+    "@moonya/harness-llm": "workspace:^",
+    "@moonya/harness-session": "workspace:^",
+    "@moonya/harness-subagent": "workspace:^",
+    "@moonya/harness-tools": "workspace:^",
+    "@moonya/harness-workflow": "workspace:^"
+  },
+  "dependencies": {
+    "@moonya/harness-brand": "workspace:^",
+    "@moonya/harness-util-values": "workspace:^",
+    "@deepseek-ai/schemastery": "workspace:^"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "workspace:^",
+    "@moonya/harness-agent": "workspace:^",
+    "@moonya/harness-agent-loop": "workspace:^",
+    "@moonya/harness-agent-loop-testkit": "workspace:^",
+    "@moonya/harness-invariants": "workspace:^",
+    "@moonya/harness-llm": "workspace:^",
+    "@moonya/harness-session": "workspace:^",
+    "@moonya/harness-session-projection": "workspace:^",
+    "@moonya/harness-subagent": "workspace:^",
+    "@moonya/harness-subagent-spawn-in-process": "workspace:^",
+    "@moonya/harness-system-prompt": "workspace:^",
+    "@moonya/harness-tools": "workspace:^",
+    "@moonya/harness-workflow": "workspace:^",
+    "tsx": "^4.19.2",
+    "@moonya/harness-http-proxy": "workspace:^"
+  }
+}

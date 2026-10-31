@@ -1,0 +1,168 @@
+{
+  "version": 1,
+  "modelGroups": {
+    "deepseek": {
+      "default": "deepseek-flash",
+      "models": [
+        {
+          "id": "deepseek-flash",
+          "label": "deepseek-flash"
+        }
+      ]
+    }
+  },
+  "modelCapabilities": {
+    "deepseek-flash": {
+      "provider": "deepseek",
+      "context_window": 1048576,
+      "context_window_options": [
+        300000,
+        1048576
+      ],
+      "context_window_source": "official",
+      "supports_images": true,
+      "disable_thinking_for_tools": false,
+      "reasoning_control": "binary_strength",
+      "strip_sampling_when_thinking": true,
+      "omit_tool_choice_when_thinking": true,
+      "supports_thinking_with_tools": true,
+      "uses_scene_prompt": true,
+      "normalize_multimodal_to_text": false,
+      "planning_thinking_disabled": true,
+      "supports_thinking": true,
+      "reasoning": "deepseek",
+      "efforts": [
+        "low",
+        "high",
+        "max"
+      ],
+      "default_effort": "high",
+      "effort_labels": {}
+    }
+  },
+  "skills": [
+    {
+      "name": "browser-use-automation",
+      "display_name": "操作浏览器",
+      "description": "Control websites exclusively through MoonYa's built-in browser_automation_control tool. Use whenever the user asks to open or navigate a web page, inspect visible content or UI state, click, type, select, upload or download files, take screenshots, manage tabs, test a web flow, or troubleshoot browser behavior. Also use for Taobao/Tmall, Weibo, and Xiaohongshu workflows. Site references provide business rules only. Whenever login, reauthentication, QR/SMS/OTP, CAPTCHA, identity verification, or user takeover is required, always call interaction_request_action with type=browserControl; never rely on a text-only login request.",
+      "enabled": true
+    },
+    {
+      "name": "computer-use-automation",
+      "display_name": "computer-use-automation",
+      "description": "Use this Windows Computer Use skill whenever the user wants to open, switch to, or operate a desktop app or local GUI and complete a task in it—even when they never mention \"computer use\" explicitly. Trigger on requests such as opening Calculator/计算器/计算机 app to compute expressions, using another app, changing Windows Settings, handling file pickers, or operating a user-specified local browser session. This includes controls, menus, dialogs, and windows. Use computer_use_tool plane=\"cu\" with seed_computer_use, observe the current screen before coordinate actions, verify the outcome, and request user takeover for login or other manual-only steps. Not for BU page automation.",
+      "enabled": true
+    }
+  ],
+  "voice": {
+    "lang": "zh-CN",
+    "rate": 1,
+    "pitch": 1,
+    "volume": 1
+  },
+  "ptt": {
+    "asrEnabled": false,
+    "asrEndpoint": "/api/asr.php",
+    "mode": "hold",
+    "model": "fun-asr"
+  },
+  "features": {
+    "horoscope": {
+      "enabled": true,
+      "apiUrl": "/api/client_feature.php?feature=horoscope",
+      "apiToken": ""
+    },
+    "weather": {
+      "enabled": true,
+      "apiUrl": "/api/client_feature.php?feature=weather",
+      "apiToken": "",
+      "ipLocationApis": [],
+      "defaultTimezone": "UTC+8"
+    }
+  },
+  "runtime": {
+    "pdfWorkerUrl": "/vendor/pdf.worker.min.js",
+    "videoPortalUrl": ""
+  },
+  "persona": "你是 MoonYa。用清晰、直接的中文与用户协作；执行任务时持续工作到完成并验证。",
+  "contextReserveRatio": 0.2,
+  "workProjectTexts": {
+    "btn_enter_project_default": "进入项目工作",
+    "web_mode_warning_title": "需要桌面启动器",
+    "web_mode_warning_body": "该功能需要配合 MoonYa 桌面启动器使用，网页端无法访问本地文件系统。请下载并启动桌面启动器后重试。",
+    "btn_acknowledge": "我知道了",
+    "modal_create_title": "创建项目",
+    "modal_list_title": "选择现有文件夹",
+    "placeholder_project_name": "这里写项目名称",
+    "placeholder_project_path": "直接输入或粘贴项目的绝对路径",
+    "placeholder_search": "搜索文件夹名称...",
+    "btn_select_folder": "选择文件夹",
+    "btn_confirm": "确认",
+    "btn_save": "保存",
+    "btn_cancel": "取消",
+    "btn_delete": "删除",
+    "btn_select": "选择",
+    "btn_pick_folder_short": "…",
+    "btn_browse": "浏览",
+    "btn_create_new": "新建项目",
+    "toast_project_switched": "已切换到项目: {name}",
+    "toast_project_created": "项目 {name} 创建成功",
+    "toast_project_deleted": "项目 {name} 已删除",
+    "error_path_not_writable": "路径 {path} 不可写或不存在",
+    "error_launcher_unreachable": "无法连接桌面启动器，请确认启动器已运行",
+    "error_name_or_path_empty": "请填写项目名称并选择路径",
+    "error_name_exists": "项目名已存在，请更换",
+    "empty_no_folders": "暂无文件夹",
+    "empty_no_folders_hint": "点击下方按钮新建第一个项目",
+    "empty_search_no_match": "未找到匹配 \"{keyword}\" 的文件夹",
+    "loading_fetching": "正在加载文件夹列表...",
+    "loading_creating": "正在创建项目...",
+    "loading_validating": "正在验证路径...",
+    "label_existing_folders": "已绑定的项目文件夹",
+    "label_project_name": "项目名称",
+    "label_project_path": "项目路径",
+    "label_no_folder": "不使用文件夹",
+    "toast_no_folder": "已清除项目选择",
+    "label_path_selected": "已选择: {name}",
+    "confirm_discard_input": "有未保存的内容，确认放弃？",
+    "btn_close": "关闭"
+  },
+  "attachments": {
+    "limits": {
+      "max_files": 100,
+      "max_images": 600,
+      "max_file_size": 5242880,
+      "max_image_size": 67108864
+    },
+    "categories": {
+      "image": [
+        "jpg",
+        "jpeg",
+        "png",
+        "gif",
+        "webp"
+      ],
+      "document": [
+        "txt",
+        "md",
+        "csv",
+        "json",
+        "xml",
+        "html",
+        "pdf",
+        "docx",
+        "xlsx",
+        "pptx",
+        "py",
+        "js",
+        "ts",
+        "cs",
+        "php",
+        "yaml",
+        "yml"
+      ],
+      "video": [],
+      "audio": []
+    }
+  }
+}

@@ -1,0 +1,14 @@
+.app-shell { --account-avatar-size: 24px; }
+.program-update-button { width: var(--account-avatar-size); height: var(--account-avatar-size); padding: 0; margin: 6px 6px 0; flex: 0 0 var(--account-avatar-size); position: relative; display: grid; place-items: center; border: 0; border-radius: 50%; color: #fff; background: #2979ff; cursor: default; }
+.program-update-button[hidden] { display: none; }
+.program-update-button[data-state=ready], .program-update-button[data-state=error] { cursor: pointer; }
+.program-update-button[data-state=ready]:hover { background: #1967e8; }
+.program-update-button:disabled { cursor: wait; }
+.program-update-progress { position: absolute; inset: 0; width: 100%; height: 100%; transform: rotate(-90deg); }
+.program-update-arc { fill: none; stroke: #fff; stroke-width: 1.6; stroke-linecap: round; stroke-dasharray: 62.831853; stroke-dashoffset: 62.831853; }
+.program-update-percent { color: #fff; font-size: 7px; font-weight: 600; line-height: 1; font-variant-numeric: tabular-nums; }
+.program-update-install { display: none; width: 20px; height: 20px; color: #fff; }
+.program-update-button[data-state=ready] .program-update-progress, .program-update-button[data-state=ready] .program-update-percent { display: none; }
+.program-update-button[data-state=ready] .program-update-install { display: block; }
+.program-update-button[data-state=installing] .program-update-progress, .program-update-button[data-state=installing] .program-update-percent { display: none; }
+.program-update-button[data-state=installing] .program-update-install { display: block; opacity: .65; }

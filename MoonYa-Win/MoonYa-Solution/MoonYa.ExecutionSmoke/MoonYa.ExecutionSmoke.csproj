@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+    <!-- 引用 MoonYa（含 CefSharp 原生依赖，按 x64/x86/ARM64 构建）时必须与之一致，
+         否则 VS 会报 CS8019/MSB3277 类别的处理器架构不匹配（MSIL vs AMD64）警告。 -->
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MoonYa\MoonYa.csproj" />
+  </ItemGroup>
+</Project>

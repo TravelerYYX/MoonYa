@@ -1,0 +1,162 @@
+# ═══════════════════════════════════════════════════════════
+#  MoonYa 仓库忽略规则
+#  覆盖：C# 客户端 (MoonYa-Win) + PHP 后端 (MoonYa-Backend) + Python 微服务 (MoonYa-Python)
+# ═══════════════════════════════════════════════════════════
+
+# ─────────────── .NET / Visual Studio 构建产物 ───────────────
+.vs/
+**/.vs/
+**/bin/
+**/obj/
+MoonYa-Win/MoonYa-Solution/MoonYa.VirtualDisplay/host/
+MoonYa-Win/Installer/out/
+**/*.user
+**/*.suo
+**/*.userosscache
+**/*.sln.docstates
+
+# ─────────────── 发布包与验收输出（数 GB，绝不入库）───────────────
+/artifacts/
+/.test-obj/
+/.test-output/
+/build/
+/publish/
+
+# ─────────────── 随包分发的运行时 / 浏览器内核 / 爬虫数据 ───────────────
+MoonYa-Win/MoonYa-Solution/MoonYa/python/
+MoonYa-Win/MoonYa-Solution/MoonYa/chorme/
+MoonYa-Win/MoonYa-Solution/MoonYa/WebView2/
+MoonYa-Win/MoonYa-Solution/MoonYa/crawler_output/
+MoonYa-Win/MoonYa-Solution/MoonYa/wwwroot/
+MoonYa-Python/.venv/
+**/__pycache__/
+**/*.py[cod]
+
+# ─────────────── Node 依赖（asr-ws-proxy）───────────────
+**/node_modules/
+**/.npm/
+**/.pnpm-store/
+
+# ─────────────── PHP 后端运行时数据（日志 / 上传 / 下载）───────────────
+MoonYa-Backend/admin/logs/
+MoonYa-Backend/uploads/
+MoonYa-Backend/downloads/
+
+# ─────────────── 密钥与本地配置：绝对不要提交 ───────────────
+# MoonYa-Backend/.env 内含 DeepSeek/Kimi/MiniMax/GLM/阿里云 ASR API Key
+# 以及 DB_PASS / JWT_SECRET / ADMIN_SECRET，只保留 .env.example
+**/.env
+**/.env.*
+!**/.env.server.example
+!**/.env.example
+**/*token*.json
+**/*secret*.json
+**/*credential*.json
+**/*.vault
+**/mcp-vault/
+# 本地生成的自签证书（https_server.php 会生成 ssl/cert.pem、ssl/key.pem）
+**/*.pem
+**/*.key
+**/*.crt
+**/*.pfx
+**/*.p12
+**/*.cer
+**/*.der
+# 支付密钥 / 证书材料目录（离线备份的裸 base64 不是 *.pem，必须单独挡；
+# 更推荐把材料放在仓库之外，例如 C:\MoonYaPaymentKeys\）
+**/密钥/
+**/keymaterial/
+**/*.base64.txt
+/MoonYa-Backend/vendor/
+!MoonYa-Backend/ssl/openssl.cnf
+
+# ─────────────── 日志 / 缓存 / 临时文件 ───────────────
+**/*.log
+**/*.tmp
+**/*.dmp
+**/*.pid
+**/.cache/
+**/.pytest_cache/
+
+# ─────────────── 编辑器与操作系统元数据 ───────────────
+.trae/
+.idea/
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# ─────────────── 上游导入工作副本 ───────────────
+# 此目录仅是本地导入源；经过 MoonYa 命名与安全配置处理的完整源码位于
+# MoonYa-Harness/foundation，并进入版本控制。
+/deepseek-harness-master/
+/MoonYa-Frontend/dist/
+/moonya-server-data/
+/artifacts/alipay-server-*/
+**/*keyring*.json
+**/*payment-master*
+
+# ─────────────── 本地工作区临时产物：截图 / 探针 / 校验脚本输出 ───────────────
+# .workbuddy/memory/*.md 仍入库；这里只挡调试期间产生的临时件
+/.workbuddy/tmp-*
+/.workbuddy/shot-*
+/.workbuddy/probe-*
+/.workbuddy/verify-*
+/.workbuddy/pwtest/
+/.workbuddy/artifacts/
+/.workbuddy/*.png
+/.workbuddy/*.json
+
+# ─────────────── 根目录 / tools 下的临时脚本与日志 ───────────────
+/scratch_test_0.js
+/tools/del-log.txt
+
+# ─────────────── 前端测试产物（tests 运行时会写入，勿提交）───────────────
+/MoonYa-Frontend/artifacts/
+
+# ─────────────── 大体积归档包（离线件，不入代码库）───────────────
+/MoonYa-Backend/404.zip
+/backups/skills/*.zip
+
+# ─────────────── 私有材料：专利与商务文件（本地专用，不入代码库）───────────────
+/价格/
+/专利申请/
+
+# ═══════════════════════════════════════════════════════════
+#  开源发布追加规则（2026-10-31）
+# ═══════════════════════════════════════════════════════════
+
+# ─────────────── 含真实密钥的历史数据库全量导出：绝不入库 ───────────────
+# 这两份 dump 的 builtin_models.api_key 字段含可用的第三方 API Key。
+# 开源版本请使用 SQL/ai_system_opensource.sql（已脱敏）。
+/MoonYa-Backend/SQL/ai_system_full_mysql8_*.sql
+/MoonYa-Backend/SQL/ai_system_baota_import.sql
+/MoonYa-Backend/SQL/ai_system_opensource_2026-*.sql
+/MoonYa-Backend/sql/ai_system_full_mysql8_*.sql
+/MoonYa-Backend/sql/ai_system_baota_import.sql
+
+# ─────────────── 二进制归档包 ───────────────
+/MoonYa-Backend/*.zip
+/MoonYa-Python/*.zip
+/ciyuantown.zip
+
+# ─────────────── 本地备份 / 历史快照（含真实数据）───────────────
+/backups/
+/.test-obj/
+/.test-output/
+
+# ─────────────── 随包分发的运行时二进制目录 ───────────────
+/bin/
+
+# ─────────────── Agent 工作记忆与工具临时区 ───────────────
+/.workbuddy/
+/.workbuddy-ai/
+/.codex-tmp/
+/.trae/
+/.vscode/
+
+# ─────────────── 误建的盘符目录与根级调试片段 ───────────────
+/%SystemDrive%/
+/blk-*.js
+
+# ─────────────── 本地数据根 ───────────────
+/moonya-server-data/

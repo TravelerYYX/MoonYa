@@ -1,0 +1,307 @@
+<Project Sdk="Microsoft.NET.Sdk" TreatAsLocalProperty="Platform">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <AssemblyName>FarSide</AssemblyName>
+    <!-- 版本号唯一来源：命令行 -p:Version=x.y.z（dotnet publish / Build-UpdateInstaller.ps1 会传），
+         否则用这里的默认值。AssemblyVersion / FileVersion 都由它派生，属性框里的 $(Version).0 就是这个意思。
+         ⚠️ 禁止在本文件再写第二处 <Version>：MSBuild 属性自上而下求值，排在 AssemblyVersion/FileVersion
+         之后的 <Version> 只会抬高 ProductVersion，产出「产品版本 1.0.1 / 文件版本 1.0.0.0」的矛盾程序集，
+         后端上传与客户端安装前自检读的都是 FileVersion，必定被拒。
+         客户端 CurrentVersion 取的是 AssemblyVersion，与 FileVersion 同源，改了这里两者一起变。 -->
+    <Version Condition="'$(Version)' == ''">1.0.1</Version>
+    <TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
+    <RootNamespace>FarSide</RootNamespace>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <Platforms>x86;x64;ARM64</Platforms>
+    <!-- TreatAsLocalProperty="Platform" 让这条 AnyCPU→x64 映射真正生效：
+         被 AnyCPU 项目（如 MoonYa.ExecutionSmoke）项目引用时，此前 Platform 会被全局属性锁死为
+         AnyCPU，导致 PlatformTarget=MSIL（与 AMD64 的 MoonYa.dll 架构不匹配警告），
+         且 CefRuntimeFolder 为空进而让 FlattenCefSharpNative 出错。 -->
+    <Platform Condition="'$(Platform)' == '' Or '$(Platform)' == 'AnyCPU'">x64</Platform>
+    <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <WindowsSdkPackageRevision>0</WindowsSdkPackageRevision>
+  </PropertyGroup>
+
+  <!-- Publish Properties -->
+  <PropertyGroup>
+    <PublishReadyToRun Condition="'$(Configuration)' == 'Debug'">False</PublishReadyToRun>
+    <PublishReadyToRun Condition="'$(Configuration)' != 'Debug'">True</PublishReadyToRun>
+    <PublishTrimmed>False</PublishTrimmed>
+    <ApplicationIcon>yax_rounded.ico</ApplicationIcon>
+    <SupportedOSPlatformVersion>10.0.19041.0</SupportedOSPlatformVersion>
+    <PlatformTarget Condition="'$(Platform)' == 'x86'">x86</PlatformTarget>
+    <PlatformTarget Condition="'$(Platform)' == 'x64'">x64</PlatformTarget>
+    <PlatformTarget Condition="'$(Platform)' == 'ARM64'">ARM64</PlatformTarget>
+    <CefRuntimeFolder Condition="'$(Platform)' == 'x86'">win-x86</CefRuntimeFolder>
+    <CefRuntimeFolder Condition="'$(Platform)' == 'x64'">win-x64</CefRuntimeFolder>
+    <CefRuntimeFolder Condition="'$(Platform)' == 'ARM64'">win-arm64</CefRuntimeFolder>
+    <!-- 兜底：任何未预期的 Platform 都不会让 CefRuntimeFolder 为空，
+         否则 FlattenCefSharpNative 会把 $(OutDir)\**\* 整体纳入匹配并触发 MSB3094。 -->
+    <CefRuntimeFolder Condition="'$(CefRuntimeFolder)' == ''">win-x64</CefRuntimeFolder>
+    <AssemblyTitle>FarSide</AssemblyTitle>
+    <PackageIcon>yax.png</PackageIcon>
+    <Version>1.0.1</Version>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
+    <Optimize>True</Optimize>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Optimize>True</Optimize>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
+    <Optimize>True</Optimize>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
+    <Optimize>True</Optimize>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Optimize>True</Optimize>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
+    <Optimize>True</Optimize>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="..\..\..\THIRD_PARTY_NOTICES.md" Link="THIRD_PARTY_NOTICES.md">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <PackageReference Include="CefSharp.Wpf.NETCore" Version="147.0.100" />
+    <PackageReference Include="ModelContextProtocol" Version="1.4.1" />
+    <PackageReference Include="System.Speech" Version="10.0.9" />
+    <PackageReference Include="System.Security.Cryptography.ProtectedData" Version="9.0.10" />
+    <PackageReference Include="PuppeteerSharp" Version="20.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="..\MoonYa.DesktopCapture\bin\Release\MoonYa.DesktopCapture.dll" Link="MoonYa.DesktopCapture.dll" Condition="Exists('..\MoonYa.DesktopCapture\bin\Release\MoonYa.DesktopCapture.dll')">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory><CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="yax_rounded.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\browser-pointer.png" />
+    <Resource Include="Assets\fnn-q.png" />
+    <Resource Include="Assets\pet_base.png" />
+    <Resource Include="Assets\pet_head.png" />
+    <Resource Include="Assets\pet_head_ec.png" />
+    <Resource Include="Assets\pet_head_mc.png" />
+    <Resource Include="Assets\pet_side_l.png" />
+    <Resource Include="Assets\pet_side_r.png" />
+    <Resource Include="Assets\pet_side_l_a.png" />
+    <Resource Include="Assets\pet_side_l_b.png" />
+    <Resource Include="Assets\pet_side_r_a.png" />
+    <Resource Include="Assets\pet_side_r_b.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Assets\pet_bubbles.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <!-- 内置浏览器（右侧栏 CEF 面板）的新标签页 -->
+    <Content Include="Assets\browser_start.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="launcher_config.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="..\..\..\MoonYa-Harness\src\**\*" Link="agent_runtime\src\%(RecursiveDir)%(Filename)%(Extension)">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+    </Content>
+    <Content Include="..\..\..\MoonYa-Harness\package.json" Link="agent_runtime\package.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="agent_runtime\node\node.exe" Condition="Exists('agent_runtime\node\node.exe')">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="python\**\*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <LinkBase>python\</LinkBase>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="..\..\..\MoonYa-Python\main.py" Link="python_service\main.py">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="..\..\..\MoonYa-Python\data_paths.py" Link="python_service\data_paths.py">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="..\..\..\MoonYa-Python\console_io.py" Link="python_service\console_io.py">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="..\..\..\MoonYa-Python\service_config.json" Link="python_service\service_config.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="..\..\..\MoonYa-Python\requirements.txt" Link="python_service\requirements.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="..\..\..\MoonYa-Python\web_crawler\*.py" Link="python_service\web_crawler\%(Filename)%(Extension)">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="..\..\..\MoonYa-Python\web_crawler\requirements.txt" Link="python_service\web_crawler\requirements.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="..\..\..\MoonYa-Python\web_search\*.py" Link="python_service\web_search\%(Filename)%(Extension)">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+  <!-- Frontend sources live outside this project. Include them in Visual Studio's
+       fast up-to-date check so F5 cannot skip their build/copy targets. Keep a
+       separate set because frontend-only changes do not rebuild MoonYa.dll. -->
+  <ItemGroup>
+    <UpToDateCheckInput Include="$(ProjectDir)..\..\..\MoonYa-Frontend\src\**\*;$(ProjectDir)..\..\..\MoonYa-Frontend\public\**\*;$(ProjectDir)..\..\..\MoonYa-Frontend\build.mjs;$(ProjectDir)..\..\..\MoonYa-Frontend\package.json;$(ProjectDir)..\..\..\MoonYa-Frontend\package-lock.json" Set="DesktopFrontend" />
+    <None Include="C:\Users\Administrator\Pictures\yax.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <UpToDateCheckOutput Include="$(OutDir)frontend\asset-manifest.json" Set="DesktopFrontend" />
+  </ItemGroup>
+
+  <!-- Static frontend only: never ship server PHP/configuration to desktop users. -->
+  <ItemGroup>
+    <UpToDateCheckInput Include="$(ProjectDir)..\..\..\MoonYa-Backend\admin\assets\system-dialog.css;$(ProjectDir)..\..\..\MoonYa-Backend\admin\assets\announcement-content.js" Set="DesktopFrontend" />
+  </ItemGroup>
+  <Target Name="RetireLegacyServerPayload">
+    <Exec Command="powershell -NoProfile -ExecutionPolicy Bypass -File &quot;$(ProjectDir)..\..\..\MoonYa-Harness\scripts\retire-legacy-client-payload.ps1&quot; -OutputRoot &quot;$(OutDir).&quot;" />
+  </Target>
+  <Target Name="BuildDesktopFrontend" BeforeTargets="PrepareForBuild" DependsOnTargets="RetireLegacyServerPayload">
+    <Exec Command="node &quot;$(ProjectDir)..\..\..\MoonYa-Frontend\build.mjs&quot;" />
+  </Target>
+  <Target Name="CopyDesktopFrontend" AfterTargets="Build">
+    <ItemGroup>
+      <_FrontendFiles Include="$(ProjectDir)..\..\..\MoonYa-Frontend\dist\**\*" />
+      <_DesktopSkills Include="$(ProjectDir)..\..\..\MoonYa-Backend\skills\**\*.md;$(ProjectDir)..\..\..\MoonYa-Backend\skills\**\*.sha256" />
+    </ItemGroup>
+    <Copy SourceFiles="@(_FrontendFiles)" DestinationFiles="$(OutDir)frontend\%(RecursiveDir)%(Filename)%(Extension)" SkipUnchangedFiles="True" />
+    <Copy SourceFiles="@(_DesktopSkills)" DestinationFiles="$(OutDir)agent_runtime\skills\%(RecursiveDir)%(Filename)%(Extension)" SkipUnchangedFiles="True" />
+    <WriteLinesToFile File="$(OutDir)cu-build.json" Lines="{&quot;protocol_version&quot;:&quot;cu-three-layer-v3&quot;,&quot;configuration&quot;:&quot;$(Configuration)&quot;,&quot;platform&quot;:&quot;$(Platform)&quot;}" Overwrite="True" />
+  </Target>
+
+  <!-- 发布包携带单文件 Node 运行时，终端用户无需安装 Node 或 pnpm。 -->
+  <Target Name="BuildMoonYaSubagents" BeforeTargets="PrepareForBuild">
+    <Exec Command="node &quot;$(ProjectDir)..\..\..\MoonYa-Harness\scripts\build-subagent-runtime.mjs&quot;" />
+  </Target>
+  <Target Name="SyncMoonYaRuntimeBuild" AfterTargets="FlattenCefSharpNative" DependsOnTargets="CopyDesktopFrontend">
+    <ItemGroup>
+      <_HarnessFiles Include="$(ProjectDir)..\..\..\MoonYa-Harness\src\**\*.mjs;$(ProjectDir)..\..\..\MoonYa-Harness\src\**\*.py;$(ProjectDir)..\..\..\MoonYa-Harness\src\**\*.cjs;$(ProjectDir)..\..\..\MoonYa-Harness\src\**\*.json;$(ProjectDir)..\..\..\MoonYa-Harness\src\**\*.txt" />
+      <_SubagentNative Include="$(ProjectDir)..\..\..\MoonYa-Harness\node_modules\koffi\**\*" />
+      <_SubagentPlatforms Include="$(ProjectDir)..\..\..\MoonYa-Harness\node_modules\@koromix\**\*" />
+      <_TomlRuntime Include="$(ProjectDir)..\..\..\MoonYa-Harness\node_modules\smol-toml\**\*" />
+      <_ChangesRuntime Include="$(ProjectDir)..\..\..\MoonYa-Harness\node_modules\diff\**\*" />
+      <_IgnoreRuntime Include="$(ProjectDir)..\..\..\MoonYa-Harness\node_modules\ignore\**\*" />
+    </ItemGroup>
+    <Copy SourceFiles="@(_HarnessFiles)" DestinationFiles="$(OutDir)agent_runtime\src\%(RecursiveDir)%(Filename)%(Extension)" SkipUnchangedFiles="False" OverwriteReadOnlyFiles="True" />
+    <Copy SourceFiles="@(_SubagentNative)" DestinationFiles="$(OutDir)agent_runtime\node_modules\koffi\%(RecursiveDir)%(Filename)%(Extension)" SkipUnchangedFiles="False" />
+    <Copy SourceFiles="@(_SubagentPlatforms)" DestinationFiles="$(OutDir)agent_runtime\node_modules\@koromix\%(RecursiveDir)%(Filename)%(Extension)" SkipUnchangedFiles="False" />
+    <Copy SourceFiles="@(_TomlRuntime)" DestinationFiles="$(OutDir)agent_runtime\node_modules\smol-toml\%(RecursiveDir)%(Filename)%(Extension)" SkipUnchangedFiles="False" />
+    <Copy SourceFiles="@(_ChangesRuntime)" DestinationFiles="$(OutDir)agent_runtime\node_modules\diff\%(RecursiveDir)%(Filename)%(Extension)" SkipUnchangedFiles="False" />
+    <Copy SourceFiles="@(_IgnoreRuntime)" DestinationFiles="$(OutDir)agent_runtime\node_modules\ignore\%(RecursiveDir)%(Filename)%(Extension)" SkipUnchangedFiles="False" />
+  </Target>
+  <Target Name="VerifyMoonYaRuntimeBuild" AfterTargets="SyncMoonYaRuntimeBuild">
+    <Exec Command="powershell -NoProfile -ExecutionPolicy Bypass -File &quot;$(ProjectDir)..\..\..\MoonYa-Harness\scripts\verify-runtime-package.ps1&quot; -OutputRoot &quot;$(OutDir).&quot;" />
+  </Target>
+  <Target Name="VerifyMoonYaRuntimePublish" AfterTargets="PrepareCuPublishRuntime" Condition="'$(PublishDir)' != ''">
+    <Exec Command="powershell -NoProfile -ExecutionPolicy Bypass -File &quot;$(ProjectDir)..\..\..\MoonYa-Harness\scripts\verify-runtime-package.ps1&quot; -OutputRoot &quot;$(PublishDir).&quot;" />
+  </Target>
+
+  <Target Name="PackageMoonYaAgentRuntime" BeforeTargets="Publish" Condition="'$(Platform)' == 'x64' Or '$(Platform)' == 'ARM64'">
+    <PropertyGroup>
+      <_AgentRuntimeArch Condition="'$(Platform)' == 'ARM64'">arm64</_AgentRuntimeArch>
+      <_AgentRuntimeArch Condition="'$(_AgentRuntimeArch)' == ''">x64</_AgentRuntimeArch>
+      <_AgentRuntimeOutput>$(IntermediateOutputPath)moonya-agent-runtime.exe</_AgentRuntimeOutput>
+    </PropertyGroup>
+    <Exec Command="powershell -NoProfile -ExecutionPolicy Bypass -File &quot;$(ProjectDir)..\..\..\MoonYa-Harness\scripts\build-windows-runtime.ps1&quot; -OutputPath &quot;$(ProjectDir)$(_AgentRuntimeOutput)&quot; -Architecture $(_AgentRuntimeArch)" />
+    <ItemGroup>
+      <_AgentRuntimeExecutable Include="$(ProjectDir)$(_AgentRuntimeOutput)" />
+    </ItemGroup>
+    <Copy SourceFiles="@(_AgentRuntimeExecutable)" DestinationFolder="$(PublishDir)agent_runtime" />
+  </Target>
+
+  <Target Name="PrepareCuPublishRuntime" AfterTargets="Publish" Condition="'$(PublishDir)' != ''">
+    <Exec Command="powershell -NoProfile -ExecutionPolicy Bypass -File &quot;$(ProjectDir)..\..\..\MoonYa-Harness\scripts\retire-legacy-client-payload.ps1&quot; -OutputRoot &quot;$(PublishDir).&quot;" />
+    <ItemGroup>
+      <_PublishedFrontend Include="$(ProjectDir)..\..\..\MoonYa-Frontend\dist\**\*" />
+      <_PublishedSkills Include="$(ProjectDir)..\..\..\MoonYa-Backend\skills\**\*.md;$(ProjectDir)..\..\..\MoonYa-Backend\skills\**\*.sha256" />
+      <_PublishedSubagentNative Include="$(ProjectDir)..\..\..\MoonYa-Harness\node_modules\koffi\**\*" />
+      <_PublishedSubagentPlatforms Include="$(ProjectDir)..\..\..\MoonYa-Harness\node_modules\@koromix\**\*" />
+      <_PublishedTomlRuntime Include="$(ProjectDir)..\..\..\MoonYa-Harness\node_modules\smol-toml\**\*" />
+      <_PublishedChangesRuntime Include="$(ProjectDir)..\..\..\MoonYa-Harness\node_modules\diff\**\*" />
+      <_PublishedIgnoreRuntime Include="$(ProjectDir)..\..\..\MoonYa-Harness\node_modules\ignore\**\*" />
+    </ItemGroup>
+    <Copy SourceFiles="@(_PublishedFrontend)" DestinationFiles="$(PublishDir)frontend\%(RecursiveDir)%(Filename)%(Extension)" SkipUnchangedFiles="True" />
+    <Copy SourceFiles="@(_PublishedSkills)" DestinationFiles="$(PublishDir)agent_runtime\skills\%(RecursiveDir)%(Filename)%(Extension)" SkipUnchangedFiles="True" />
+    <Copy SourceFiles="@(_PublishedSubagentNative)" DestinationFiles="$(PublishDir)agent_runtime\node_modules\koffi\%(RecursiveDir)%(Filename)%(Extension)" SkipUnchangedFiles="False" />
+    <Copy SourceFiles="@(_PublishedSubagentPlatforms)" DestinationFiles="$(PublishDir)agent_runtime\node_modules\@koromix\%(RecursiveDir)%(Filename)%(Extension)" SkipUnchangedFiles="False" />
+    <Copy SourceFiles="@(_PublishedTomlRuntime)" DestinationFiles="$(PublishDir)agent_runtime\node_modules\smol-toml\%(RecursiveDir)%(Filename)%(Extension)" SkipUnchangedFiles="False" />
+    <Copy SourceFiles="@(_PublishedChangesRuntime)" DestinationFiles="$(PublishDir)agent_runtime\node_modules\diff\%(RecursiveDir)%(Filename)%(Extension)" SkipUnchangedFiles="False" />
+    <Copy SourceFiles="@(_PublishedIgnoreRuntime)" DestinationFiles="$(PublishDir)agent_runtime\node_modules\ignore\%(RecursiveDir)%(Filename)%(Extension)" SkipUnchangedFiles="False" />
+    <WriteLinesToFile File="$(PublishDir)cu-build.json" Lines="{&quot;protocol_version&quot;:&quot;cu-three-layer-v3&quot;,&quot;configuration&quot;:&quot;$(Configuration)&quot;,&quot;platform&quot;:&quot;$(Platform)&quot;}" Overwrite="True" />
+  </Target>
+
+  <!-- ── 复制 CefSharp / CEF native 文件到 bin 根目录 ──
+       问题: CefSharp 的 native 文件（libcef.dll / icudtl.dat / CefSharp.Core.Runtime.dll …）
+       由 chromiumembeddedframework.runtime.win-x64 放在 runtimes\win-x64\native\，
+       而 Windows DLL 加载器不会跨子目录搜索，不加处理就会在启动时抛：
+       "Could not load file or assembly '...\runtimes\win-x64\lib\net6.0\CefSharp.Core.Runtime.dll'.
+        找不到指定的模块。"
+       解决办法: 构建后把这些文件平铺到 $(OutDir) 根目录（CefSettings 也会在根目录找 locales）。
+
+       注意 1: 必须挂 AfterTargets="Build"。"AfterBuild" 只是 Microsoft.Common.targets 里的
+               空扩展点、本身不是构建目标，挂 AfterTargets="AfterBuild" 永远不会触发。
+       注意 2: CEF native 只存在于 runtimes\win-x64\native\（RID 特定的 chromiumembeddedframework
+               子包），项目根的 win-x64\ 一般不落地，所以两个来源都收集。
+       注意 3: win-x64\ 里可能残留上一次 RID 构建的 MoonYa.dll / MoonYa.exe（旧货）。
+               它们必须排除，否则"平铺"会把刚编译好的程序集覆盖成旧版本——
+               表现为"编译明明成功、重启后界面/逻辑却毫无变化"。 -->
+  <Target Name="FlattenCefSharpNative" AfterTargets="Build">
+    <ItemGroup>
+      <!-- A prior RID build may contain a complete older application here.
+           Only CEF runtime assets may be flattened; never copy its Harness,
+           wwwroot, Python, launcher settings or other application files. -->
+      <_CefFlatSource Include="$(OutDir)$(CefRuntimeFolder)\CefSharp.*;$(OutDir)$(CefRuntimeFolder)\chrome*.pak;$(OutDir)$(CefRuntimeFolder)\chrome_elf.dll;$(OutDir)$(CefRuntimeFolder)\d3dcompiler_47.dll;$(OutDir)$(CefRuntimeFolder)\dxcompiler.dll;$(OutDir)$(CefRuntimeFolder)\dxil.dll;$(OutDir)$(CefRuntimeFolder)\icudtl.dat;$(OutDir)$(CefRuntimeFolder)\libcef.dll;$(OutDir)$(CefRuntimeFolder)\libEGL.dll;$(OutDir)$(CefRuntimeFolder)\libGLESv2.dll;$(OutDir)$(CefRuntimeFolder)\resources.pak;$(OutDir)$(CefRuntimeFolder)\snapshot_blob.bin;$(OutDir)$(CefRuntimeFolder)\v8_context_snapshot.bin;$(OutDir)$(CefRuntimeFolder)\vk_swiftshader.dll;$(OutDir)$(CefRuntimeFolder)\vk_swiftshader_icd.json;$(OutDir)$(CefRuntimeFolder)\vulkan-1.dll" />
+      <_CefFlatSource Include="$(OutDir)runtimes\$(CefRuntimeFolder)\native\**\*" Exclude="$(OutDir)runtimes\$(CefRuntimeFolder)\native\**\locales\**" />
+      <_CefFlatSource Remove="@(_CefFlatSource)" Condition="'%(Extension)' == '.pdb' Or !Exists('%(Identity)')" />
+    </ItemGroup>
+    <!-- DestinationFiles 必须用项转换（@(...->'...')）：直接写 %(...) 会触发任务批处理，
+         一个批次内 DestinationFiles 只有 1 项而 SourceFiles 有 2 项以上时抛 MSB3094。 -->
+    <Copy SourceFiles="@(_CefFlatSource)" DestinationFiles="@(_CefFlatSource->'$(OutDir)%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="True" OverwriteReadOnlyFiles="True" Condition="'@(_CefFlatSource)' != ''" />
+  </Target>
+  <Target Name="RemoveLegacyDesktopArtifacts" AfterTargets="Build;Publish">
+    <Delete Files="$(OutDir)virtual_display\MoonYa.DisplayHost.exe;$(OutDir)virtual_display\Install-VirtualDrivers.ps1;$(OutDir)virtual_display\Rollback-VirtualDrivers.ps1;$(OutDir)virtual_display\Set-VirtualDriversState.ps1" />
+    <Delete Files="$(PublishDir)virtual_display\MoonYa.DisplayHost.exe;$(PublishDir)virtual_display\Install-VirtualDrivers.ps1;$(PublishDir)virtual_display\Rollback-VirtualDrivers.ps1;$(PublishDir)virtual_display\Set-VirtualDriversState.ps1" Condition="'$(PublishDir)' != ''" />
+  </Target>
+
+</Project>

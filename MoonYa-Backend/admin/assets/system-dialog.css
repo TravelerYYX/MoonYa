@@ -1,0 +1,25 @@
+.membership-dialog-overlay { position: fixed; inset: 0; z-index: 1; display: flex; align-items: center; justify-content: center; padding: 24px 16px; box-sizing: border-box; background: rgb(0 0 0 / 65%); }
+.membership-dialog { position: relative; width: 360px; max-width: 100%; max-height: calc(100dvh - 48px); overflow-y: auto; box-sizing: border-box; padding: 32px; border-radius: 24px; background: #000; color: #fff; box-shadow: 0 20px 70px rgb(0 0 0 / 35%); }
+.membership-dialog h2 { margin: 0 24px 16px 0; font-size: 18px; font-weight: 600; }
+.membership-dialog p { margin: 0 0 28px; color: var(--theme-muted, #dedede); font-size: 14px; line-height: 1.8; white-space: pre-wrap; overflow-wrap: anywhere; }
+.membership-dialog-close { position: absolute; top: 12px; right: 12px; display: grid; place-items: center; width: 32px; height: 32px; padding: 0; border: 0; border-radius: 50%; color: var(--theme-muted, #aaa); background: transparent; cursor: pointer; }
+.membership-dialog-close svg { width: 16px; height: 16px; }
+.membership-dialog-close:hover { background: #222; color: #fff; }
+.membership-dialog-actions { display: grid; gap: 12px; }
+.membership-dialog-actions button { width: 100%; min-height: 56px; padding: 12px 16px; border: 0; border-radius: 999px; font: inherit; font-size: 16px; cursor: pointer; }
+.membership-dialog-actions .membership-dialog-primary { background: #1677ff; color: #fff; }
+.membership-dialog-actions .membership-dialog-primary:hover { background: #0969ed; }
+.membership-dialog-actions .membership-dialog-secondary { background: #181818; color: #fff; border: 1px solid #444; }
+.membership-dialog-actions .membership-dialog-cancel { min-height: 40px; background: transparent; color: var(--theme-muted, #bcbcbc); }
+.membership-dialog-actions button:disabled { opacity: .55; cursor: wait; }
+
+.membership-dialog-overlay[hidden] {display:none}
+.membership-dialog [hidden] {display:none!important}
+.system-dialog-overlay {z-index:10050}
+.system-dialog-overlay .membership-dialog {width:440px}
+.announcement-content p {white-space:pre-wrap;overflow-wrap:anywhere;color:#dedede}
+.announcement-content figure {margin:0 0 20px}
+.announcement-content img {max-width:100%;height:auto;display:block;border-radius:8px}
+.announcement-image-error {color:#aaa;font-size:13px}
+.system-update-progress {width:100%;accent-color:#1677ff;margin:12px 0}
+.system-dialog-status {color:#dedede;white-space:pre-wrap;font-size:14px;line-height:1.8}

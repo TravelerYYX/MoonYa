@@ -1,0 +1,81 @@
+{
+  "name": "@moonya/harness-client-ui-tool",
+  "description": "Client Tool call-tree renderer and keyed per-tool presentation slot",
+  "version": "0.1.5-rc.2",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deepseek-ai/moonya-agent-runtime.git",
+    "directory": "packages/client/ui-tool"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./client": {
+      "types": "./lib/types/client/index.d.ts",
+      "default": "./lib/client.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "client": {
+      "inject": [
+        "@moonya/harness-api-workspace-controller",
+        "@moonya/harness-client-connection",
+        "@moonya/harness-client-locale",
+        "@moonya/harness-client-ui-conversation"
+      ],
+      "platform": "web"
+    }
+  },
+  "scripts": {
+    "bundle": "tsdown",
+    "watch": "tsdown --watch"
+  },
+  "license": "MIT",
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "workspace:^"
+  },
+  "devDependencies": {
+    "@moonya/harness-spill-policy": "workspace:^",
+    "@moonya/harness-agent": "workspace:^",
+    "@moonya/harness-llm": "workspace:^",
+    "@moonya/harness-session": "workspace:^",
+    "@moonya/harness-system-prompt": "workspace:^",
+    "@moonya/harness-tools": "workspace:^",
+    "@moonya/harness-spill": "workspace:^",
+    "@moonya/harness-code-runtime-worker-thread": "workspace:^",
+    "@deepseek-ai/cordis": "workspace:^",
+    "@moonya/harness-api-remotes": "workspace:^",
+    "@moonya/harness-client-connection": "workspace:^",
+    "@moonya/harness-client-locale": "workspace:^",
+    "@moonya/harness-client-test-runtime": "workspace:^",
+    "@moonya/harness-client-ui-conversation": "workspace:^",
+    "@moonya/harness-client-ui-primitives": "workspace:^",
+    "@moonya/harness-client-ui-slots": "workspace:^",
+    "@testing-library/react": "^16.1.0",
+    "@types/react": "~18.3.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "@moonya/harness-api-workspace-controller": "workspace:^",
+    "@moonya/harness-client-ui-chat": "workspace:^",
+    "@moonya/harness-client-ui-renderer": "workspace:^",
+    "@moonya/harness-client-ui-session": "workspace:^",
+    "@moonya/harness-util-workspace-path": "workspace:^",
+    "@moonya/harness-attachment": "workspace:^",
+    "clsx": "^2.0.0"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/client.js",
+    "lib/types/**/*.d.ts"
+  ]
+}

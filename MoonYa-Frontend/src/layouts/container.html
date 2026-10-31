@@ -1,0 +1,69 @@
+</head>
+
+<body class="app-shell work-mode"
+      data-office-popout="0"
+      data-authenticated="0">
+    <div class="container">
+        <!-- 浮动按钮组（侧边栏收起且非桌面端时显示；桌面端这两个按钮在原生标题栏） -->
+        <div class="floating-controls" id="floatingControls">
+            <div class="floating-btn-group">
+                <div class="floating-btn-small" id="expandSidebarBtn" role="button" aria-label="展开侧边栏">
+                    <svg viewBox="0 0 12 12" width="16" height="16" fill="none" aria-hidden="true">
+                        <rect x="0.6" y="0.6" width="10.8" height="10.8" rx="2.6"
+                              stroke="#1a1a1a" stroke-width="1.2"></rect>
+                        <line x1="4.4" y1="0.6" x2="4.4" y2="11.4"
+                              stroke="#1a1a1a" stroke-width="1.2"></line>
+                    </svg>
+                </div>
+                <div class="floating-btn-large" id="newChatFloatingBtn" role="button" aria-label="新建对话">
+                    <svg viewBox="0 0 13 13" width="24" height="24" fill="none" aria-hidden="true">
+                        <path d="M 4.279,10.833 A 4.875,4.875 0 1 0 2.167,8.721 L 1.083,11.917 Z"
+                              stroke="#1a1a1a" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path>
+                        <path d="M 4.9,6.5 H 8.1 M 6.5,4.9 V 8.1"
+                              stroke="#1a1a1a" stroke-width="1.2" stroke-linecap="round"></path>
+                    </svg>
+                </div>
+            </div>
+        </div>
+<nav class="app-rail" aria-label="应用导航">
+<button class="rail-button" id="conversationBtn" type="button" data-tooltip="对话" aria-label="对话"><span class="ui-icon" data-ui-icon="home" aria-hidden="true"></span></button>
+<button class="rail-button" id="pluginsBtn" type="button" data-tooltip="插件" aria-label="插件" aria-controls="pluginsView"><span class="ui-icon" data-ui-icon="plugins" aria-hidden="true"></span></button>
+<button class="rail-button" id="officeBtn" type="button" data-tooltip="办公室" aria-label="办公室"><span class="ui-icon" data-ui-icon="office" aria-hidden="true"></span></button>
+<button class="rail-button" id="railBrowserBtn" type="button" data-tooltip="内置浏览器" aria-label="内置浏览器"><span class="ui-icon" data-ui-icon="globe" aria-hidden="true"></span></button>
+<button class="rail-button" id="settingsBtn" type="button" data-tooltip="设置" aria-label="设置"><span class="ui-icon" data-ui-icon="settings" aria-hidden="true"></span></button>
+<div class="rail-spacer"></div>
+<button class="program-update-button" id="programUpdateButton" type="button" hidden aria-label="程序更新" data-tooltip="程序更新">
+    <svg class="program-update-progress" viewBox="0 0 24 24" aria-hidden="true"><circle class="program-update-arc" cx="12" cy="12" r="10"/></svg>
+    <span class="program-update-percent">0%</span>
+    <svg class="program-update-install" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v12m-4-4 4 4 4-4M4 17v1a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-1"/></svg>
+</button>
+<div class="rail-account" id="railAccount">
+    <div class="user-info" id="userInfoDiv" role="button" tabindex="0" data-tooltip="账户菜单" aria-label="账户菜单" aria-haspopup="menu" aria-controls="accountMenu" aria-expanded="false">
+        <div class="user-avatar">
+            <img id="userAvatar" src="/icon.png" alt="用户头像">
+            <div id="avatarPlaceholder"><span class="ui-icon" data-ui-icon="user" aria-hidden="true"></span></div>
+        </div>
+    </div>
+</div>
+</nav>
+<div hidden>
+    <span id="userName">未登录</span>
+    <span id="userQQ"></span>
+    <button id="qqLoginBtn" type="button">登录</button>
+</div>
+<div class="account-menu" id="accountMenu" role="menu" aria-label="账户菜单" hidden>
+    <div class="account-menu-profile" id="accountMenuProfile" role="presentation" style="cursor: pointer;" data-tooltip="账号管理">
+        <img id="accountMenuAvatar" class="account-menu-avatar" src="/icon.png" alt="用户头像">
+        <div class="account-menu-details">
+            <div class="account-menu-name"><span id="accountMenuName">登录</span></div>
+            <div class="account-menu-account" id="accountMenuTier" hidden><span id="userPlan">免费版</span></div>
+        </div>
+    </div>
+    <div class="account-menu-divider" role="separator"></div>
+    <div class="account-menu-membership" role="presentation"><span class="ui-icon" data-ui-icon="user" aria-hidden="true"></span><div class="account-menu-membership-copy"><strong id="accountMenuPlan">免费版</strong><small id="accountMenuCredits">积分暂不可用</small><small id="accountMenuMembershipStatus" role="status"></small></div><button class="account-menu-upgrade" id="accountMenuUpgrade" type="button" role="menuitem">升级套餐</button></div>
+    <div class="account-menu-divider" role="separator"></div>
+    <button class="account-menu-item" id="accountMenuSettings" type="button" role="menuitem"><span class="ui-icon" data-ui-icon="account-settings" aria-hidden="true"></span><span>设置</span></button>
+    <button class="account-menu-item" id="accountMenuAppearance" type="button" role="menuitem"><span class="ui-icon" data-ui-icon="palette" aria-hidden="true"></span><span>外观</span></button>
+    <button class="account-menu-item" id="accountMenuPet" type="button" role="menuitemcheckbox" aria-checked="false"><span class="ui-icon" data-ui-icon="pet" aria-hidden="true"></span><span>显示桌面宠物</span><span class="ui-icon account-menu-check" data-ui-icon="check" aria-hidden="true"></span></button>
+    <button class="account-menu-item" id="accountMenuLogout" type="button" role="menuitem" hidden><span class="ui-icon" data-ui-icon="logout" aria-hidden="true"></span><span>退出登录</span></button>
+</div>

@@ -1,0 +1,33 @@
+<?php
+declare(strict_types=1);
+if (PHP_SAPI !== 'cli') exit(1);
+$root = sys_get_temp_dir().'/moonya-updates-http-'.bin2hex(random_bytes(8));
+foreach (['admin/api','Services','logs','uploads/program-updates'] as $directory) mkdir($root.'/'.$directory, 0700, true);
+$source = dirname(__DIR__);
+copy($source.'/admin/api/updates.php', $root.'/admin/api/updates.php');
+copy($source.'/Services/ProgramUpdateService.php', $root.'/Services/ProgramUpdateService.php');
+copy($source.'/Services/RequestHeaders.php', $root.'/Services/RequestHeaders.php');
+copy($source.'/Services/CorsPolicy.php', $root.'/Services/CorsPolicy.php');
+copy($source.'/admin/api/announcements.php', $root.'/admin/api/announcements.php');
+copy($source.'/admin/api/upload_image.php', $root.'/admin/api/upload_image.php');
+copy($source.'/Services/AnnouncementService.php', $root.'/Services/AnnouncementService.php');
+mkdir($root.'/admin/assets',0700,true);
+foreach (['announcements.js','announcements.css','system-dialog.css','announcement-content.js'] as $asset) copy($source.'/admin/assets/'.$asset,$root.'/admin/assets/'.$asset);
+file_put_contents($root.'/admin/announcement-fixture.php','<!doctype html><meta charset="utf-8"><body><script>window.showAlert=()=>{};</script>'.file_get_contents($source.'/script/dashboard/announcements.php'));
+mkdir($root.'/uploads/new-images',0700,true);
+file_put_contents($root.'/uploads/new-images/fixture.png',base64_decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jRZkAAAAASUVORK5CYII='));
+
+copy($source.'/admin/Auth.php', $root.'/admin/Auth.php'); copy($source.'/admin/Logger.php', $root.'/admin/Logger.php');
+file_put_contents($root.'/env_loader.php', '<?php function env($key,$default=null){return $_ENV[$key]??getenv($key)?:$default;}');
+$secret = str_repeat('update-fixture-secret-', 3);
+file_put_contents($root.'/admin/config.php', '<?php return '.var_export(['jwt_secret'=>$secret,'log_path'=>$root.'/logs/'], true).';');
+file_put_contents($root.'/admin/Database.php', '<?php class Database { function __construct($config) {} function getConnection(){ $db=new PDO("sqlite:".dirname(__DIR__)."/updates.sqlite"); $db->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION); $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE,PDO::FETCH_ASSOC); return $db; } }');
+$db = new PDO('sqlite:'.$root.'/updates.sqlite');
+$db->exec("CREATE TABLE program_updates(id INTEGER PRIMARY KEY AUTOINCREMENT,version TEXT UNIQUE,major_version INTEGER,minor_version INTEGER,patch_version INTEGER,notes TEXT,force_update INTEGER DEFAULT 0,file_name TEXT,file_key TEXT UNIQUE,file_size INTEGER,sha256 TEXT,status TEXT DEFAULT 'draft',admin_id INTEGER,created_at TEXT DEFAULT CURRENT_TIMESTAMP,published_at TEXT);
+CREATE TABLE admins(id INTEGER PRIMARY KEY,username TEXT,email TEXT,role TEXT);
+INSERT INTO admins VALUES(1,'fixture','fixture@example.invalid','admin');
+CREATE TABLE admin_logs(id INTEGER PRIMARY KEY,admin_id INTEGER,action TEXT,target_user_id INTEGER,details TEXT,ip_address TEXT);");
+$db->exec("CREATE TABLE announcements(id INTEGER PRIMARY KEY AUTOINCREMENT,title TEXT,blocks TEXT,published_title TEXT,published_blocks TEXT,revision INTEGER NOT NULL DEFAULT 0,status TEXT DEFAULT 'draft',admin_id INTEGER,created_at TEXT DEFAULT CURRENT_TIMESTAMP,updated_at TEXT DEFAULT CURRENT_TIMESTAMP,published_at TEXT);");
+$header = base64_encode(json_encode(['alg'=>'HS256','typ'=>'JWT'])); $payload = base64_encode(json_encode(['admin_id'=>1,'exp'=>time()+3600]));
+$token = $header.'.'.$payload.'.'.base64_encode(hash_hmac('sha256',$header.'.'.$payload,$secret,true));
+echo json_encode(['root'=>$root,'token'=>$token], JSON_THROW_ON_ERROR);

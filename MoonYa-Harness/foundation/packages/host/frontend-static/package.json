@@ -1,0 +1,44 @@
+{
+  "name": "@moonya/harness-host-frontend-static",
+  "description": "SPA dist server for the Web shell: owns the webserver fallback seat, serving explicit index entries and static assets with traversal rejection and 404 misses",
+  "version": "0.1.5-rc.2",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deepseek-ai/moonya-agent-runtime.git",
+    "directory": "packages/host/frontend-static"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/types/**/*.d.ts"
+  ],
+  "license": "MIT",
+  "peerDependencies": {
+    "@moonya/harness-host-webserver": "workspace:^",
+    "@moonya/harness-client-connection": "workspace:^",
+    "@deepseek-ai/cordis": "workspace:^"
+  },
+  "dependencies": {
+    "@deepseek-ai/schemastery": "workspace:^"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis-plugin-loader": "workspace:^",
+    "@moonya/harness-client-connection": "workspace:^",
+    "@moonya/harness-credentials-local": "workspace:^",
+    "@moonya/harness-host-webserver": "workspace:^",
+    "@deepseek-ai/cordis": "workspace:^"
+  }
+}

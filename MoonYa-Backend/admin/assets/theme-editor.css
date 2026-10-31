@@ -1,0 +1,938 @@
+/* ══ 内置主题编辑器（admin/theme_editor.php 专用）══════════════════════════
+   本文件只被主题编辑器引用，不进前端 bundle，也不在 manifest.styles 里。
+
+   两条命名规矩：
+   1) 页面外壳复用 admin-ui.css 的设计令牌（--bg-card/--border/--primary…）与
+      .form-input / .btn-primary / .btn-secondary / .alert，不另起一套。
+   2) 右侧预览的全部类名用 tp- 前缀并收敛在 .tp-preview 作用域内——
+      admin-ui.css 里有全局的 .sidebar / .main-content / .card / .btn / .input-wrapper /
+      .modal / .alert，预览若沿用这些类名会被后台样式污染。
+
+   预览里的变量规则是「复刻」客户端，不是另创：
+   - 明暗基底变量块由 theme-editor.js 从 theme-editor-base.js 的 BASE 表注入
+     （单一数据源，有 tests/theme-editor-base.test.mjs 守着不漂移）。
+   - 半透明/模糊的公式照抄 MoonYa-Frontend/src/styles/css-33-appearance.css:54-65 与 31-41。
+   - 输入框/发送键的 fallback 照抄 css-33-appearance.css:72-97。
+*/
+
+/* ── 页面外壳 ─────────────────────────────────────────────── */
+
+.te-body {
+    padding-bottom: 40px;
+}
+
+.te-topbar {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    padding: 14px 22px;
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+}
+
+.te-topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+}
+
+.te-icon-btn {
+    display: grid;
+    place-items: center;
+    flex: 0 0 34px;
+    width: 34px;
+    height: 34px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: #ffffff;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.te-icon-btn:hover {
+    background: var(--border-light);
+    color: var(--text-primary);
+}
+
+.te-title {
+    margin: 0;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.01em;
+}
+
+.te-subtitle {
+    margin: 2px 0 0;
+    font-size: 12.5px;
+    color: var(--text-secondary);
+}
+
+.te-topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.te-dirty {
+    padding: 4px 10px;
+    border: 1px solid #fde3b0;
+    border-radius: 99px;
+    background: #fff7e6;
+    color: #b26a00;
+    font-size: 12px;
+}
+
+.te-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(380px, 470px);
+    gap: 20px;
+    align-items: start;
+    padding: 20px 22px;
+}
+
+/* ── 表单卡片 ─────────────────────────────────────────────── */
+
+.te-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-width: 0;
+}
+
+.te-card {
+    padding: 18px 20px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg-card);
+}
+
+.te-card-quiet {
+    background: #fbfcfe;
+}
+
+.te-card-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+.te-card-title {
+    margin: 0 0 4px;
+    font-size: 14.5px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.te-card-sub {
+    margin: 0 0 14px;
+    font-size: 12.5px;
+    line-height: 1.6;
+    color: var(--text-secondary);
+}
+
+.te-card-head .te-card-sub {
+    margin-bottom: 0;
+}
+
+.te-card-sub code,
+.te-list code {
+    padding: 1px 5px;
+    border-radius: 5px;
+    background: var(--border-light);
+    font-size: 11.5px;
+    font-family: inherit;
+}
+
+.te-list {
+    margin: 0;
+    padding-left: 18px;
+    font-size: 12.5px;
+    line-height: 1.9;
+    color: var(--text-secondary);
+}
+
+.te-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px 16px;
+}
+
+.te-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+}
+
+.te-field-full {
+    grid-column: 1 / -1;
+}
+
+.te-field > label {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.te-field-hint {
+    font-size: 11.5px;
+    line-height: 1.5;
+    color: var(--text-muted);
+}
+
+.te-field-hint.is-error {
+    color: var(--danger);
+}
+
+.te-note {
+    margin: 10px 0 0;
+    font-size: 12px;
+    line-height: 1.6;
+    color: var(--text-muted);
+}
+
+.te-btn-sm {
+    padding: 7px 12px;
+    font-size: 12.5px;
+}
+
+/* ── 开关 ─────────────────────────────────────────────────── */
+
+.te-switch {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.te-switch input {
+    position: absolute;
+    width: 0;
+    height: 0;
+    opacity: 0;
+}
+
+.te-switch-track {
+    position: relative;
+    flex: 0 0 40px;
+    width: 40px;
+    height: 22px;
+    border-radius: 99px;
+    background: var(--border);
+    transition: background-color 0.18s ease;
+}
+
+.te-switch-thumb {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #ffffff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.18);
+    transition: transform 0.18s ease;
+}
+
+.te-switch input:checked + .te-switch-track {
+    background: var(--primary);
+}
+
+.te-switch input:checked + .te-switch-track .te-switch-thumb {
+    transform: translateX(18px);
+}
+
+.te-switch input:focus-visible + .te-switch-track {
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.16);
+}
+
+.te-switch-text {
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+/* ── 滑条 ─────────────────────────────────────────────────── */
+
+.te-slider-row {
+    display: grid;
+    grid-template-columns: 88px minmax(0, 1fr) 62px;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.te-slider-label {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.te-range {
+    width: 100%;
+    height: 4px;
+    appearance: none;
+    -webkit-appearance: none;
+    border-radius: 99px;
+    background: var(--border);
+    cursor: pointer;
+}
+
+.te-range::-webkit-slider-thumb {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    background: #ffffff;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+}
+
+.te-range::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    background: #ffffff;
+}
+
+.te-range-value {
+    text-align: right;
+    font-size: 12.5px;
+    color: var(--text-secondary);
+    font-variant-numeric: tabular-nums;
+}
+
+/* ── 分段按钮 ─────────────────────────────────────────────── */
+
+.te-seg {
+    display: inline-flex;
+    gap: 3px;
+    padding: 3px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--border-light);
+}
+
+.te-seg-btn {
+    padding: 6px 12px;
+    border: 0;
+    border-radius: 7px;
+    background: transparent;
+    color: var(--text-secondary);
+    font: inherit;
+    font-size: 12.5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.te-seg-btn:hover {
+    color: var(--text-primary);
+}
+
+.te-seg-btn.is-active {
+    background: var(--bg-card);
+    color: var(--primary);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+/* ── 上传区 ───────────────────────────────────────────────── */
+
+.te-drop {
+    margin-top: 4px;
+    padding: 18px;
+    border: 1.5px dashed var(--border);
+    border-radius: var(--radius);
+    background: var(--border-light);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.te-drop:hover,
+.te-drop.is-over {
+    border-color: var(--primary);
+    background: #f5f9ff;
+}
+
+.te-drop-inner {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--text-secondary);
+}
+
+.te-drop-text {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    font-size: 12.5px;
+    line-height: 1.6;
+}
+
+.te-drop-text strong {
+    font-size: 13px;
+    color: var(--text-primary);
+}
+
+.te-link {
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--primary);
+    font: inherit;
+    font-size: inherit;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.te-progress {
+    margin-top: 12px;
+    height: 6px;
+    border-radius: 99px;
+    background: var(--border);
+    overflow: hidden;
+}
+
+.te-progress > i {
+    display: block;
+    width: 0;
+    height: 100%;
+    background: var(--primary);
+    transition: width 0.15s linear;
+}
+
+.te-asset-status {
+    margin: 10px 0 0;
+    font-size: 12px;
+    line-height: 1.6;
+    color: var(--text-muted);
+    word-break: break-all;
+}
+
+.te-asset-status[data-tone="ok"] {
+    color: var(--success);
+}
+
+.te-asset-status[data-tone="pending"] {
+    color: var(--primary);
+}
+
+.te-asset-status[data-tone="warn"] {
+    color: var(--warning);
+}
+
+/* ── 配色行 ───────────────────────────────────────────────── */
+
+.te-scheme-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.te-color-groups {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.te-color-group-title {
+    margin: 0 0 8px;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.te-color-rows {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(238px, 1fr));
+    gap: 8px;
+}
+
+.te-color-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 8px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: #ffffff;
+}
+
+.te-color-row.customized {
+    border-color: #bfdbfe;
+    background: #f8fbff;
+}
+
+.te-color-name {
+    flex: 1 1 auto;
+    min-width: 0;
+    font-size: 12.5px;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.te-color-row.customized .te-color-name {
+    font-weight: 600;
+}
+
+.te-color-swatch {
+    flex: 0 0 auto;
+    width: 30px;
+    height: 26px;
+    padding: 0;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: none;
+    cursor: pointer;
+}
+
+.te-color-swatch::-webkit-color-swatch-wrapper {
+    padding: 2px;
+}
+
+.te-color-swatch::-webkit-color-swatch {
+    border: 0;
+    border-radius: 4px;
+}
+
+.te-color-hex {
+    flex: 0 0 78px;
+    width: 78px;
+    padding: 5px 6px;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    font: inherit;
+    font-size: 11.5px;
+    color: var(--text-primary);
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+}
+
+.te-color-hex:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.te-color-clear {
+    flex: 0 0 auto;
+    padding: 4px 8px;
+    border: 1px solid transparent;
+    border-radius: 7px;
+    background: transparent;
+    color: var(--text-muted);
+    font: inherit;
+    font-size: 11.5px;
+    cursor: pointer;
+}
+
+.te-color-row.customized .te-color-clear {
+    border-color: var(--border);
+    color: var(--text-secondary);
+}
+
+.te-color-clear:hover {
+    background: var(--border-light);
+}
+
+/* ── 预览面板 ─────────────────────────────────────────────── */
+
+.te-preview-panel {
+    position: sticky;
+    top: 84px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 0;
+}
+
+.te-preview-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.te-preview-title {
+    margin: 0;
+    font-size: 14.5px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.te-preview-sub {
+    margin: 2px 0 0;
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.te-preview-note {
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.6;
+    color: var(--text-muted);
+}
+
+/* ══ 预览画布：仿客户端外壳 ═══════════════════════════════════
+   明暗基底变量块（.tp-preview[data-base=…]）由 JS 注入到 #teBaseStyle。 */
+
+.tp-preview {
+    --moonya-bg-blur: 0px;
+    --moonya-shell-opacity: 0.85;
+    position: relative;
+    aspect-ratio: 16 / 10;
+    min-height: 280px;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background-color: var(--theme-shell, #f1eff4);
+    overflow: hidden;
+    isolation: isolate;
+}
+
+.tp-media-layer {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.tp-media {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* 照抄 css-33-appearance.css:31-41：轻微放量消掉模糊边缘的暗角 */
+    filter: blur(var(--moonya-bg-blur));
+    transform: scale(1.04);
+}
+
+.tp-app-shell {
+    /* 镜像 css-24-app-shell.css:2 的重绑：shell 内部 --ui-* 跟随 --theme-*，
+       所以主背景/侧边栏真正生效的杠杆是 --theme-*。 */
+    --ui-shell: var(--theme-shell);
+    --ui-sidebar: var(--theme-sidebar);
+    position: relative;
+    z-index: 1;
+    display: flex;
+    height: 100%;
+    min-width: 0;
+    color: var(--theme-text);
+}
+
+.tp-rail {
+    flex: 0 0 46px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 0;
+    background: var(--ui-shell);
+    border-right: 1px solid var(--theme-border);
+}
+
+.tp-rail-logo {
+    width: 22px;
+    height: 22px;
+    border-radius: 8px;
+    background: var(--ui-accent);
+}
+
+.tp-rail-dot {
+    width: 20px;
+    height: 20px;
+    border-radius: 7px;
+    background: var(--theme-hover);
+}
+
+.tp-rail-dot.is-active {
+    background: var(--theme-surface);
+    box-shadow: inset 0 0 0 1px var(--theme-border);
+}
+
+.tp-sidebar {
+    flex: 0 0 158px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 10px;
+    background: var(--theme-sidebar);
+    border-right: 1px solid var(--theme-border);
+}
+
+.tp-sidebar-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.tp-sidebar-title {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--theme-secondary);
+}
+
+.tp-sidebar-add {
+    display: grid;
+    place-items: center;
+    width: 18px;
+    height: 18px;
+    border: 1px solid var(--theme-border);
+    border-radius: 6px;
+    color: var(--theme-secondary);
+    font-size: 12px;
+    line-height: 1;
+}
+
+.tp-conv {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 7px;
+    border-radius: 8px;
+}
+
+.tp-conv-dot {
+    flex: 0 0 6px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--theme-muted);
+}
+
+.tp-conv-text {
+    font-size: 11px;
+    color: var(--theme-text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.tp-conv.is-active {
+    background: var(--theme-surface);
+}
+
+.tp-conv.is-active .tp-conv-text {
+    color: var(--ui-accent);
+    font-weight: 600;
+}
+
+.tp-conv.is-active .tp-conv-dot {
+    background: var(--ui-accent);
+}
+
+.tp-main {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    min-width: 0;
+    background: var(--ui-bg);
+}
+
+.tp-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 9px 12px;
+    border-bottom: 1px solid var(--theme-border);
+}
+
+.tp-topbar-title {
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--theme-text);
+}
+
+.tp-topbar-tools {
+    display: flex;
+    gap: 5px;
+}
+
+.tp-topbar-tools i {
+    width: 14px;
+    height: 14px;
+    border-radius: 5px;
+    background: var(--theme-hover);
+}
+
+.tp-thread {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1 1 auto;
+    min-height: 0;
+    padding: 12px;
+    overflow: hidden;
+}
+
+.tp-msg {
+    display: flex;
+}
+
+.tp-msg-user {
+    justify-content: flex-end;
+}
+
+.tp-bubble {
+    max-width: 78%;
+    padding: 6px 10px;
+    border-radius: 10px;
+    font-size: 11.5px;
+    line-height: 1.5;
+}
+
+.tp-msg-ai .tp-bubble {
+    border: 1px solid var(--theme-border);
+    background: var(--theme-surface);
+    color: var(--theme-text);
+}
+
+.tp-msg-user .tp-bubble {
+    /* 与客户端发送键同款硬编码白字（css-33-appearance.css:81-84 的语义） */
+    background: var(--ui-accent);
+    color: #ffffff;
+}
+
+.tp-card {
+    padding: 9px 10px 10px;
+    border: 1px solid var(--theme-border);
+    border-radius: 10px;
+    background: var(--theme-surface);
+}
+
+.tp-card-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 7px;
+}
+
+.tp-card-title {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--theme-text);
+}
+
+.tp-card-tag {
+    padding: 2px 7px;
+    border-radius: 99px;
+    background: var(--theme-accent-soft);
+    color: var(--theme-accent-text);
+    font-size: 10px;
+}
+
+.tp-card-line {
+    height: 5px;
+    margin-top: 6px;
+    border-radius: 99px;
+    background: var(--theme-hover);
+}
+
+.tp-card-line.is-short {
+    width: 56%;
+}
+
+.tp-composer {
+    padding: 10px 12px 12px;
+}
+
+.tp-input-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 6px 6px 10px;
+    border: 1px solid var(--theme-border);
+    border-radius: 12px;
+    /* 照抄 css-33-appearance.css:72-74 的 fallback 语义 */
+    background: var(--moonya-input-bg, var(--ui-bg));
+}
+
+.tp-input {
+    flex: 1 1 auto;
+    min-width: 0;
+    font-size: 11.5px;
+    color: var(--moonya-input-text, var(--theme-text));
+    opacity: 0.62;
+}
+
+.tp-send {
+    display: grid;
+    place-items: center;
+    flex: 0 0 24px;
+    width: 24px;
+    height: 24px;
+    border-radius: 8px;
+    /* 照抄 css-33-appearance.css:81-84 的 fallback 语义 */
+    background: var(--moonya-btn-bg, #3a83f7);
+    color: var(--moonya-btn-text, #ffffff);
+}
+
+/* ── 背景激活：外壳半透明，让媒体透出来 ───────────────────────
+   照抄 css-33-appearance.css:54-65。客户端只在 body.moonya-has-background 时透明，
+   所以这里也只在 .has-bg 时生效——没背景就不该透着空气。 */
+
+.tp-preview.has-bg .tp-rail {
+    background: color-mix(in srgb, var(--ui-shell) calc(var(--moonya-shell-opacity) * 100%), transparent);
+}
+
+.tp-preview.has-bg .tp-sidebar {
+    background: color-mix(in srgb, var(--theme-sidebar) calc(var(--moonya-shell-opacity) * 100%), transparent);
+}
+
+.tp-preview.has-bg .tp-main {
+    background: color-mix(in srgb, var(--ui-bg) calc(var(--moonya-shell-opacity) * 100%), transparent);
+}
+
+/* ── 响应式 ───────────────────────────────────────────────── */
+
+@media (max-width: 1180px) {
+    .te-layout {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .te-preview-panel {
+        position: static;
+        order: -1;
+    }
+}
+
+@media (max-width: 720px) {
+    .te-topbar,
+    .te-layout {
+        padding-left: 14px;
+        padding-right: 14px;
+    }
+
+    .te-grid,
+    .te-color-rows {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .te-slider-row {
+        grid-template-columns: 78px minmax(0, 1fr) 54px;
+    }
+
+    .tp-sidebar {
+        display: none;
+    }
+}

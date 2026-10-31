@@ -1,0 +1,511 @@
+/* ══ 外观自定义（Appearance）══════════════════════════════════
+   背景图/视频层、模糊、界面不透明度、自定义颜色的落点，以及设置面板里新增的控件样式。
+
+   两道规矩：
+   1) 本文件在 manifest.styles 末位加载，同特异度的规则可直接覆盖前面的文件；
+   2) .app-shell 会把 --ui-shell / --ui-sidebar 重定义为 var(--theme-shell / --theme-sidebar)
+      （css-24-app-shell.css:2），所以「主背景 / 侧边栏」真正生效的杠杆是 --theme-*。
+      --ui-* 只在 .app-shell 之外生效，appearance.js 两个都写是为了兜住边缘元素。 */
+
+:root {
+    --moonya-bg-blur: 0px;
+    --moonya-shell-opacity: 0.85;
+}
+
+/* 原生标题栏叠在全窗口 WebView 上，媒体层仍以整个窗口为绘制区域。 */
+html[data-native-title-bar] body {
+    padding-top: var(--moonya-titlebar-height);
+}
+
+html[data-native-title-bar] body > .container {
+    height: 100%;
+}
+
+html[data-native-title-bar] body::before {
+    content: '';
+    position: fixed;
+    inset: 0 0 auto;
+    height: var(--moonya-titlebar-height);
+    z-index: 1;
+    pointer-events: none;
+    background: #f4f3f5;
+}
+
+html[data-native-title-bar][data-theme="dark"] body::before {
+    background: #18191d;
+}
+
+html[data-native-title-bar] body.moonya-has-background::before {
+    background: color-mix(in srgb, var(--theme-shell) calc(var(--moonya-shell-opacity) * 100%), transparent);
+}
+
+/* ── 背景层 ─────────────────────────────────────────────── */
+
+#moonyaAppearanceBackground {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+    background-color: var(--theme-shell);
+}
+
+body.moonya-has-background #moonyaAppearanceBackground {
+    display: block;
+}
+
+/* 原生视频在 WebView 下方，页面占位层必须透明才能露出画面。 */
+html:has(body.moonya-native-video) {
+    background-color: transparent;
+}
+
+body.moonya-native-video #moonyaAppearanceBackground {
+    background-color: transparent;
+}
+
+#moonyaAppearanceBackground .moonya-bg-media {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* 背景层没有子元素，filter 不会连带糊掉界面；轻微放量消掉模糊边缘的暗角。 */
+    filter: blur(var(--moonya-bg-blur));
+    transform: scale(1.04);
+}
+
+/* ── 背景激活：外壳半透明，让媒体透出来 ─────────────────── */
+
+body.moonya-has-background {
+    background-color: transparent;
+}
+
+body.moonya-has-background > .container {
+    position: relative;
+    z-index: 1;
+}
+
+body.moonya-has-background .app-rail {
+    background: color-mix(in srgb, var(--ui-shell) calc(var(--moonya-shell-opacity) * 100%), transparent);
+}
+
+body.moonya-has-background .sidebar,
+body.moonya-has-background.workspace-sidebar-active .sidebar {
+    background: color-mix(in srgb, var(--theme-sidebar) calc(var(--moonya-shell-opacity) * 100%), transparent);
+}
+
+body.moonya-has-background .main-content {
+    background: color-mix(in srgb, var(--ui-bg) calc(var(--moonya-shell-opacity) * 100%), transparent);
+}
+
+/* 自定义颜色的落点（未自定义时回落到原值）。
+   这里一律用 body.app-shell 提一级特异度：css-14-responsive.css 的
+   `body.work-mode .input-wrapper` 与 css-24 的 `.app-shell .input-wrapper`
+   同为 (0,2,N)，后者写死 background 会盖掉低特异度的规则。 */
+
+body.app-shell .input-wrapper {
+    background: var(--moonya-input-bg, var(--ui-bg));
+}
+
+body.app-shell .message-input {
+    color: var(--moonya-input-text, var(--theme-text));
+}
+
+/* 排除 data-state="stop"：停止态的配色由 css-04-sidebar.css 单独负责。 */
+body.app-shell #sendBtn:not([data-state="stop"]) {
+    background: var(--moonya-btn-bg, #3a83f7);
+    color: var(--moonya-btn-text, #ffffff);
+}
+
+body.app-shell #sendBtn:not([data-state="stop"]):hover {
+    background: var(--moonya-btn-bg, #2f76ed);
+}
+
+body.app-shell .settings-btn-primary {
+    background: var(--moonya-btn-bg, #1677ff);
+    color: var(--moonya-btn-text, #ffffff);
+}
+
+body.app-shell .settings-btn-primary:hover {
+    background: var(--moonya-btn-bg, #0958d9);
+}
+
+/* ── 设置面板：外观分区 ─────────────────────────────────── */
+
+.appearance-tagline {
+    margin: 0 0 14px;
+    color: var(--theme-muted);
+    font-size: 12.5px;
+    line-height: 1.7;
+}
+
+.appearance-tagline strong {
+    color: var(--theme-text);
+    font-weight: 600;
+}
+
+.appearance-sub-title {
+    margin: 14px 0 8px;
+    color: var(--theme-secondary);
+    font-size: 12.5px;
+    font-weight: 500;
+}
+
+.appearance-bg-preview {
+    position: relative;
+    display: grid;
+    place-items: center;
+    height: 132px;
+    border: 1px solid var(--theme-border);
+    border-radius: 12px;
+    background-color: var(--theme-soft);
+    background-size: cover;
+    background-position: center;
+    overflow: hidden;
+}
+
+.appearance-bg-preview[data-empty="true"]::after {
+    content: '未设置背景';
+    color: var(--theme-muted);
+    font-size: 12.5px;
+}
+
+.appearance-preview-media {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.appearance-bg-preview[data-preview-state="error"] .appearance-preview-media {
+    display: none;
+}
+
+.appearance-bg-preview[data-preview-state="loading"]::before,
+.appearance-bg-preview[data-preview-state="error"]::before {
+    content: '正在加载预览…';
+    position: relative;
+    z-index: 1;
+    color: var(--theme-muted);
+    font-size: 12.5px;
+}
+
+.appearance-bg-preview[data-preview-state="error"]::before {
+    content: '无法生成预览，请检查文件或更新桌面端';
+}
+
+.appearance-bg-preview[data-kind="video"]:not([data-empty="true"])::after {
+    content: '视频背景';
+    position: absolute;
+    left: 10px;
+    bottom: 9px;
+    padding: 2px 9px;
+    border-radius: 99px;
+    background: #000000a6;
+    color: #ffffff;
+    font-size: 11px;
+}
+
+/* 选了背景但客户端还没有媒体路由（旧版本）——别让人以为是坏了。 */
+.appearance-bg-preview[data-loadable="false"]::after {
+    content: '需重新编译桌面端后才能预览';
+    padding: 0 16px;
+    color: var(--theme-muted);
+    font-size: 12.5px;
+    text-align: center;
+    line-height: 1.6;
+}
+
+/* 原生播放（WPF 层）的视频没有页面内画面可画，只标注状态。 */
+.appearance-bg-preview[data-kind="video-native"]:not([data-empty="true"])::after {
+    content: '视频背景 · 由桌面端原生播放';
+    position: absolute;
+    left: 10px;
+    bottom: 9px;
+    padding: 2px 9px;
+    border-radius: 99px;
+    background: #000000a6;
+    color: #ffffff;
+    font-size: 11px;
+}
+
+/* 旧客户端读到了别人设的视频 —— 说清为什么这块没有画面。 */
+.appearance-bg-preview[data-kind="video-native"][data-loadable="false"]::after {
+    content: '视频背景需要能原生播放的桌面端';
+    position: static;
+    background: transparent;
+    color: var(--theme-muted);
+    font-size: 12.5px;
+    text-align: center;
+    padding: 0 16px;
+}
+
+.appearance-btn-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.appearance-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    border: 1px solid var(--theme-border);
+    border-radius: 8px;
+    background: var(--theme-surface);
+    color: var(--theme-text);
+    font: inherit;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.appearance-btn:hover:not(:disabled) {
+    background: var(--theme-soft);
+}
+
+.appearance-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.appearance-btn.is-danger:hover:not(:disabled) {
+    border-color: var(--theme-danger);
+    color: var(--theme-danger);
+}
+
+.appearance-btn svg {
+    width: 15px;
+    height: 15px;
+    flex: 0 0 15px;
+}
+
+.appearance-bg-status {
+    margin-top: 8px;
+    color: var(--theme-muted);
+    font-size: 12px;
+    line-height: 1.5;
+    word-break: break-all;
+}
+
+.appearance-note {
+    margin-top: 8px;
+    color: var(--theme-muted);
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.appearance-slider-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.appearance-step {
+    display: grid;
+    place-items: center;
+    flex: 0 0 30px;
+    width: 30px;
+    height: 30px;
+    border: 1px solid var(--theme-border);
+    border-radius: 8px;
+    background: var(--theme-surface);
+    color: var(--theme-text);
+    font: inherit;
+    font-size: 15px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.appearance-step:hover {
+    background: var(--theme-soft);
+}
+
+.appearance-step svg {
+    width: 15px;
+    height: 15px;
+}
+
+.appearance-range {
+    flex: 1 1 auto;
+    min-width: 0;
+    height: 4px;
+    appearance: none;
+    -webkit-appearance: none;
+    border-radius: 99px;
+    background: var(--theme-hover);
+    cursor: pointer;
+}
+
+.appearance-range::-webkit-slider-thumb {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    border: 1px solid var(--theme-border);
+    border-radius: 50%;
+    background: var(--theme-surface);
+    box-shadow: 0 1px 4px #0000001f;
+}
+
+.appearance-range-value {
+    flex: 0 0 52px;
+    text-align: right;
+    color: var(--theme-secondary);
+    font-size: 12.5px;
+    font-variant-numeric: tabular-nums;
+}
+
+.appearance-color-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(208px, 1fr));
+    gap: 8px;
+}
+
+.appearance-color-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 10px;
+    border: 1px solid var(--theme-border);
+    border-radius: 10px;
+    background: var(--theme-surface);
+}
+
+.appearance-color-name {
+    flex: 1 1 auto;
+    min-width: 0;
+    color: var(--theme-text);
+    font-size: 13px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.appearance-color-row.customized .appearance-color-name {
+    font-weight: 600;
+}
+
+.appearance-color-input {
+    flex: 0 0 auto;
+    width: 30px;
+    height: 24px;
+    padding: 0;
+    border: 1px solid var(--theme-border);
+    border-radius: 6px;
+    background: none;
+    cursor: pointer;
+}
+
+.appearance-color-input::-webkit-color-swatch-wrapper {
+    padding: 2px;
+}
+
+.appearance-color-input::-webkit-color-swatch {
+    border: 0;
+    border-radius: 4px;
+}
+
+.appearance-color-reset {
+    flex: 0 0 auto;
+    padding: 4px 8px;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    background: transparent;
+    color: var(--theme-muted);
+    font: inherit;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.appearance-color-row.customized .appearance-color-reset {
+    border-color: var(--theme-border);
+    color: var(--theme-secondary);
+}
+
+.appearance-color-reset:hover {
+    background: var(--theme-soft);
+}
+
+.appearance-theme-toolbar {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.appearance-theme-name-input {
+    flex: 1 1 auto;
+    min-width: 0;
+    padding: 8px 12px;
+    border: 1px solid var(--theme-border);
+    border-radius: 9px;
+    background: var(--theme-surface);
+    color: var(--theme-text);
+    font: inherit;
+    font-size: 13px;
+}
+
+.appearance-theme-name-input::placeholder {
+    color: var(--theme-muted);
+}
+
+.appearance-theme-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(132px, 1fr));
+    gap: 10px;
+}
+
+.appearance-theme-card {
+    border: 1px solid var(--theme-border);
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--theme-surface);
+}
+
+.appearance-theme-card.active {
+    border-color: var(--theme-text);
+}
+
+.appearance-theme-preview {
+    height: 68px;
+    background-color: var(--theme-soft);
+    background-size: cover;
+    background-position: center;
+}
+
+.appearance-theme-name {
+    padding: 7px 9px 2px;
+    color: var(--theme-text);
+    font-size: 12.5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.appearance-theme-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    padding: 0 7px 8px;
+}
+
+.appearance-theme-action {
+    padding: 3px 8px;
+    border: 1px solid var(--theme-border);
+    border-radius: 6px;
+    background: transparent;
+    color: var(--theme-secondary);
+    font: inherit;
+    font-size: 11.5px;
+    cursor: pointer;
+}
+
+.appearance-theme-action:hover {
+    background: var(--theme-soft);
+    color: var(--theme-text);
+}

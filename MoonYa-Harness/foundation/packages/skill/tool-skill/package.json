@@ -1,0 +1,50 @@
+{
+  "name": "@moonya/harness-tool-skill",
+  "description": "Model-facing skill loading tool for the MoonYa Agent Runtime",
+  "version": "0.1.5-rc.2",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deepseek-ai/moonya-agent-runtime.git",
+    "directory": "packages/skill/tool-skill"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/types/**/*.d.ts"
+  ],
+  "license": "MIT",
+  "peerDependencies": {
+    "@moonya/harness-agent": "workspace:^",
+    "@moonya/harness-llm": "workspace:^",
+    "@moonya/harness-skill": "workspace:^",
+    "@moonya/harness-tools": "workspace:^",
+    "@deepseek-ai/cordis": "workspace:^"
+  },
+  "dependencies": {
+    "@deepseek-ai/schemastery": "workspace:^"
+  },
+  "devDependencies": {
+    "@moonya/harness-agent": "workspace:^",
+    "@moonya/harness-agent-loop-testkit": "workspace:^",
+    "@moonya/harness-llm": "workspace:^",
+    "@moonya/harness-scope": "workspace:^",
+    "@moonya/harness-session": "workspace:^",
+    "@moonya/harness-skill": "workspace:^",
+    "@moonya/harness-skill-filesystem": "workspace:^",
+    "@moonya/harness-tools": "workspace:^",
+    "@deepseek-ai/cordis": "workspace:^"
+  }
+}

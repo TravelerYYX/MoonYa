@@ -1,0 +1,12 @@
+# Opt-in Schedule patch over the shipped Web composition. The owner observes
+# only roots published after this overlay loads.
+
+- insert:
+    - id: time-context
+      name: '@moonya/harness-time-context'
+
+    - id: schedule
+      name: '@moonya/harness-schedule'
+
+- id: ui-schedule
+  disabled: false

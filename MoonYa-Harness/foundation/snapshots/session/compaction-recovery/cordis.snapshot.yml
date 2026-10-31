@@ -1,0 +1,29 @@
+# Keyless context-overflow replay composition.
+
+- id: llm-deepseek
+  name: '@moonya/harness-llm-deepseek'
+  disabled: true
+
+- id: session-persistence-jsonl
+  name: '@moonya/harness-session-persistence-jsonl'
+  config:
+    root: !!js dshHomePath('sessions')
+    compression: none
+
+- id: compaction-basic
+  name: '@moonya/harness-compaction-basic'
+  config:
+    thresholdRatio: 0.99
+    retainTokens: 20
+    maxTokens: 32
+
+- insert:
+    - id: llm-replay
+      name: '@moonya/harness-llm-replay'
+      config:
+        providers:
+          - id: deepseek-official
+            name: DeepSeek
+            models:
+              - id: deepseek-v4-flash
+                contextWindow: 128000

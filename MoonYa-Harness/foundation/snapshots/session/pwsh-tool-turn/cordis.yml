@@ -1,0 +1,77 @@
+# Minimal live counterpart for the pwsh-tool-turn snapshot composition.
+- id: llm-deepseek
+  name: '@moonya/harness-llm-deepseek'
+  config:
+    models:
+      - id: deepseek-v4-pro
+
+- id: subprocess
+  name: '@moonya/harness-subprocess-local'
+
+- id: bash-sandbox
+  name: '@moonya/harness-bash-sandbox'
+  disabled: true
+
+- id: pwsh-sandbox
+  name: '@moonya/harness-pwsh-sandbox'
+  disabled: false
+
+- id: shell-env
+  name: '@moonya/harness-shell-env'
+
+- id: agent-default-model
+  name: '@moonya/harness-agent-default-model'
+  config:
+    provider: deepseek-official
+    model: deepseek-v4-pro
+
+- id: session-persistence-jsonl
+  name: '@moonya/harness-session-persistence-jsonl'
+  config:
+    root: !!js dshHomePath('sessions')
+    compression: !!js 'process.env.DSH_SNAPSHOT === undefined ? ''zstd'' : ''none'''
+
+- id: agent-instructions
+  name: '@moonya/harness-agent-instructions'
+  disabled: true
+
+- id: system-prompt
+  name: '@moonya/harness-system-prompt'
+  config:
+    personaPrefix: You are a concise snapshot agent working in {{cwd}}.
+
+- id: goal
+  name: '@moonya/harness-goal'
+  disabled: true
+
+- id: goal-round-driver
+  name: '@moonya/harness-goal-round-driver'
+  disabled: true
+
+- id: command-goal
+  name: '@moonya/harness-command-goal'
+  disabled: true
+
+- id: tool-goal
+  name: '@moonya/harness-tool-goal'
+  disabled: true
+
+- id: skill
+  name: '@moonya/harness-skill'
+  disabled: true
+
+- id: skill-filesystem
+  name: '@moonya/harness-skill-filesystem'
+  disabled: true
+
+- id: tool-skill
+  name: '@moonya/harness-tool-skill'
+  disabled: true
+
+- id: tool-bash
+  name: '@moonya/harness-tool-bash'
+  disabled: true
+
+- id: tool-pwsh
+  name: '@moonya/harness-tool-pwsh'
+  disabled: false

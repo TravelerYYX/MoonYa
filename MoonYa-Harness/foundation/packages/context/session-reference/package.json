@@ -1,0 +1,97 @@
+{
+  "name": "@moonya/harness-session-reference",
+  "description": "Cross-session snapshot references and durable untrusted model context (ctx.sessionReferenceResolver)",
+  "version": "0.1.5-rc.2",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deepseek-ai/moonya-agent-runtime.git",
+    "directory": "packages/context/session-reference"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./types": {
+      "types": "./lib/types/types.d.ts",
+      "default": "./lib/types/types.js"
+    },
+    "./typert": {
+      "types": "./lib/typert.host.d.ts",
+      "default": "./lib/typert.host.js"
+    },
+    "./remote": {
+      "types": "./lib/typert.remote-client.d.ts",
+      "default": "./lib/typert.remote-client.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/types/**/*.js",
+    "lib/types/**/*.d.ts",
+    "lib/typert.host.js",
+    "lib/typert.host.d.ts",
+    "lib/typert.remote-client.js",
+    "lib/typert.remote-client.d.ts"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@moonya/harness-brand": "workspace:^",
+    "@moonya/harness-util-values": "workspace:^",
+    "@deepseek-ai/schemastery": "workspace:^",
+    "zod": "^4.4.3"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "workspace:^",
+    "@moonya/harness-agent": "workspace:^",
+    "@moonya/harness-compaction": "workspace:^",
+    "@moonya/harness-llm": "workspace:^",
+    "@moonya/harness-output-retention": "workspace:^",
+    "@moonya/harness-session": "workspace:^",
+    "@moonya/harness-session-projection": "workspace:^",
+    "@moonya/harness-session-projection-cache": "workspace:^",
+    "@moonya/harness-session-query": "workspace:^",
+    "@moonya/harness-session-title": "workspace:^",
+    "@moonya/harness-spill": "workspace:^",
+    "@moonya/harness-system-prompt": "workspace:^",
+    "@moonya/harness-typert-protocol": "workspace:^"
+  },
+  "peerDependenciesMeta": {
+    "@moonya/harness-spill": {
+      "optional": true
+    },
+    "@moonya/harness-session-projection-cache": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "workspace:^",
+    "@deepseek-ai/cordis-plugin-include": "workspace:^",
+    "@deepseek-ai/cordis-plugin-loader": "workspace:^",
+    "@moonya/harness-agent": "workspace:^",
+    "@moonya/harness-compaction": "workspace:^",
+    "@moonya/harness-fs-local": "workspace:^",
+    "@moonya/harness-llm": "workspace:^",
+    "@moonya/harness-output-retention": "workspace:^",
+    "@moonya/harness-session": "workspace:^",
+    "@moonya/harness-session-projection": "workspace:^",
+    "@moonya/harness-session-projection-cache": "workspace:^",
+    "@moonya/harness-session-query": "workspace:^",
+    "@moonya/harness-session-query-sqlite": "workspace:^",
+    "@moonya/harness-session-title": "workspace:^",
+    "@moonya/harness-spill": "workspace:^",
+    "@moonya/harness-spill-local": "workspace:^",
+    "@moonya/harness-system-prompt": "workspace:^",
+    "@moonya/harness-tool-fs": "workspace:^",
+    "@moonya/harness-tools": "workspace:^",
+    "@moonya/harness-typert-protocol": "workspace:^"
+  }
+}

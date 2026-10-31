@@ -1,0 +1,47 @@
+{
+  "name": "@moonya/harness-sandbox-windows-acl",
+  "description": "Windows ACL write-restriction sandbox backend (restricted-token spawn with capability-SID write allowlist) for the MoonYa Agent Runtime sandbox seam",
+  "version": "0.1.5-rc.2",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deepseek-ai/moonya-agent-runtime.git",
+    "directory": "packages/sandbox/sandbox-windows-acl"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./runner": {
+      "types": "./lib/types/runner.d.ts",
+      "default": "./lib/runner.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/runner.js",
+    "lib/types-*.js",
+    "lib/types/**/*.d.ts"
+  ],
+  "license": "MIT",
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "workspace:^"
+  },
+  "dependencies": {
+    "@moonya/harness-win32-process": "workspace:^",
+    "koffi": "^3.1.0"
+  },
+  "devDependencies": {
+    "@moonya/harness-pwsh-local": "workspace:^",
+    "@moonya/harness-sandbox-local": "workspace:^",
+    "@deepseek-ai/cordis": "workspace:^"
+  }
+}

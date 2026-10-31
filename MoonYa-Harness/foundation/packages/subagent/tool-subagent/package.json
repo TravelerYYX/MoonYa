@@ -1,0 +1,77 @@
+{
+  "name": "@moonya/harness-tool-subagent",
+  "description": "Model-facing subagent delegation tool over the ctx.subagents seam",
+  "version": "0.1.5-rc.2",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deepseek-ai/moonya-agent-runtime.git",
+    "directory": "packages/subagent/tool-subagent"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./model-selection-settings": {
+      "types": "./lib/types/model-selection-settings.d.ts",
+      "default": "./lib/model-selection-settings.js"
+    },
+    "./invariant": {
+      "types": "./lib/types/invariant.d.ts",
+      "default": "./lib/invariant.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/invariant.js",
+    "lib/model-selection-settings.js",
+    "lib/types/**/*.d.ts"
+  ],
+  "license": "MIT",
+  "peerDependencies": {
+    "@moonya/harness-agent": "workspace:^",
+    "@moonya/harness-invariants": "workspace:^",
+    "@moonya/harness-llm": "workspace:^",
+    "@moonya/harness-session": "workspace:^",
+    "@moonya/harness-session-projection": "workspace:^",
+    "@moonya/harness-scope": "workspace:^",
+    "@moonya/harness-settings": "workspace:^",
+    "@moonya/harness-subagent": "workspace:^",
+    "@moonya/harness-system-prompt": "workspace:^",
+    "@moonya/harness-jobs": "workspace:^",
+    "@moonya/harness-tools": "workspace:^",
+    "@deepseek-ai/cordis": "workspace:^"
+  },
+  "dependencies": {
+    "@deepseek-ai/schemastery": "workspace:^",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis-plugin-loader": "workspace:^",
+    "@moonya/harness-agent": "workspace:^",
+    "@moonya/harness-invariants": "workspace:^",
+    "@moonya/harness-llm": "workspace:^",
+    "@moonya/harness-session": "workspace:^",
+    "@moonya/harness-scope": "workspace:^",
+    "@moonya/harness-session-persistence": "workspace:^",
+    "@moonya/harness-session-persistence-jsonl": "workspace:^",
+    "@moonya/harness-settings": "workspace:^",
+    "@moonya/harness-subagent": "workspace:^",
+    "@moonya/harness-subagent-spawn-in-process": "workspace:^",
+    "@moonya/harness-system-prompt": "workspace:^",
+    "@moonya/harness-jobs": "workspace:^",
+    "@moonya/harness-jobs-local": "workspace:^",
+    "@moonya/harness-tool-jobs": "workspace:^",
+    "@moonya/harness-tools": "workspace:^",
+    "@deepseek-ai/cordis": "workspace:^",
+    "@moonya/harness-session-projection": "workspace:^"
+  }
+}

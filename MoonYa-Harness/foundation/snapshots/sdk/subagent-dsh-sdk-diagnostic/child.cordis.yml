@@ -1,0 +1,18 @@
+# SDK-profile patch for the deterministic diagnostic child runtime.
+
+- id: llm-deepseek
+  name: '@moonya/harness-llm-deepseek'
+  disabled: true
+
+- id: agent-instructions
+  name: '@moonya/harness-agent-instructions'
+  disabled: true
+
+- id: system-prompt
+  name: '@moonya/harness-system-prompt'
+  config:
+    personaPrefix: 'Return the scripted DSH SDK failure.'
+
+- insert:
+    - id: child-mock-llm
+      name: '../../../packages/subagent/subagent-dsh-sdk/tests/fixtures/loader/child-mock-llm.ts'

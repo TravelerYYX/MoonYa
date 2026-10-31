@@ -1,0 +1,71 @@
+{
+  "name": "@moonya/harness-sdk-minimal",
+  "description": "The standalone minimal SDK profile bundle: JSON-RPC, one DeepSeek adapter, persistent shell, and JSONL sessions",
+  "version": "0.1.5-rc.2",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deepseek-ai/moonya-agent-runtime.git",
+    "directory": "packages/bundle/sdk-minimal"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/index.js",
+    "cordis.patch.yml",
+    "lib/types/**/*.d.ts"
+  ],
+  "license": "MIT",
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "dependencies": {
+    "@deepseek-ai/cordis-plugin-timer": "workspace:^",
+    "@moonya/harness-agent": "workspace:^",
+    "@moonya/harness-agent-loop": "workspace:^",
+    "@moonya/harness-deepseek-llm-api-extensions": "workspace:^",
+    "@moonya/harness-invariants": "workspace:^",
+    "@moonya/harness-jobs-local": "workspace:^",
+    "@moonya/harness-llm": "workspace:^",
+    "@moonya/harness-llm-deepseek": "workspace:^",
+    "@moonya/harness-llm-retry": "workspace:^",
+    "@moonya/harness-plugin-package-inventory-deepseek": "workspace:^",
+    "@moonya/harness-sandbox-local": "workspace:^",
+    "@moonya/harness-sandbox-policy": "workspace:^",
+    "@moonya/harness-scope": "workspace:^",
+    "@moonya/harness-sdk-app": "workspace:^",
+    "@moonya/harness-sdk-jsonrpc-server": "workspace:^",
+    "@moonya/harness-session": "workspace:^",
+    "@moonya/harness-session-log-deepseek": "workspace:^",
+    "@moonya/harness-session-persistence-jsonl": "workspace:^",
+    "@moonya/harness-session-projection": "workspace:^",
+    "@moonya/harness-session-title": "workspace:^",
+    "@moonya/harness-subprocess-local": "workspace:^",
+    "@moonya/harness-system-prompt": "workspace:^",
+    "@moonya/harness-terminal": "workspace:^",
+    "@moonya/harness-terminal-bash": "workspace:^",
+    "@moonya/harness-tool-bash-persistent": "workspace:^",
+    "@moonya/harness-tool-pwsh-persistent": "workspace:^",
+    "@moonya/harness-tools": "workspace:^"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "workspace:^"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "workspace:^"
+  }
+}

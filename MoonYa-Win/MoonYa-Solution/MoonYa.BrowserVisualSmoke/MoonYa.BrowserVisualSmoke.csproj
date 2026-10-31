@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
+    <UseWPF>true</UseWPF><UseWindowsForms>true</UseWindowsForms>
+    <Nullable>enable</Nullable><ImplicitUsings>disable</ImplicitUsings><PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="CefSharp.Wpf.NETCore" Version="147.0.100" />
+    <PackageReference Include="PuppeteerSharp" Version="20.0.0" />
+    <Compile Include="..\MoonYa\MainWindow.BuiltinBrowser.cs" Link="MainWindow.BuiltinBrowser.cs" />
+    <Compile Include="..\MoonYa\MainWindow.BrowserVisuals.cs" Link="MainWindow.BrowserVisuals.cs" />
+    <Compile Include="..\MoonYa\BuiltinBrowserHost.cs" Link="BuiltinBrowserHost.cs" />
+    <Compile Include="..\MoonYa\PanelChromiumWebBrowser.cs" Link="PanelChromiumWebBrowser.cs" />
+    <Compile Include="..\MoonYa\CustomChromiumWebBrowser.cs" Link="CustomChromiumWebBrowser.cs" />
+    <Compile Include="..\MoonYa\PanelRequestHandler.cs" Link="PanelRequestHandler.cs" />
+    <Compile Include="..\MoonYa\BuiltinBrowserVisuals.xaml.cs" Link="BuiltinBrowserVisuals.xaml.cs" />
+    <Compile Include="..\MoonYa\PttGlowOverlay.xaml.cs" Link="PttGlowOverlay.xaml.cs" />
+    <Compile Include="..\MoonYa\Services\InteractionVisualState.cs" Link="InteractionVisualState.cs" />
+    <Compile Include="..\MoonYa\Services\BrowserAutomationService.cs" Link="BrowserAutomationService.cs" />
+    <Compile Include="..\MoonYa\Services\BuiltinBrowserOptions.cs" Link="BuiltinBrowserOptions.cs" />
+    <Compile Include="..\MoonYa\Services\BuiltinBrowserConnection.cs" Link="BuiltinBrowserConnection.cs" />
+    <Compile Include="..\MoonYa\Services\IBuiltinBrowserDiscovery.cs" Link="IBuiltinBrowserDiscovery.cs" />
+    <Compile Include="..\MoonYa\Services\BrowserSecurityGate.cs" Link="BrowserSecurityGate.cs" />
+    <Compile Include="..\MoonYa\Services\BrowserProtocol.cs" Link="BrowserProtocol.cs" />
+    <Compile Include="..\MoonYa\Services\AppDataPaths.cs" Link="AppDataPaths.cs" />
+    <Page Include="..\MoonYa\BuiltinBrowserVisuals.xaml" Link="BuiltinBrowserVisuals.xaml" />
+    <Page Include="..\MoonYa\PttGlowOverlay.xaml" Link="PttGlowOverlay.xaml" />
+    <Page Include="..\MoonYa\SharedGlowResources.xaml" Link="SharedGlowResources.xaml" />
+    <Resource Include="..\MoonYa\Assets\browser-pointer.png" Link="Assets\browser-pointer.png" />
+    <Content Include="..\MoonYa\Assets\browser_start.html" Link="Assets\browser_start.html" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\..\..\MoonYa-Frontend\tests\fixtures\browser-panel.html" Link="fixture.html" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\..\..\MoonYa-Frontend\src\modules\script-6-browser-panel.js" Link="browser-panel.js" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\..\..\MoonYa-Frontend\src\ui-icons.js" Link="ui-icons.js" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>

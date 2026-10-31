@@ -1,0 +1,23 @@
+CREATE TABLE IF NOT EXISTS builtin_themes (
+    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    slug VARCHAR(64) NOT NULL,
+    name VARCHAR(64) NOT NULL,
+    summary VARCHAR(200) NOT NULL DEFAULT '',
+    sort_order INT NOT NULL DEFAULT 0,
+    enabled TINYINT(1) NOT NULL DEFAULT 1,
+    colors TEXT NOT NULL,
+    blur SMALLINT UNSIGNED NOT NULL DEFAULT 0,
+    shell_opacity DECIMAL(4,3) NOT NULL DEFAULT 0.850,
+    background_kind ENUM('image','video') NOT NULL DEFAULT 'image',
+    background_fill ENUM('cover','contain','fill') NOT NULL DEFAULT 'cover',
+    background_key VARCHAR(255) NOT NULL,
+    thumb_key VARCHAR(255) NOT NULL DEFAULT '',
+    asset_sha256 CHAR(64) NOT NULL,
+    asset_bytes BIGINT UNSIGNED NOT NULL DEFAULT 0,
+    asset_version INT UNSIGNED NOT NULL DEFAULT 1,
+    admin_id INT NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    UNIQUE KEY uq_builtin_theme_slug (slug),
+    KEY idx_builtin_theme_order (enabled, sort_order, id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

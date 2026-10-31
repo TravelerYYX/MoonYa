@@ -1,0 +1,63 @@
+{
+  "name": "@moonya/harness-subagent-dsh-sdk",
+  "description": "Out-of-process SDK subagent backend: drives a child MoonYa Agent Runtime runtime subprocess over stdio JSON-RPC through the TypeScript SDK client",
+  "version": "0.1.5-rc.2",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deepseek-ai/moonya-agent-runtime.git",
+    "directory": "packages/subagent/subagent-dsh-sdk"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/types/**/*.d.ts"
+  ],
+  "license": "MIT",
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "workspace:^",
+    "@moonya/harness-agent": "workspace:^",
+    "@moonya/harness-llm": "workspace:^",
+    "@moonya/harness-sdk-client": "workspace:^",
+    "@moonya/harness-session": "workspace:^",
+    "@moonya/harness-subagent": "workspace:^",
+    "@moonya/harness-subprocess": "workspace:^"
+  },
+  "dependencies": {
+    "@moonya/harness-brand": "workspace:^",
+    "@deepseek-ai/schemastery": "workspace:^"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "workspace:^",
+    "@deepseek-ai/cordis-plugin-loader": "workspace:^",
+    "@moonya/harness-agent": "workspace:^",
+    "@moonya/harness-agent-instructions": "workspace:^",
+    "@moonya/harness-app-boot": "workspace:^",
+    "@moonya/harness-llm": "workspace:^",
+    "@moonya/harness-llm-deepseek": "workspace:^",
+    "@moonya/harness-loader-smoke": "workspace:^",
+    "@moonya/harness-sdk-client": "workspace:^",
+    "@moonya/harness-sdk-protocol": "workspace:^",
+    "@moonya/harness-session": "workspace:^",
+    "@moonya/harness-session-checkpoint-policy": "workspace:^",
+    "@moonya/harness-session-persistence-jsonl": "workspace:^",
+    "@moonya/harness-session-projection": "workspace:^",
+    "@moonya/harness-skill-filesystem": "workspace:^",
+    "@moonya/harness-subagent": "workspace:^",
+    "@moonya/harness-subprocess": "workspace:^",
+    "@moonya/harness-system-prompt": "workspace:^",
+    "@moonya/harness-tool-subagent": "workspace:^"
+  }
+}
