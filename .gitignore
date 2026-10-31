@@ -134,6 +134,10 @@ Desktop.ini
 /MoonYa-Backend/sql/ai_system_full_mysql8_*.sql
 /MoonYa-Backend/sql/ai_system_baota_import.sql
 
+# phpMyAdmin 导出的旧全量备份（2026-08-09，含 users/admins/admin_login_tokens 真实数据）
+/MoonYa-Backend/SQL/数据库.sql
+/MoonYa-Backend/SQL/数据库*.sql
+
 # ─────────────── 二进制归档包 ───────────────
 /MoonYa-Backend/*.zip
 /MoonYa-Python/*.zip
