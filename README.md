@@ -30,6 +30,7 @@ flowchart TB
     subgraph Desktop["Windows 桌面客户端 MoonYa-Win"]
         Host["WPF 宿主 / WebView2"]
         FE["前端界面 MoonYa-Frontend"]
+        Host --> FE
     end
 
     FE -->|"本地 HTTP + SSE"| RT["Agent 运行时 MoonYa-Harness<br/>127.0.0.1:58907"]
